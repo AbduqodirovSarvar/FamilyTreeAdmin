@@ -8,5 +8,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss'
 })
 export class App {
-  protected title = 'FamilyTreeAdmin';
+  protected title = 'Family Tree Admin';
 }
