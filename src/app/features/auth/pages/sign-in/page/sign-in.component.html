@@ -1,14 +1,14 @@
-<div>
-  <div>
-    <div class="logo">
-      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="account_circle"></mat-icon>
+<div class="container">
+  <div class="form-container">
+    <div class="login-logo">
+      <mat-icon aria-hidden="false" aria-label="Login icon" fontIcon="account_circle"></mat-icon>
     </div>
-    <h3 class="title">
+    <h3 class="login-title">
       Sign In
     </h3>
-    <form class="example-form" [formGroup]="formGroup">
+    <form class="login-form" [formGroup]="formGroup">
       <div>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="login-form-field">
           <mat-label>Login</mat-label>
           <input matInput placeholder="Username or email or phone number"
                  formControlName="login">
@@ -16,7 +16,7 @@
         </mat-form-field>
       </div>
       <div>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="login-form-field">
           <mat-label>Password</mat-label>
           <input matInput placeholder="Password"
                  formControlName="password">
@@ -24,29 +24,28 @@
         </mat-form-field>
       </div>
     </form>
-
-    <div>
-      <button>
-        Sign In
-      </button>
-    </div>
-    <div>
+    <button class="login-button"
+            (click)="submit()"
+            [disabled]="formGroup.invalid">
+      Sign In
+    </button>
+    <div class="forgot-password-container">
       <a class="forgot-password" href="">
         Forgot password?
       </a>
     </div>
 
-    <p class="text-center">
+    <p class="or-container">
       Continue with ...
     </p>
-    <div class="social-login">
+    <div class="login-social-container">
       <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="passkey"></mat-icon>
       <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="passkey"></mat-icon>
       <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="passkey"></mat-icon>
     </div>
-    <div class="register">
+    <div class="register-container">
       Don't have an account?
-      <a href="">
+      <a class="register" href="">
         Sign Up
       </a>
     </div>

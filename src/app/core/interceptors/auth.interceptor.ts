@@ -2,16 +2,17 @@ import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
 import {BaseAuthService} from '../services/global-entity-services/base-auth.service';
+import {BaseRouterService} from '../services/base-router.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
-  private isRefreshing = false;
-  private refreshTokenSubject = new BehaviorSubject<string | null>(null);
+  private isRefreshing: boolean = false;
+  private refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  constructor(private authService: BaseAuthService) {}
+  constructor(private authService: BaseAuthService, private routerService: BaseRouterService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.authService.getAccessToken();
+    const token: string | null = this.authService.getAccessToken();
 
     if (token) {
       req = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
@@ -44,7 +45,7 @@ export class AuthInterceptor implements HttpInterceptor {
         catchError(err => {
           this.isRefreshing = false;
           this.authService.clearTokens();
-          // this.router.navigate(['/auth/login']);
+          this.routerService.navigateToSignInPage()
           return throwError(() => err);
         })
       );

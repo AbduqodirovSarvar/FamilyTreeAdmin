@@ -14,6 +14,6 @@ export class SignInService extends BaseAuthService {
    * @param signInModel
    */
   signIn(signInModel: SignInRequest): Observable<BaseResponseModel<TokenResponseModel>> {
-    return this.post<BaseResponseModel<TokenResponseModel>>('auth/signin', signInModel);
+    return this.post<BaseResponseModel<TokenResponseModel>>('api/auth/sign-in', signInModel);
   }
 }

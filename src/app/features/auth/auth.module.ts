@@ -7,6 +7,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
+import {SignInService} from './pages/sign-in/services/sign-in.service';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -21,10 +23,14 @@ import {MatIcon} from '@angular/material/icon';
     MatSelectModule,
     MatIcon,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   exports: [
     SignInComponent
   ],
+  providers: [
+    SignInService
+  ]
 })
 export class AuthModule { }
