@@ -30,7 +30,7 @@
       Sign In
     </button>
     <div class="forgot-password-container">
-      <a class="forgot-password" href="">
+      <a class="forgot-password" [routerLink]="['/auth/forget-password']">
         Forgot password?
       </a>
     </div>
@@ -45,7 +45,7 @@
     </div>
     <div class="register-container">
       Don't have an account?
-      <a class="register" href="">
+      <a class="register" [routerLink]="['/auth/sign-up']">
         Sign Up
       </a>
     </div>

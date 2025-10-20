@@ -9,11 +9,18 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
 import {SignInService} from './pages/sign-in/services/sign-in.service';
 import {HttpClientModule} from '@angular/common/http';
-
+import { SignUpComponent } from './pages/sign-up/page/sign-up.component';
+import { SignUpService } from './pages/sign-up/services/sign-up.service';
+import { RouterModule } from '@angular/router';
+import { ForgetPasswordComponent } from './pages/forget-password/page/forget-password.component';
+import { ForgetPasswordService } from './pages/forget-password/services/forget-password.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
-    SignInComponent
+    SignInComponent,
+    SignUpComponent,
+    ForgetPasswordComponent
   ],
   imports: [
     CommonModule,
@@ -24,13 +31,19 @@ import {HttpClientModule} from '@angular/common/http';
     MatIcon,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    RouterModule
   ],
   exports: [
-    SignInComponent
+    SignInComponent,
+    SignUpComponent,
+    ForgetPasswordComponent
   ],
   providers: [
-    SignInService
+    SignInService,
+    SignUpService,
+    ForgetPasswordService 
   ]
 })
 export class AuthModule { }

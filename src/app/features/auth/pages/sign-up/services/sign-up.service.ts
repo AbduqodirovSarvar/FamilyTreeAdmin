@@ -9,10 +9,15 @@ import {SignUpRequestModel} from '../models/sign-up-request.model';
 export class SignUpService extends BaseAuthService {
 
   /**
+   * Endpoint
+   */
+  override endpoint: string = 'auth/signup';
+
+  /**
    * Sign up
    * @param signUpModel
    */
   signUp(signUpModel: SignUpRequestModel): Observable<BaseResponseModel<any>> {
-    return this.post<BaseResponseModel<any>>('auth/signup', signUpModel);
+    return this.post<BaseResponseModel<any>>(this.endpoint, signUpModel);
   }
 }

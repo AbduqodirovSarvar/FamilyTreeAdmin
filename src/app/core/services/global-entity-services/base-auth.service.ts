@@ -4,9 +4,13 @@ import {HttpClient} from '@angular/common/http';
 import {BaseApiService} from '../base-api.service';
 import {map, Observable, tap} from 'rxjs';
 import {TokenResponseModel} from '../../models/base-response-models/token-response.model';
+import { BaseEntityService } from './base-entity.service';
+import { BaseResponseModel } from '../../models/base-response-models/base-response.model';
 
 @Injectable({ providedIn: 'root' })
-export class BaseAuthService extends BaseApiService {
+export class BaseAuthService extends BaseEntityService<BaseResponseModel<any>> {
+
+  protected override endpoint: string = 'auth';
 
   /**
    * Access token
@@ -106,12 +110,12 @@ export class BaseAuthService extends BaseApiService {
    * @returns
    */
   public getAccessTokenWithRefleshToken(): Observable<string | null> {
-    return this.get<TokenResponseModel>('/api/auth/token').pipe(
-      tap((response: TokenResponseModel): void => {
-        if(response.accessToken) this.setAccessToken(response.accessToken);
-        if(response.refreshToken) this.setRefleshToken(response.refreshToken);
+    return this.get<BaseResponseModel<TokenResponseModel>>('/api/auth/token').pipe(
+      tap((response: BaseResponseModel<TokenResponseModel>): void => {
+        if(response.data?.accessToken) this.setAccessToken(response.data.accessToken);
+        if(response.data?.refreshToken) this.setRefleshToken(response.data.refreshToken);
       }),
-      map((response: TokenResponseModel): string | null => response?.accessToken ?? null)
+      map((response: BaseResponseModel<TokenResponseModel>): string | null => response?.data?.accessToken ?? null)
     )
   }
 }

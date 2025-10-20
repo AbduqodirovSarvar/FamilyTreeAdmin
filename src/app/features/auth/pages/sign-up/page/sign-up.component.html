@@ -1,0 +1,110 @@
+<div class="container">
+  <div class="form-container">
+    <div class="login-logo">
+      <mat-icon aria-hidden="false" aria-label="Register icon" fontIcon="person_add"></mat-icon>
+    </div>
+
+    <h3 class="login-title">Sign Up</h3>
+
+    <form class="login-form" [formGroup]="formGroup">
+
+      <div>
+        <mat-form-field class="login-form-field">
+          <mat-label>First Name</mat-label>
+          <input matInput placeholder="Enter first name" formControlName="firstName">
+          <mat-error *ngIf="formGroup.get('firstName')?.hasError('required')">
+            First Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="login-form-field">
+          <mat-label>Last Name</mat-label>
+          <input matInput placeholder="Enter last name" formControlName="lastName">
+          <mat-error *ngIf="formGroup.get('lastName')?.hasError('required')">
+            Last Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="login-form-field">
+          <mat-label>Username</mat-label>
+          <input matInput placeholder="Enter username" formControlName="userName">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="login-form-field">
+          <mat-label>Phone</mat-label>
+          <input matInput placeholder="+998901234567" formControlName="phone">
+          <mat-error *ngIf="formGroup.get('phone')?.hasError('pattern')">
+            Invalid phone number format
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="login-form-field">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="youremail@gmail.com" formControlName="email">
+          <mat-error *ngIf="formGroup.get('email')?.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('email')?.hasError('email')">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="login-form-field">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" placeholder="Enter password" formControlName="password">
+          <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('password')?.hasError('minlength')">
+            Password must be at least 6 characters long
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="login-form-field">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" placeholder="Confirm your password" formControlName="confirmPassword">
+          <mat-error *ngIf="formGroup.get('confirmPassword')?.hasError('required')">
+            Confirm Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="login-form-field">
+          <mat-label>Family ID</mat-label>
+          <input matInput placeholder="Optional" formControlName="familyId">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="login-form-field">
+          <mat-label>Role ID</mat-label>
+          <input matInput placeholder="Optional" formControlName="roleId">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <label for="fileInput" class="file-label">Profile Image</label>
+        <input id="fileInput" type="file" (change)="onFileSelected($event)" aria-label="Profile Image" title="Profile Image" />
+      </div>
+
+    </form>
+    <button class="login-button"
+            (click)="create()"
+            [disabled]="formGroup.invalid">
+      Sign Up
+    </button>
+  </div>
+</div>

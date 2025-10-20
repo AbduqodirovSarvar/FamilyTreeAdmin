@@ -15,12 +15,12 @@ export abstract class BaseApiService extends BaseUrlService {
     super();
   }
 
-  protected get<T>(url: string, params?: any): Observable<T> {
+  public get<T>(url: string, params?: any): Observable<T> {
     const httpParams = new HttpParams({ fromObject: params || {} });
     return this.http.get<T>(`${this.baseUrl}/${url}`, { params: httpParams });
   }
 
-  protected getList<T>(url: string, query?: BaseGetListQueryModel): Observable<T> {
+  public getList<T>(url: string, query?: BaseGetListQueryModel): Observable<T> {
     const params = new HttpParams({
       fromObject: {
         pageIndex: query?.pageIndex ?? 0,
@@ -35,19 +35,19 @@ export abstract class BaseApiService extends BaseUrlService {
     return this.http.get<T>(`${this.baseUrl}/${url}`, { params });
   }
 
-  protected post<T>(url: string, payload: any): Observable<T> {
+  public post<T>(url: string, payload: any): Observable<T> {
     return this.http.post<T>(`${this.baseUrl}/${url}`, payload);
   }
 
-  protected put<T>(url: string, payload: any): Observable<T> {
+  public put<T>(url: string, payload: any): Observable<T> {
     return this.http.put<T>(`${this.baseUrl}/${url}`, payload);
   }
 
-  protected patch<T>(url: string, payload: any): Observable<T> {
+  public patch<T>(url: string, payload: any): Observable<T> {
     return this.http.patch<T>(`${this.baseUrl}/${url}`, payload);
   }
 
-  protected delete<T>(url: string, body?: any): Observable<T> {
+  public delete<T>(url: string, body?: any): Observable<T> {
     return this.http.request<T>('delete', `${this.baseUrl}/${url}`, {
       body
     });

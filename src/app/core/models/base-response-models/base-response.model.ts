@@ -1,4 +1,5 @@
 export interface BaseResponseModel<TModel> {
+  accessToken(accessToken: any): unknown;
   success: boolean;
   statusCode?: number;
   message?: string;
