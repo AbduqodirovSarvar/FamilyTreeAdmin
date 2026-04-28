@@ -1,0 +1,19 @@
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-text">Shajara System</span>
+  </div>
+
+  <nav class="nav">
+    <a *ngFor="let item of navItems"
+       class="nav-item"
+       [routerLink]="item.route"
+       routerLinkActive="active">
+      <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
+      <span class="nav-label">{{ item.labelKey | translate }}</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    {{ 'footer.admin' | translate }}: Alisher V.
+  </div>
+</aside>

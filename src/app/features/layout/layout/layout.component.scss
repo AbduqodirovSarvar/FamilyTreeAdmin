@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.layout {
+  height: 100%;
+}
+
+.layout-container {
+  height: 100%;
+  background: var(--bg);
+}
+
+.layout-sidenav {
+  width: 240px;
+  border-right: 1px solid var(--sidebar-divider) !important;
+  background: var(--sidebar-bg);
+}
+
+.layout-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.page-area {
+  flex: 1;
+  padding: 24px 32px;
+  overflow: auto;
+  background: var(--bg);
+}

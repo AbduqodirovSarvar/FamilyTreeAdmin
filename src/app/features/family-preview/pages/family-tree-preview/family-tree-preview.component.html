@@ -1,0 +1,52 @@
+<div class="page-header">
+  <h1 class="page-title">{{ 'preview.title' | translate }}</h1>
+
+  <div class="zoom-controls">
+    <mat-form-field appearance="outline" class="family-select">
+      <mat-select [value]="selectedFamilyId()" (selectionChange)="onFamilyChange($event.value)"
+                  [placeholder]="'preview.selectFamily' | translate">
+        <mat-option [value]="null">{{ 'preview.selectFamilyPlaceholder' | translate }}</mat-option>
+        <mat-option *ngFor="let f of families()" [value]="f.id">{{ f.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button class="btn-outline" (click)="zoomIn()" [disabled]="!selectedFamilyId()">
+      {{ 'preview.zoomIn' | translate }}
+    </button>
+    <button class="btn-outline" (click)="zoomOut()" [disabled]="!selectedFamilyId()">
+      {{ 'preview.zoomOut' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="canvas-card">
+  <mat-progress-bar *ngIf="loadingTree()" mode="indeterminate"></mat-progress-bar>
+
+  <div class="canvas">
+    <ng-container *ngIf="!selectedFamilyId()">
+      <div class="empty-state">
+        <mat-icon class="big-icon">account_tree</mat-icon>
+        <h3>{{ 'preview.emptyTitle' | translate }}</h3>
+        <p>{{ 'preview.emptySubtitle' | translate }}</p>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="selectedFamilyId() && !loadingTree()">
+      <ng-container *ngIf="totalMembers() === 0; else hasMembers">
+        <div class="empty-state">
+          <mat-icon class="big-icon">person_off</mat-icon>
+          <h3>{{ 'preview.noMembersTitle' | translate }}</h3>
+          <p>{{ 'preview.noMembersSubtitle' | translate }}</p>
+        </div>
+      </ng-container>
+
+      <ng-template #hasMembers>
+        <div class="forest" [style.transform]="'scale(' + zoom() + ')'">
+          <div class="forest-row" *ngFor="let root of forest()">
+            <app-tree-node [node]="root" [isRoot]="true" [familyName]="tree()?.familyName"></app-tree-node>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>

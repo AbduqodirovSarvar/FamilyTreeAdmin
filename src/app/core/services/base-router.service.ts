@@ -31,4 +31,11 @@ export class BaseRouterService {
   navigateToSignInPage(): void {
     this.navigateTo('/auth/sign-in');
   }
+
+  /**
+   * Navigate to home (default authenticated page)
+   */
+  navigateToHome(): void {
+    this.navigateTo('/dashboard');
+  }
 }

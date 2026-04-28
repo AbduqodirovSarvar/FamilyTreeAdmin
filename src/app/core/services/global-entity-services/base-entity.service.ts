@@ -30,21 +30,28 @@ export abstract class BaseEntityService<T> extends BaseApiService {
     /**
      * CREATE ENTITY
      */
-    public create(entity: Partial<T>): Observable<T> {
-        return this.post<T>(`${this.baseUrl}/${this.endpoint}`, entity);
+    public create(entity: Partial<T> | FormData): Observable<T> {
+        return this.post<T>(this.endpoint, entity);
     }
 
     /**
      * UPDATE ENTITY
      */
-    public update(entity: Partial<T>): Observable<T> {
-        return this.put<T>(`${this.baseUrl}/${this.endpoint}`, entity);
+    public update(entity: Partial<T> | FormData): Observable<T> {
+        return this.put<T>(this.endpoint, entity);
     }
 
     /**
      * DELETE ENTITY
      */
     public deleteById(id: string): Observable<T> {
-        return this.delete<T>(`${this.baseUrl}/${this.endpoint}`, { id });
+        return this.delete<T>(this.endpoint, { id });
+    }
+
+    /**
+     * CHECK EXISTENCE — `GET /{endpoint}/any?...`
+     */
+    public anyExist(params: Record<string, string | number | boolean>): Observable<T> {
+        return this.get<T>(`${this.endpoint}/any`, params);
     }
 }

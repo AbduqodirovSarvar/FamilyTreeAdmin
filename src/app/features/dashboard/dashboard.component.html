@@ -1,0 +1,60 @@
+<div class="dashboard">
+  <h1 class="page-title">{{ 'dashboard.title' | translate }}</h1>
+  <p class="page-subtitle">{{ 'dashboard.subtitle' | translate }}</p>
+
+  <div class="stat-cards">
+    <div class="stat-card">
+      <div class="stat-info">
+        <div class="stat-label">{{ 'dashboard.statFamilies' | translate }}</div>
+        <div class="stat-value">{{ families() }}</div>
+      </div>
+      <div class="stat-icon stat-icon-1"><mat-icon>groups</mat-icon></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-info">
+        <div class="stat-label">{{ 'dashboard.statMembers' | translate }}</div>
+        <div class="stat-value">{{ members() }}</div>
+      </div>
+      <div class="stat-icon stat-icon-2"><mat-icon>family_restroom</mat-icon></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-info">
+        <div class="stat-label">{{ 'dashboard.statUsers' | translate }}</div>
+        <div class="stat-value">{{ users() }}</div>
+      </div>
+      <div class="stat-icon stat-icon-3"><mat-icon>manage_accounts</mat-icon></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-info">
+        <div class="stat-label">{{ 'dashboard.statActivity' | translate }}</div>
+        <div class="stat-value">100%</div>
+      </div>
+      <div class="stat-icon stat-icon-4"><mat-icon>trending_up</mat-icon></div>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <h2 class="section-title">{{ 'dashboard.quickActions' | translate }}</h2>
+    <div class="actions-grid">
+      <a [routerLink]="['/family']" class="action-card">
+        <mat-icon>groups</mat-icon>
+        <div class="action-label">{{ 'dashboard.actionManageFamilies' | translate }}</div>
+      </a>
+      <a [routerLink]="['/member']" class="action-card">
+        <mat-icon>family_restroom</mat-icon>
+        <div class="action-label">{{ 'dashboard.actionMembersList' | translate }}</div>
+      </a>
+      <a [routerLink]="['/preview']" class="action-card">
+        <mat-icon>account_tree</mat-icon>
+        <div class="action-label">{{ 'dashboard.actionViewTree' | translate }}</div>
+      </a>
+      <a [routerLink]="['/user']" class="action-card">
+        <mat-icon>manage_accounts</mat-icon>
+        <div class="action-label">{{ 'dashboard.actionUsers' | translate }}</div>
+      </a>
+    </div>
+  </div>
+</div>

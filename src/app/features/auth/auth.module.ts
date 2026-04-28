@@ -15,12 +15,16 @@ import { RouterModule } from '@angular/router';
 import { ForgetPasswordComponent } from './pages/forget-password/page/forget-password.component';
 import { ForgetPasswordService } from './pages/forget-password/services/forget-password.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ResetSignInComponent } from './pages/reset-sign-in/page/reset-sign-in.component';
+import { ResetSignInService } from './pages/reset-sign-in/services/reset-sign-in.service';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 
 @NgModule({
   declarations: [
     SignInComponent,
     SignUpComponent,
-    ForgetPasswordComponent
+    ForgetPasswordComponent,
+    ResetSignInComponent
   ],
   imports: [
     CommonModule,
@@ -33,17 +37,20 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ReactiveFormsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    RouterModule
+    RouterModule,
+    TranslatePipe
   ],
   exports: [
     SignInComponent,
     SignUpComponent,
-    ForgetPasswordComponent
+    ForgetPasswordComponent,
+    ResetSignInComponent
   ],
   providers: [
     SignInService,
     SignUpService,
-    ForgetPasswordService 
+    ForgetPasswordService,
+    ResetSignInService
   ]
 })
 export class AuthModule { }

@@ -1,0 +1,36 @@
+.settings-section { max-width: 720px; }
+
+.section-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.section-subtitle {
+  margin: 4px 0 24px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.setting-group { padding: 16px 0 24px; }
+
+.group-title {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.group-description {
+  margin: 0 0 16px;
+  color: var(--text-secondary);
+  font-size: 13px;
+
+  strong {
+    text-transform: capitalize;
+    color: var(--brand);
+  }
+}
+
+mat-button-toggle-group { border-radius: 8px; }

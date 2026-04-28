@@ -1,0 +1,93 @@
+<h1 class="page-title">{{ 'user.title' | translate }}</h1>
+<p class="page-subtitle">{{ 'user.subtitle' | translate }}</p>
+
+<div class="data-card">
+  <div class="data-card-header">
+    <div class="header-left">
+      <h2 class="card-title">{{ 'user.listTitle' | translate }}</h2>
+      <mat-form-field appearance="outline" class="search-field">
+        <input matInput
+               [value]="searchText()"
+               (input)="onSearchChange($any($event.target).value)"
+               [placeholder]="'common.search' | translate">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>{{ 'user.family' | translate }}</mat-label>
+        <mat-select [value]="familyFilter()" (selectionChange)="onFamilyFilterChange($event.value)">
+          <mat-option [value]="null">{{ 'common.all' | translate }}</mat-option>
+          <mat-option *ngFor="let f of families()" [value]="f.id">{{ f.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-progress-bar *ngIf="loading()" mode="indeterminate"></mat-progress-bar>
+
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="users()" class="data-table">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>{{ 'user.colFio' | translate }}</th>
+        <td mat-cell *matCellDef="let row" class="name-cell">
+          <span class="row-avatar">
+            <img *ngIf="avatarUrl(row); else userIcon" [src]="avatarUrl(row)" alt="" class="row-avatar-img">
+            <ng-template #userIcon><mat-icon class="row-avatar-icon">person</mat-icon></ng-template>
+          </span>
+          <span class="row-name">{{ row.firstName }} {{ row.lastName }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef>{{ 'user.colUserName' | translate }}</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="handle">{{ row.userName || '—' }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>{{ 'user.colEmail' | translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.email || '—' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef>{{ 'user.colPhone' | translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.phone || '—' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="family">
+        <th mat-header-cell *matHeaderCellDef>{{ 'user.colFamily' | translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ familyName(row.familyId) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ 'common.actions' | translate }}</th>
+        <td mat-cell *matCellDef="let row" class="actions-cell">
+          <button class="icon-btn" (click)="openEdit(row)" [matTooltip]="'common.edit' | translate">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="icon-btn" (click)="confirmDelete(row)" [matTooltip]="'common.delete' | translate">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row no-data" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+          <span *ngIf="!loading()">{{ 'user.notFound' | translate }}</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <mat-paginator
+    [length]="totalCount()"
+    [pageSize]="pageSize()"
+    [pageIndex]="pageIndex()"
+    [pageSizeOptions]="[5, 10, 25, 50]"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

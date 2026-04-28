@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {SignInComponent} from './pages/sign-in/page/sign-in.component';
-import {ResetSignIn} from './pages/reset-sign-in/reset-sign-in';
 import { SignUpComponent } from './pages/sign-up/page/sign-up.component';
 import { ForgetPasswordComponent } from './pages/forget-password/page/forget-password.component';
+import { ResetSignInComponent } from './pages/reset-sign-in/page/reset-sign-in.component';
 
 const routes: Routes = [
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'reset-sign-in',
-    component: ResetSignIn
+    component: ResetSignInComponent
   }
 ];
 

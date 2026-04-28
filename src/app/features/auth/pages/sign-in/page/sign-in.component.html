@@ -1,53 +1,43 @@
-<div class="container">
-  <div class="form-container">
-    <div class="login-logo">
-      <mat-icon aria-hidden="false" aria-label="Login icon" fontIcon="account_circle"></mat-icon>
-    </div>
-    <h3 class="login-title">
-      Sign In
-    </h3>
-    <form class="login-form" [formGroup]="formGroup">
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>Login</mat-label>
-          <input matInput placeholder="Username or email or phone number"
-                 formControlName="login">
-          <mat-error>Login is <strong>required</strong></mat-error>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>Password</mat-label>
-          <input matInput placeholder="Password"
-                 formControlName="password">
-          <mat-error>Password is <strong>required</strong></mat-error>
-        </mat-form-field>
-      </div>
-    </form>
-    <button class="login-button"
-            (click)="submit()"
-            [disabled]="formGroup.invalid">
-      Sign In
-    </button>
-    <div class="forgot-password-container">
-      <a class="forgot-password" [routerLink]="['/auth/forget-password']">
-        Forgot password?
-      </a>
+<div class="signin-page">
+  <div class="signin-card">
+    <div class="brand">
+      <span class="brand-text">Shajara System</span>
     </div>
 
-    <p class="or-container">
-      Continue with ...
-    </p>
-    <div class="login-social-container">
-      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="passkey"></mat-icon>
-      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="passkey"></mat-icon>
-      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="passkey"></mat-icon>
+    <h2 class="title">{{ 'auth.signInTitle' | translate }}</h2>
+    <p class="subtitle">{{ 'auth.signInSubtitle' | translate }}</p>
+
+    <form class="form" [formGroup]="formGroup">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'auth.login' | translate }}</mat-label>
+        <input matInput
+               [placeholder]="'auth.loginPlaceholder' | translate"
+               formControlName="login">
+        <mat-error>{{ 'auth.loginRequired' | translate }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'auth.password' | translate }}</mat-label>
+        <input matInput type="password"
+               [placeholder]="'auth.password' | translate"
+               formControlName="password">
+        <mat-error>{{ 'auth.passwordRequired' | translate }}</mat-error>
+      </mat-form-field>
+    </form>
+
+    <button class="btn-primary"
+            (click)="submit()"
+            [disabled]="formGroup.invalid">
+      {{ 'auth.signIn' | translate }}
+    </button>
+
+    <div class="forgot">
+      <a [routerLink]="['/auth/forget-password']">{{ 'auth.forgotPassword' | translate }}</a>
     </div>
-    <div class="register-container">
-      Don't have an account?
-      <a class="register" [routerLink]="['/auth/sign-up']">
-        Sign Up
-      </a>
+
+    <div class="register">
+      {{ 'auth.noAccount' | translate }}
+      <a [routerLink]="['/auth/sign-up']">{{ 'auth.signUp' | translate }}</a>
     </div>
   </div>
 </div>

@@ -2,23 +2,269 @@
 
 @include mat.core();
 
-$my-primary: mat.m2-define-palette(mat.$m2-indigo-palette);
-$my-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
-$my-warn: mat.m2-define-palette(mat.$m2-red-palette);
+/* ============================================================
+   MATERIAL THEMES
+   ============================================================ */
+$primary: mat.m2-define-palette(mat.$m2-light-blue-palette, 500);
+$accent:  mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
+$warn:    mat.m2-define-palette(mat.$m2-red-palette);
 
-$my-theme: mat.m2-define-light-theme((
-  color: (
-    primary: $my-primary,
-    accent: $my-accent,
-    warn: $my-warn,
-  )
+$light-theme: mat.m2-define-light-theme((
+  color: (primary: $primary, accent: $accent, warn: $warn)
 ));
 
-@include mat.all-component-themes($my-theme);
+$dark-theme: mat.m2-define-dark-theme((
+  color: (primary: $primary, accent: $accent, warn: $warn)
+));
 
+/* Default = light theme. Switching to dark applies just colors. */
+@include mat.all-component-themes($light-theme);
+
+.theme-dark {
+  @include mat.all-component-colors($dark-theme);
+}
+
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  // Sidebar (light variant — overridden in dark mode below)
+  --sidebar-bg: #ffffff;
+  --sidebar-bg-darker: #f1f5f9;
+  --sidebar-text: #64748b;
+  --sidebar-text-active: #ffffff;
+  --sidebar-active-bg: #3ba6ff;
+  --sidebar-divider: #e5e9ef;
+  --sidebar-hover-bg: #f1f5f9;
+  --sidebar-brand: #3ba6ff;
+  --sidebar-footer-text: #94a3b8;
+
+  // Brand
+  --brand: #3ba6ff;
+  --brand-strong: #2a93eb;
+  --brand-soft: rgba(59, 166, 255, 0.12);
+
+  // App surfaces
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --surface-alt: #f8fafc;
+  --surface-hover: #f1f5f9;
+  --border: #e5e9ef;
+  --border-strong: #cdd5df;
+
+  // Hub / canvas
+  --canvas-bg: #ffffff;
+  --hub-bg: rgba(255, 255, 255, 0.6);
+  --hub-border: #cbd5e1;
+  --tree-line: #cbd5e1;
+
+  // Text
+  --text-primary: #1a2942;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+
+  // Status pills
+  --status-faol-bg: #dcfce7;
+  --status-faol-text: #166534;
+  --status-kutilmoqda-bg: #fef9c3;
+  --status-kutilmoqda-text: #854d0e;
+  --status-arxivlangan-bg: #f1f5f9;
+  --status-arxivlangan-text: #475569;
+
+  // Gender
+  --male: #3ba6ff;
+  --male-soft: rgba(59, 166, 255, 0.08);
+  --female: #fb7185;
+  --female-soft: rgba(251, 113, 133, 0.08);
+
+  // Stat icons
+  --stat-icon-1-bg: #1e293b;
+  --stat-icon-2-bg: #3ba6ff;
+  --stat-icon-3-bg: #10b981;
+  --stat-icon-4-bg: #64748b;
+
+  // Diagnostic
+  --status-alive: #10b981;
+  --status-pending: #f59e0b;
+  --status-deceased: #64748b;
+
+  // Shadows
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 4px 16px rgba(15, 23, 42, 0.08);
+
+  // Auth gradient
+  --auth-bg-1: #1b2840;
+  --auth-bg-2: #2a3a5c;
+
+  color-scheme: light;
+}
+
+.theme-dark {
+  // Sidebar — dark variant
+  --sidebar-bg: #1b2840;
+  --sidebar-bg-darker: #142035;
+  --sidebar-text: #aab7c8;
+  --sidebar-text-active: #ffffff;
+  --sidebar-divider: rgba(255, 255, 255, 0.06);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.04);
+  --sidebar-footer-text: #64748b;
+
+  --bg: #0b1120;
+  --surface: #14213a;
+  --surface-alt: #1b2a44;
+  --surface-hover: #1f3050;
+  --border: rgba(148, 163, 184, 0.16);
+  --border-strong: rgba(148, 163, 184, 0.3);
+
+  --canvas-bg: #14213a;
+  --hub-bg: rgba(20, 33, 58, 0.65);
+  --hub-border: rgba(148, 163, 184, 0.32);
+  --tree-line: rgba(148, 163, 184, 0.4);
+
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --status-faol-bg: rgba(16, 185, 129, 0.18);
+  --status-faol-text: #34d399;
+  --status-kutilmoqda-bg: rgba(245, 158, 11, 0.18);
+  --status-kutilmoqda-text: #fbbf24;
+  --status-arxivlangan-bg: rgba(148, 163, 184, 0.18);
+  --status-arxivlangan-text: #cbd5e1;
+
+  --male-soft: rgba(59, 166, 255, 0.16);
+  --female-soft: rgba(251, 113, 133, 0.16);
+  --brand-soft: rgba(59, 166, 255, 0.18);
+
+  --stat-icon-1-bg: #475569;
+  --stat-icon-4-bg: #475569;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  --auth-bg-1: #0b1120;
+  --auth-bg-2: #14213a;
+
+  color-scheme: dark;
+}
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
 html, body {
   height: 100%;
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #f6f8fa;
+  font-family: 'Inter', Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ============================================================
+   MATERIAL DARK SURFACE BRIDGE
+   Force Material containers to use our --surface tokens so
+   they line up with cards/panels we hand-style.
+   ============================================================ */
+.theme-dark {
+  .mat-mdc-card,
+  .mdc-card,
+  .mat-mdc-dialog-surface,
+  .mat-mdc-menu-panel,
+  .mat-mdc-select-panel,
+  .mat-datepicker-content {
+    background-color: var(--surface) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* Tables */
+  .mat-mdc-table { background: var(--surface) !important; }
+  .mat-mdc-header-row { background: var(--surface-alt) !important; }
+  .mat-mdc-row { background: var(--surface) !important; }
+  .mat-mdc-row:hover { background: var(--surface-hover) !important; }
+  .mat-mdc-header-cell {
+    background: var(--surface-alt) !important;
+    color: var(--text-secondary) !important;
+    border-bottom-color: var(--border) !important;
+  }
+  .mat-mdc-cell {
+    color: var(--text-primary) !important;
+    border-bottom-color: var(--border) !important;
+  }
+
+  /* Form field outlines */
+  .mdc-text-field--outlined .mdc-notched-outline__leading,
+  .mdc-text-field--outlined .mdc-notched-outline__notch,
+  .mdc-text-field--outlined .mdc-notched-outline__trailing {
+    border-color: var(--border-strong) !important;
+  }
+  .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+  .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch,
+  .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing {
+    border-color: var(--brand) !important;
+  }
+  .mat-mdc-text-field-wrapper { background: transparent !important; }
+  .mdc-text-field input,
+  .mdc-text-field textarea,
+  .mat-mdc-input-element { color: var(--text-primary) !important; caret-color: var(--brand); }
+  .mdc-floating-label,
+  .mat-mdc-form-field-hint,
+  .mat-mdc-select-arrow { color: var(--text-secondary) !important; }
+  .mat-mdc-select-value-text,
+  .mat-mdc-select-value { color: var(--text-primary) !important; }
+  .mat-mdc-option .mdc-list-item__primary-text { color: var(--text-primary) !important; }
+  .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+  .mat-mdc-option.mat-mdc-option-active { background: var(--surface-hover) !important; }
+
+  /* Tabs */
+  .mat-mdc-tab-nav-bar,
+  .mat-mdc-tab-link-container,
+  .mat-mdc-tab-list { background: var(--surface) !important; }
+  .mat-mdc-tab-nav-panel { background: transparent !important; color: inherit !important; }
+  .mdc-tab__text-label { color: var(--text-secondary) !important; }
+  .mdc-tab--active .mdc-tab__text-label { color: var(--brand) !important; }
+  .mat-mdc-tab-link { color: var(--text-secondary) !important; }
+  .mat-mdc-tab-link.mdc-tab--active { color: var(--brand) !important; }
+
+  /* Pagination */
+  .mat-mdc-paginator { background: var(--surface) !important; color: var(--text-secondary) !important; }
+  .mat-mdc-paginator-icon { fill: var(--text-secondary); }
+
+  /* Snackbar */
+  .mdc-snackbar__surface { background: var(--surface-alt) !important; }
+  .mat-mdc-snack-bar-label { color: var(--text-primary) !important; }
+
+  /* Tooltip */
+  .mat-mdc-tooltip .mdc-tooltip__surface {
+    background: var(--surface-alt) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* Button toggle */
+  .mat-button-toggle-group {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+  }
+  .mat-button-toggle { color: var(--text-secondary) !important; background: transparent !important; }
+  .mat-button-toggle-checked { background: var(--brand-soft) !important; color: var(--brand) !important; }
+
+  /* Menu items */
+  .mat-mdc-menu-item,
+  .mat-mdc-menu-item .mdc-list-item__primary-text,
+  .mat-mdc-menu-item .mat-icon { color: var(--text-primary) !important; }
+  .mat-mdc-menu-item:hover { background: var(--surface-hover) !important; }
+  .mat-divider { border-top-color: var(--border) !important; }
+
+  /* Native scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 999px;
+    border: 2px solid var(--bg);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 }

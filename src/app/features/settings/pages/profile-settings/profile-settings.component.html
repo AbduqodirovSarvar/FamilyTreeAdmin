@@ -1,0 +1,58 @@
+<div class="settings-section">
+  <h2 class="section-title">{{ 'profile.title' | translate }}</h2>
+  <p class="section-subtitle">{{ 'profile.subtitle' | translate }}</p>
+
+  <mat-progress-bar *ngIf="loading()" mode="indeterminate"></mat-progress-bar>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" *ngIf="!loading()" class="profile-form">
+    <div class="avatar-row">
+      <div class="avatar" [class.has-image]="!!avatarSrc()">
+        <img *ngIf="avatarSrc() as src" [src]="src" alt="" class="avatar-img">
+        <mat-icon *ngIf="!avatarSrc()" class="avatar-icon">person</mat-icon>
+      </div>
+      <div class="avatar-actions">
+        <button mat-stroked-button type="button" (click)="fileInput.click()">
+          <mat-icon>upload</mat-icon>
+          {{ (selectedFile() ? 'profile.changeAvatar' : 'profile.uploadAvatar') | translate }}
+        </button>
+        <span class="file-name" *ngIf="selectedFile() as file">{{ file.name }}</span>
+        <input #fileInput type="file" hidden accept="image/*" (change)="onFileSelected($event)">
+      </div>
+    </div>
+
+    <div class="grid">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'profile.firstName' | translate }}</mat-label>
+        <input matInput formControlName="firstName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'profile.lastName' | translate }}</mat-label>
+        <input matInput formControlName="lastName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'profile.userName' | translate }}</mat-label>
+        <input matInput formControlName="userName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'profile.email' | translate }}</mat-label>
+        <input matInput type="email" formControlName="email">
+        <mat-error *ngIf="form.controls['email'].hasError('email')">{{ 'profile.emailInvalid' | translate }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'profile.phone' | translate }}</mat-label>
+        <input matInput formControlName="phone">
+      </mat-form-field>
+    </div>
+
+    <div class="actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || saving()">
+        <mat-spinner *ngIf="saving()" diameter="18"></mat-spinner>
+        <span *ngIf="!saving()">{{ 'common.save' | translate }}</span>
+      </button>
+    </div>
+  </form>
+</div>

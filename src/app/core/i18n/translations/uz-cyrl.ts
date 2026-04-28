@@ -1,0 +1,173 @@
+export const uzCyrl = {
+  common: {
+    save: 'Сақлаш',
+    cancel: 'Бекор қилиш',
+    delete: 'Ўчириш',
+    edit: 'Таҳрирлаш',
+    view: 'Кўриш',
+    search: 'Қидириш...',
+    all: 'Барчаси',
+    notFound: 'Топилмади',
+    none: '— Йўқ —',
+    ok: 'OK',
+    yes: 'Ҳа',
+    no: 'Йўқ',
+    required: 'Мажбурий',
+    loading: 'Юкланмоқда...',
+    actions: 'АМАЛЛАР',
+    refresh: 'Янгилаш',
+    confirm: 'Тасдиқлаш',
+    saveChanges: 'Ўзгаришларни сақлаш'
+  },
+  nav: {
+    dashboard: 'Бош саҳифа',
+    families: 'Оилалар',
+    members: 'Оила аъзолари',
+    preview: 'Дарахт кўриниши',
+    users: 'Фойдаланувчилар',
+    documents: 'Ҳужжатлар',
+    settings: 'Созламалар',
+    profile: 'Профиль',
+    password: 'Парол',
+    appearance: 'Кўриниш',
+    boshqaruv: 'Бошқарув панели'
+  },
+  topbar: {
+    lightMode: 'Ёруғ режим',
+    darkMode: 'Тунги режим',
+    signOut: 'Чиқиш',
+    language: 'Тил'
+  },
+  auth: {
+    signInTitle: 'Тизимга кириш',
+    signInSubtitle: 'Ҳисобингизга кириш учун маълумотларингизни киритинг.',
+    login: 'Логин',
+    loginPlaceholder: 'Логин, эмаил ёки телефон',
+    password: 'Парол',
+    signIn: 'Кириш',
+    forgotPassword: 'Паролни унутдингизми?',
+    noAccount: 'Ҳисобингиз йўқми?',
+    signUp: 'Рўйхатдан ўтиш',
+    loginRequired: 'Логин мажбурий',
+    passwordRequired: 'Парол мажбурий'
+  },
+  dashboard: {
+    title: 'Бошқарув панели',
+    subtitle: 'Тизим умумий кўриниши ва тезкор амаллар.',
+    statFamilies: 'ОИЛАЛАР',
+    statMembers: 'АЪЗОЛАР',
+    statUsers: 'ФОЙДАЛАНУВЧИЛАР',
+    statActivity: 'ФАОЛЛИК',
+    quickActions: 'Тезкор амаллар',
+    actionManageFamilies: 'Оилаларни бошқариш',
+    actionMembersList: 'Аъзолар рўйхати',
+    actionViewTree: 'Шажарани кўриш',
+    actionUsers: 'Фойдаланувчилар'
+  },
+  family: {
+    title: 'Оилалар',
+    subtitle: 'Тизимдаги оилавий гуруҳларни бошқариш.',
+    listTitle: 'Оилалар рўйхати',
+    new: 'Янги оила',
+    notFound: 'Оилалар топилмади.',
+    colName: 'НОМИ',
+    colFamilyName: 'ФАМИЛИЯ',
+    colDescription: 'ТАВСИФ',
+    colCreatedAt: 'ЯРАТИЛГАН'
+  },
+  member: {
+    title: 'Оила аъзолари',
+    subtitle: 'Барча оила аъзолари рўйхати ва уларни бошқариш.',
+    statTotal: 'УМУМИЙ АЪЗОЛАР',
+    statGenerations: 'АВЛОДЛАР СОНИ',
+    statRecent: 'ЯҚИНДА ҚЎШИЛГАН',
+    statArchived: 'АРХИВЛАНГАН',
+    listTitle: 'Аъзолар рўйхати',
+    new: 'Янги аъзо',
+    family: 'Оила',
+    notFound: 'Аъзолар топилмади.',
+    colFio: 'Ф.И.Ш.',
+    colRelation: 'МУНОСАБАТИ',
+    colBirthYear: 'ТУҒИЛГАН ЙИЛИ',
+    colStatus: 'ҲОЛАТИ',
+    son: 'Ўғли',
+    daughter: 'Қизи',
+    statusActive: 'ФАОЛ',
+    statusPending: 'КУТИЛМОҚДА',
+    statusArchived: 'АРХИВ'
+  },
+  user: {
+    title: 'Фойдаланувчилар',
+    subtitle: 'Тизим фойдаланувчилари (рўйхатдан ўтиш орқали яратилган).',
+    listTitle: 'Фойдаланувчилар рўйхати',
+    family: 'Оила',
+    notFound: 'Фойдаланувчилар топилмади.',
+    colFio: 'Ф.И.Ш.',
+    colUserName: 'USERNAME',
+    colEmail: 'EMAIL',
+    colPhone: 'ТЕЛЕФОН',
+    colFamily: 'ОИЛА'
+  },
+  preview: {
+    title: 'Шажара Дарахти',
+    zoomIn: 'Яқинлаштириш',
+    zoomOut: 'Узоқлаштириш',
+    selectFamily: 'Оилани танланг',
+    selectFamilyPlaceholder: '— Оилани танланг —',
+    emptyTitle: 'Оилани танланг',
+    emptySubtitle: 'Дарахт автоматик тарзда аъзоларнинг ота, она ва турмуш ўртоғи ҳаволаларидан қурилади.',
+    noMembersTitle: 'Аъзолар йўқ',
+    noMembersSubtitle: 'Ушбу оила учун аъзолар саҳифасида янги аъзо қўшинг.',
+    head: 'Оила бошлиғи',
+    spouse: 'Турмуш ўртоғи',
+    son: 'Ўғли',
+    daughter: 'Қизи',
+    commonChildren: 'УМУМИЙ ФАРЗАНДЛАР',
+    childrenSuffix: 'ФАРЗАНДЛАРИ'
+  },
+  documents: {
+    title: 'Ҳужжатлар',
+    subtitle: 'Оила билан боғлиқ ҳужжатлар ва файллар.',
+    comingSoonTitle: 'Тез орада',
+    comingSoonBody: 'Ҳужжатлар бўлими ишлаб чиқилмоқда. Тез орада бу ерда оила ҳужжатларини сақлаш ва бошқариш имконияти пайдо бўлади.'
+  },
+  settings: {
+    title: 'Созламалар',
+    subtitle: 'Ҳисоб, хавфсизлик ва кўринишни бошқаринг.'
+  },
+  profile: {
+    title: 'Профиль',
+    subtitle: 'Исм, контакт маълумотлари ва аватарингизни янгиланг.',
+    firstName: 'Исм',
+    lastName: 'Фамилия',
+    userName: 'Фойдаланувчи номи',
+    email: 'Email',
+    phone: 'Телефон',
+    emailInvalid: 'Email хато',
+    uploadAvatar: 'Аватар юклаш',
+    changeAvatar: 'Аватарни алмаштириш'
+  },
+  password: {
+    title: 'Парол',
+    subtitle: 'Бошқа сайтларда ишлатмаган кучли паролни танланг.',
+    current: 'Жорий парол',
+    new: 'Янги парол',
+    confirm: 'Янги паролни тасдиқлаш',
+    hint: 'Камида 6 та белги.',
+    tooShort: 'Жуда қисқа',
+    mismatch: 'Парол мос келмади',
+    update: 'Паролни янгилаш'
+  },
+  appearance: {
+    title: 'Кўриниш',
+    subtitle: 'Админ панел кўринишини танланг. Жорий қурилмада сақланади.',
+    theme: 'Мавзу',
+    currentMode: 'Ҳозирги режим',
+    light: 'Ёруғ',
+    dark: 'Тунги',
+    system: 'Тизим'
+  },
+  footer: {
+    admin: 'Админ'
+  }
+};

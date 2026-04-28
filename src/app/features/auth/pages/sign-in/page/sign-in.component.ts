@@ -44,6 +44,6 @@ export class SignInComponent {
   onSubmitSuccess(response: BaseResponseModel<TokenResponseModel>): void {
     if(response?.data?.accessToken) this.signInService.setAccessToken(response?.data?.accessToken);
     if(response?.data?.refreshToken) this.signInService.setRefleshToken(response?.data?.refreshToken);
-    this.routerService.navigateToSignInPage();
+    this.routerService.navigateToHome();
   }
 }

@@ -1,35 +1,28 @@
-import {Injectable} from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root'})
 export class BaseStorageService {
 
-  /**
-   * Stores a key-value pair in local storage after serializing the value to a JSON string.
-   *
-   * @param {string} key - The key under which the value will be stored in local storage.
-   * @param {any} value - The value to be stored in local storage. It will be serialized into a JSON string.
-   * @return {void} This method does not return a value.
-   */
+  private readonly isBrowser: boolean;
+
+  constructor(@Inject(PLATFORM_ID) platformId: object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
+
   setItem(key: string, value: any): void {
+    if (!this.isBrowser) return;
     localStorage.setItem(key, JSON.stringify(value));
   }
 
-  /**
-   * Retrieves an item from localStorage by the specified key and parses it to the expected type.
-   *
-   * @param {string} key - The key of the item to retrieve from localStorage.
-   * @return {T | null} The parsed data of type T if the key exists, otherwise null.
-   */
   getItem<T>(key: string): T | null {
+    if (!this.isBrowser) return null;
     const data: string | null = localStorage.getItem(key);
     return data ? JSON.parse(data) as T : null;
   }
 
-  /**
-   *
-   * @param key
-   */
   removeItem(key: string): void {
+    if (!this.isBrowser) return;
     localStorage.removeItem(key);
   }
 }

@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  min-width: 480px;
+}
+
+.family-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.file-name {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+mat-spinner {
+  display: inline-block;
+}

@@ -21,16 +21,22 @@ export abstract class BaseApiService extends BaseUrlService {
   }
 
   public getList<T>(url: string, query?: BaseGetListQueryModel): Observable<T> {
-    const params = new HttpParams({
-      fromObject: {
-        pageIndex: query?.pageIndex ?? 0,
-        pageSize: query?.pageSize ?? 20,
-        searchText: query?.searchText ?? '',
-        sortBy: query?.sortBy ?? 'CreatedAt',
-        sortDirection: query?.sortDirection ?? 'desc',
-        ...query?.filters
+    let params = new HttpParams()
+      .set('PageIndex', String(query?.pageIndex ?? 0))
+      .set('PageSize', String(query?.pageSize ?? 20))
+      .set('SortBy', query?.sortBy ?? 'CreatedAt')
+      .set('SortDirection', query?.sortDirection ?? 'desc');
+
+    if (query?.searchText) {
+      params = params.set('SearchText', query.searchText);
+    }
+
+    if (query?.filters) {
+      for (const [key, value] of Object.entries(query.filters)) {
+        if (value === null || value === undefined || value === '') continue;
+        params = params.set(`Filters[${key}]`, value);
       }
-    });
+    }
 
     return this.http.get<T>(`${this.baseUrl}/${url}`, { params });
   }

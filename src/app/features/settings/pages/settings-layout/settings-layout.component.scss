@@ -1,0 +1,52 @@
+.page-header { margin-bottom: 16px; }
+
+.page-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.page-subtitle {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* Single container that owns all background/border for the whole settings page. */
+.settings-shell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.settings-tabs {
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--border);
+}
+
+.tab-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Content area inside the shell. Inner mat-tab-nav-panel is forced transparent. */
+.tab-content {
+  background: var(--surface);
+  color: var(--text-primary);
+  padding: 24px;
+  min-height: 400px;
+}
+
+/* Force the Material tab nav panel host to be transparent so our wrapper bg shows. */
+::ng-deep mat-tab-nav-panel,
+::ng-deep .mat-mdc-tab-nav-panel {
+  background: transparent !important;
+  display: block;
+  color: inherit !important;
+}

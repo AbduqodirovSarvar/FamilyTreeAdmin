@@ -1,0 +1,24 @@
+<div class="page-header">
+  <h1 class="page-title">{{ 'settings.title' | translate }}</h1>
+  <p class="page-subtitle">{{ 'settings.subtitle' | translate }}</p>
+</div>
+
+<div class="settings-shell">
+  <nav mat-tab-nav-bar [tabPanel]="tabPanel" class="settings-tabs">
+    <a mat-tab-link
+       *ngFor="let tab of tabs"
+       [routerLink]="tab.route"
+       routerLinkActive
+       #rla="routerLinkActive"
+       [active]="rla.isActive">
+      <mat-icon class="tab-icon">{{ tab.icon }}</mat-icon>
+      <span>{{ tab.labelKey | translate }}</span>
+    </a>
+  </nav>
+
+  <div class="tab-content">
+    <mat-tab-nav-panel #tabPanel>
+      <router-outlet></router-outlet>
+    </mat-tab-nav-panel>
+  </div>
+</div>

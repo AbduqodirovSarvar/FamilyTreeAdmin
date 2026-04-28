@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../shared/shared.module';
 import { MemberRoutingModule } from './member-routing.module';
+import { MemberListComponent } from './pages/member-list/member-list.component';
+import { MemberFormComponent } from './dialogs/member-form/member-form.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    MemberListComponent,
+    MemberFormComponent
+  ],
   imports: [
-    CommonModule,
+    SharedModule,
     MemberRoutingModule
   ]
 })

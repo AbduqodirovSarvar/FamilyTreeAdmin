@@ -1,0 +1,78 @@
+<div class="node">
+  <!-- ─── Family hub: primary + spouses in dashed rounded box. ─── -->
+  <div class="hub">
+    <!-- Primary -->
+    <div class="member"
+         [class.male]="node.primary.gender === Gender.MALE"
+         [class.female]="node.primary.gender === Gender.FEMALE">
+      <div class="circle" [class.has-image]="!!avatarUrl(node.primary)">
+        <span class="status-dot" [ngClass]="statusClass(node.primary)"></span>
+        <img *ngIf="avatarUrl(node.primary) as src" [src]="src" alt="" class="circle-img">
+        <ng-container *ngIf="!avatarUrl(node.primary)">
+          <mat-icon class="circle-icon">person</mat-icon>
+        </ng-container>
+      </div>
+      <div class="meta">
+        <div class="name">{{ shortName(node.primary) }}</div>
+        <div class="role">{{ primaryRelation() }}</div>
+        <div class="year">{{ birthYear(node.primary) }}</div>
+      </div>
+    </div>
+
+    <!-- Spouses (any number — link line + circle per spouse). -->
+    <ng-container *ngFor="let group of node.spouses; let i = index">
+      <span class="link" aria-hidden="true"></span>
+
+      <div class="member"
+           [class.male]="group.spouse.gender === Gender.MALE"
+           [class.female]="group.spouse.gender === Gender.FEMALE">
+        <div class="circle" [class.has-image]="!!avatarUrl(group.spouse)">
+          <span class="status-dot" [ngClass]="statusClass(group.spouse)"></span>
+          <img *ngIf="avatarUrl(group.spouse) as src" [src]="src" alt="" class="circle-img">
+          <ng-container *ngIf="!avatarUrl(group.spouse)">
+            <mat-icon class="circle-icon">person</mat-icon>
+          </ng-container>
+        </div>
+        <div class="meta">
+          <div class="name">{{ shortName(group.spouse) }}</div>
+          <div class="role">{{ spouseLabel(i) }}</div>
+          <div class="year">{{ birthYear(group.spouse) }}</div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Diamond connector — always sits at the bottom of every hub. -->
+    <div class="diamond" aria-hidden="true"></div>
+  </div>
+
+  <!-- ─── Children area: trunk + per-block children, only when descendants exist. ─── -->
+  <div class="children-area" *ngIf="hasAnyChildren()">
+    <div class="trunk" aria-hidden="true"></div>
+
+    <div class="blocks">
+      <!-- Common children (parent unknown / outside the family). -->
+      <div class="block" *ngIf="node.commonChildren.length > 0">
+        <span class="block-label common-label">{{ commonChildrenLabel() }}</span>
+        <div class="block-row">
+          <div class="sibling-bar" *ngIf="node.commonChildren.length > 1" aria-hidden="true"></div>
+          <div class="child" *ngFor="let c of node.commonChildren">
+            <div class="child-drop" aria-hidden="true"></div>
+            <app-tree-node [node]="c" [familyName]="familyName"></app-tree-node>
+          </div>
+        </div>
+      </div>
+
+      <!-- Per-spouse children (e.g. wife 1's kids, wife 2's kids — separate blocks). -->
+      <div class="block" *ngFor="let group of visibleSpouseGroups()">
+        <span class="block-label spouse-label">{{ spouseGroupLabel(group) }}</span>
+        <div class="block-row">
+          <div class="sibling-bar" *ngIf="group.children.length > 1" aria-hidden="true"></div>
+          <div class="child" *ngFor="let c of group.children">
+            <div class="child-drop" aria-hidden="true"></div>
+            <app-tree-node [node]="c" [familyName]="familyName"></app-tree-node>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<h2 mat-dialog-title>
+  {{ mode === 'create' ? 'Create member' : 'Edit member' }}
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="member-form">
+  <mat-dialog-content>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>First name</mat-label>
+        <input matInput formControlName="firstName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last name</mat-label>
+        <input matInput formControlName="lastName">
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Birth day</mat-label>
+        <input matInput [matDatepicker]="birthPicker" formControlName="birthDay" required>
+        <mat-datepicker-toggle matIconSuffix [for]="birthPicker"></mat-datepicker-toggle>
+        <mat-datepicker #birthPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Death day (optional)</mat-label>
+        <input matInput [matDatepicker]="deathPicker" formControlName="deathDay">
+        <mat-datepicker-toggle matIconSuffix [for]="deathPicker"></mat-datepicker-toggle>
+        <mat-datepicker #deathPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender" required>
+          <mat-option *ngFor="let g of genderOptions" [value]="g.value">{{ g.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Family</mat-label>
+        <mat-select formControlName="familyId" required>
+          <mat-option *ngFor="let f of families()" [value]="f.id">{{ f.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Father</mat-label>
+        <mat-select formControlName="fatherId">
+          <mat-option [value]="null">— None —</mat-option>
+          <ng-container *ngFor="let m of relatives()">
+            <mat-option *ngIf="excludeSelf(m) && m.gender === 0" [value]="m.id">
+              {{ m.firstName }} {{ m.lastName }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mother</mat-label>
+        <mat-select formControlName="motherId">
+          <mat-option [value]="null">— None —</mat-option>
+          <ng-container *ngFor="let m of relatives()">
+            <mat-option *ngIf="excludeSelf(m) && m.gender === 1" [value]="m.id">
+              {{ m.firstName }} {{ m.lastName }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Spouse</mat-label>
+      <mat-select formControlName="spouseId">
+        <mat-option [value]="null">— None —</mat-option>
+        <ng-container *ngFor="let m of relatives()">
+          <mat-option *ngIf="excludeSelf(m)" [value]="m.id">
+            {{ m.firstName }} {{ m.lastName }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="2"></textarea>
+    </mat-form-field>
+
+    <div class="file-row">
+      <button mat-stroked-button type="button" (click)="fileInput.click()">
+        <mat-icon>image</mat-icon>
+        {{ selectedFile() ? 'Change image' : 'Upload image' }}
+      </button>
+      <span class="file-name" *ngIf="selectedFile() as file">{{ file.name }}</span>
+      <input #fileInput type="file" hidden accept="image/*" (change)="onFileSelected($event)">
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()" [disabled]="submitting()">Cancel</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || submitting()">
+      <mat-spinner *ngIf="submitting()" diameter="18"></mat-spinner>
+      <span *ngIf="!submitting()">{{ mode === 'create' ? 'Create' : 'Save' }}</span>
+    </button>
+  </mat-dialog-actions>
+</form>

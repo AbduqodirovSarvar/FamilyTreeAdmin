@@ -1,0 +1,17 @@
+<div class="settings-section">
+  <h2 class="section-title">{{ 'appearance.title' | translate }}</h2>
+  <p class="section-subtitle">{{ 'appearance.subtitle' | translate }}</p>
+
+  <div class="setting-group">
+    <h3 class="group-title">{{ 'appearance.theme' | translate }}</h3>
+    <p class="group-description">
+      {{ 'appearance.currentMode' | translate }}: <strong>{{ resolvedLabelKey(theme.resolvedMode()) | translate }}</strong>
+    </p>
+    <mat-button-toggle-group [value]="theme.mode()" (change)="setMode($event.value)">
+      <mat-button-toggle *ngFor="let m of modes" [value]="m.value">
+        <mat-icon>{{ m.icon }}</mat-icon>
+        <span>{{ m.labelKey | translate }}</span>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>

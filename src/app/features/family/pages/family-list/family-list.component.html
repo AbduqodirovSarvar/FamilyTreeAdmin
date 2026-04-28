@@ -1,0 +1,86 @@
+<h1 class="page-title">{{ 'family.title' | translate }}</h1>
+<p class="page-subtitle">{{ 'family.subtitle' | translate }}</p>
+
+<div class="data-card">
+  <div class="data-card-header">
+    <div class="header-left">
+      <h2 class="card-title">{{ 'family.listTitle' | translate }}</h2>
+      <mat-form-field appearance="outline" class="search-field">
+        <input matInput
+               [value]="searchText()"
+               (input)="onSearchChange($any($event.target).value)"
+               [placeholder]="'common.search' | translate">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <button class="btn-primary" (click)="openCreate()">
+      <mat-icon>add</mat-icon>
+      {{ 'family.new' | translate }}
+    </button>
+  </div>
+
+  <mat-progress-bar *ngIf="loading()" mode="indeterminate"></mat-progress-bar>
+
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="families()" class="data-table">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>{{ 'family.colName' | translate }}</th>
+        <td mat-cell *matCellDef="let row" class="name-cell">
+          <span class="row-avatar">
+            <img *ngIf="avatarUrl(row); else groupIcon" [src]="avatarUrl(row)" alt="" class="row-avatar-img">
+            <ng-template #groupIcon><mat-icon class="row-avatar-icon">groups</mat-icon></ng-template>
+          </span>
+          <span class="row-name">{{ row.name }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="familyName">
+        <th mat-header-cell *matHeaderCellDef>{{ 'family.colFamilyName' | translate }}</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="handle">@{{ row.familyName }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>{{ 'family.colDescription' | translate }}</th>
+        <td mat-cell *matCellDef="let row" class="description-cell">
+          {{ row.description || '—' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>{{ 'family.colCreatedAt' | translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.createdAt | date:'shortDate' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ 'common.actions' | translate }}</th>
+        <td mat-cell *matCellDef="let row" class="actions-cell">
+          <button class="icon-btn" (click)="openEdit(row)" [matTooltip]="'common.edit' | translate">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="icon-btn" (click)="confirmDelete(row)" [matTooltip]="'common.delete' | translate">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row no-data" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+          <span *ngIf="!loading()">{{ 'family.notFound' | translate }}</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <mat-paginator
+    [length]="totalCount()"
+    [pageSize]="pageSize()"
+    [pageIndex]="pageIndex()"
+    [pageSizeOptions]="[5, 10, 25, 50]"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>
