@@ -51,6 +51,76 @@ export const uz = {
     loginRequired: 'Login majburiy',
     passwordRequired: 'Parol majburiy'
   },
+  authShell: {
+    taglineDefault: 'Oilangiz tarixini bir joyda saqlang',
+    captionDefault: "Shajara System — zamonaviy va ishonchli oilaviy daraxt boshqaruvi.",
+    feature1: "A'zolar va avlodlarni qulay boshqarish",
+    feature2: "Ko'p tilli interfeys va mavzular",
+    feature3: 'Maxfiy va xavfsiz saqlash',
+    signIn: {
+      tagline: 'Xush kelibsiz! Hisobingizga kiring.',
+      caption: 'Kirib oilangiz daraxtini boshqarishda davom eting.'
+    },
+    signUp: {
+      tagline: "Yangi hisob yarating va boshlang.",
+      caption: "Bir necha qadamda ro'yxatdan o'ting va shajarani qurishni boshlang."
+    },
+    forgot: {
+      tagline: 'Parolni tiklash oson.',
+      caption: 'Email manzilingizni kiriting — sizga tasdiqlash kodi yuboramiz.'
+    },
+    reset: {
+      tagline: 'Yangi parol o\'rnating.',
+      caption: 'Email orqali olingan kodni kiriting va yangi parol tanlang.'
+    }
+  },
+  signUp: {
+    title: "Ro'yxatdan o'tish",
+    subtitle: "Bir necha qadamda hisob yarating.",
+    firstName: 'Ism',
+    lastName: 'Familiya',
+    userName: 'Foydalanuvchi nomi',
+    email: 'Email',
+    phone: 'Telefon',
+    password: 'Parol',
+    confirmPassword: 'Parolni tasdiqlang',
+    submit: "Ro'yxatdan o'tish",
+    haveAccount: 'Hisobingiz bormi?',
+    firstNameRequired: 'Ism majburiy',
+    lastNameRequired: 'Familiya majburiy',
+    emailRequired: 'Email majburiy',
+    emailInvalid: "Email formati noto'g'ri",
+    phoneInvalid: "Telefon formati noto'g'ri",
+    passwordRequired: 'Parol majburiy',
+    passwordTooShort: 'Kamida 6 ta belgi',
+    confirmPasswordRequired: 'Parolni tasdiqlang'
+  },
+  forgotPassword: {
+    title: 'Parolni unutdingizmi?',
+    subtitle: 'Email manzilingizni kiriting — sizga tiklash kodi keladi.',
+    calloutTitle: 'Spam papkasini ham tekshiring.',
+    calloutBody: 'Xat 1-2 daqiqada keladi. Agar yetib bormagan bo\'lsa, qayta yuborish mumkin.',
+    email: 'Email manzil',
+    emailRequired: 'Email majburiy',
+    emailInvalid: "Email formati noto'g'ri",
+    submit: 'Kod yuborish',
+    back: 'Orqaga',
+    rememberPassword: 'Parolni esladingizmi?'
+  },
+  resetPassword: {
+    title: 'Parolni tiklash',
+    subtitle: 'Emailga kelgan kodni kiriting va yangi parol tanlang.',
+    code: 'Tasdiqlash kodi',
+    codeRequired: 'Kod majburiy',
+    codeInvalid: "Kod noto'g'ri",
+    newPassword: 'Yangi parol',
+    confirmPassword: 'Parolni tasdiqlang',
+    passwordRequired: 'Parol majburiy',
+    passwordTooShort: 'Kamida 6 ta belgi',
+    confirmRequired: 'Parolni tasdiqlang',
+    mismatch: 'Parollar mos kelmadi',
+    submit: 'Parolni yangilash'
+  },
   dashboard: {
     title: 'Boshqaruv paneli',
     subtitle: "Tizim umumiy ko'rinishi va tezkor amallar.",

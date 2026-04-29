@@ -43,6 +43,16 @@ export class TreeNodeComponent {
     return n.commonChildren.length > 0 || this.visibleSpouseGroups().length > 0;
   });
 
+  /**
+   * Polygamous when the primary has 2+ spouses. We render each marriage as its
+   * own hub (primary + that spouse) so the parentage of every child is read
+   * directly from which hub it hangs under, instead of a wide bar of spouses
+   * with children grouped by label only.
+   */
+  readonly isPolygamous: Signal<boolean> = computed(() =>
+    (this._node()?.spouses ?? []).length > 1
+  );
+
   shortName(m: TreeMemberModel): string {
     const parts = [m.firstName, m.lastName].filter(Boolean);
     return parts.slice(0, 2).join(' ').trim() || '—';

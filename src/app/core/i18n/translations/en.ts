@@ -51,6 +51,76 @@ export const en = {
     loginRequired: 'Login is required',
     passwordRequired: 'Password is required'
   },
+  authShell: {
+    taglineDefault: 'Keep your family history in one place.',
+    captionDefault: 'Shajara System — modern, reliable family tree management.',
+    feature1: 'Manage members and generations with ease',
+    feature2: 'Multi-language interface and themes',
+    feature3: 'Private and securely stored',
+    signIn: {
+      tagline: 'Welcome back! Sign in to your account.',
+      caption: 'Continue managing your family tree.'
+    },
+    signUp: {
+      tagline: 'Create a new account and get started.',
+      caption: 'Sign up in a few steps and start building your tree.'
+    },
+    forgot: {
+      tagline: 'Reset your password — easy.',
+      caption: "Enter your email and we'll send you a confirmation code."
+    },
+    reset: {
+      tagline: 'Set a new password.',
+      caption: 'Enter the code from your email and pick a new password.'
+    }
+  },
+  signUp: {
+    title: 'Create an account',
+    subtitle: 'Sign up in a few steps.',
+    firstName: 'First name',
+    lastName: 'Last name',
+    userName: 'Username',
+    email: 'Email',
+    phone: 'Phone',
+    password: 'Password',
+    confirmPassword: 'Confirm password',
+    submit: 'Sign up',
+    haveAccount: 'Already have an account?',
+    firstNameRequired: 'First name is required',
+    lastNameRequired: 'Last name is required',
+    emailRequired: 'Email is required',
+    emailInvalid: 'Invalid email format',
+    phoneInvalid: 'Invalid phone format',
+    passwordRequired: 'Password is required',
+    passwordTooShort: 'At least 6 characters',
+    confirmPasswordRequired: 'Please confirm your password'
+  },
+  forgotPassword: {
+    title: 'Forgot password?',
+    subtitle: "Enter your email and we'll send you a reset code.",
+    calloutTitle: 'Check your spam folder too.',
+    calloutBody: 'The email arrives within 1–2 minutes. If it does not, you can request a resend.',
+    email: 'Email address',
+    emailRequired: 'Email is required',
+    emailInvalid: 'Invalid email format',
+    submit: 'Send code',
+    back: 'Back',
+    rememberPassword: 'Remembered your password?'
+  },
+  resetPassword: {
+    title: 'Reset password',
+    subtitle: 'Enter the code from your email and pick a new password.',
+    code: 'Confirmation code',
+    codeRequired: 'Code is required',
+    codeInvalid: 'Invalid code',
+    newPassword: 'New password',
+    confirmPassword: 'Confirm password',
+    passwordRequired: 'Password is required',
+    passwordTooShort: 'At least 6 characters',
+    confirmRequired: 'Please confirm your password',
+    mismatch: "Passwords don't match",
+    submit: 'Update password'
+  },
   dashboard: {
     title: 'Admin panel',
     subtitle: 'System overview and quick actions.',

@@ -7,6 +7,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {SignInService} from './pages/sign-in/services/sign-in.service';
 import {HttpClientModule} from '@angular/common/http';
 import { SignUpComponent } from './pages/sign-up/page/sign-up.component';
@@ -18,13 +21,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ResetSignInComponent } from './pages/reset-sign-in/page/reset-sign-in.component';
 import { ResetSignInService } from './pages/reset-sign-in/services/reset-sign-in.service';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
+import { AuthShellComponent } from './components/auth-shell/auth-shell.component';
 
 @NgModule({
   declarations: [
     SignInComponent,
     SignUpComponent,
     ForgetPasswordComponent,
-    ResetSignInComponent
+    ResetSignInComponent,
+    AuthShellComponent
   ],
   imports: [
     CommonModule,
@@ -33,6 +38,9 @@ import { TranslatePipe } from '../../core/i18n/translate.pipe';
     MatInputModule,
     MatSelectModule,
     MatIcon,
+    MatButtonModule,
+    MatMenuModule,
+    MatTooltipModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

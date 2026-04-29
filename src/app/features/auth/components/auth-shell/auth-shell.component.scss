@@ -1,0 +1,267 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.auth-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   TOOLBAR (theme + language)
+   ============================================================ */
+.auth-toolbar {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 5;
+  max-width: calc(100% - 32px);
+
+  .toolbar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    flex: 0 0 auto;
+    height: 36px;
+    padding: 0 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    box-shadow: var(--shadow-sm);
+    transition: background 0.15s, border-color 0.15s;
+
+    &:hover { background: var(--surface-hover); }
+
+    .toolbar-text { padding: 0 2px; }
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+    }
+  }
+}
+
+::ng-deep .lang-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+::ng-deep .lang-short {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+::ng-deep .check-icon {
+  margin-left: auto;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--brand);
+}
+
+::ng-deep .active-lang {
+  background: var(--surface-hover) !important;
+}
+
+/* ============================================================
+   BRAND PANEL (left side, hidden on small screens)
+   ============================================================ */
+.brand-panel {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(at 20% 10%, rgba(255, 255, 255, 0.18) 0%, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(255, 255, 255, 0.10) 0%, transparent 50%),
+    linear-gradient(135deg, #1b2840 0%, #2a3a5c 50%, #3ba6ff 130%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 56px;
+}
+
+.brand-panel-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  margin-bottom: 28px;
+
+  mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+  }
+}
+
+.brand-name {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+}
+
+.brand-tagline {
+  font-size: 17px;
+  font-weight: 500;
+  margin: 0 0 12px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.brand-caption {
+  font-size: 14px;
+  margin: 0 0 36px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.55;
+}
+
+.brand-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+
+    mat-icon {
+      flex: 0 0 auto;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #7ed4ff;
+    }
+  }
+}
+
+.brand-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.brand-blob-1 {
+  width: 280px;
+  height: 280px;
+  top: -60px;
+  right: -80px;
+  background: #3ba6ff;
+}
+
+.brand-blob-2 {
+  width: 220px;
+  height: 220px;
+  bottom: -60px;
+  left: -60px;
+  background: #6c5ce7;
+}
+
+/* ============================================================
+   FORM PANEL (right side)
+   ============================================================ */
+.form-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 32px;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 960px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-panel {
+    padding: 40px 24px;
+    min-height: 220px;
+  }
+
+  .brand-features { display: none; }
+
+  .brand-name { font-size: 24px; }
+  .brand-tagline { font-size: 15px; }
+  .brand-caption { display: none; }
+
+  .form-panel { padding: 32px 16px; }
+  .form-card {
+    padding: 32px 24px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .brand-panel {
+    padding: 32px 20px;
+    min-height: 180px;
+  }
+  .brand-mark {
+    margin-bottom: 16px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    mat-icon { font-size: 24px; width: 24px; height: 24px; }
+  }
+  .brand-name { font-size: 20px; }
+  .brand-tagline { font-size: 14px; margin-bottom: 0; }
+}

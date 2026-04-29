@@ -1,43 +1,51 @@
-<div class="signin-page">
-  <div class="signin-card">
-    <div class="brand">
-      <span class="brand-text">Shajara System</span>
+<app-auth-shell
+  icon="login"
+  taglineKey="authShell.signIn.tagline"
+  captionKey="authShell.signIn.caption">
+
+  <header class="auth-form-header">
+    <h2 class="auth-form-title">{{ 'auth.signInTitle' | translate }}</h2>
+    <p class="auth-form-subtitle">{{ 'auth.signInSubtitle' | translate }}</p>
+  </header>
+
+  <form class="auth-form" [formGroup]="formGroup" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'auth.login' | translate }}</mat-label>
+      <mat-icon matPrefix>person_outline</mat-icon>
+      <input matInput
+             [placeholder]="'auth.loginPlaceholder' | translate"
+             formControlName="login">
+      <mat-error>{{ 'auth.loginRequired' | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'auth.password' | translate }}</mat-label>
+      <mat-icon matPrefix>lock_outline</mat-icon>
+      <input matInput
+             [type]="hidePassword ? 'password' : 'text'"
+             [placeholder]="'auth.password' | translate"
+             formControlName="password">
+      <button matSuffix mat-icon-button type="button"
+              (click)="toggleHidePassword()"
+              [attr.aria-label]="'auth.password' | translate">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error>{{ 'auth.passwordRequired' | translate }}</mat-error>
+    </mat-form-field>
+
+    <div class="auth-form-row">
+      <a class="auth-link" [routerLink]="['/auth/forget-password']">
+        {{ 'auth.forgotPassword' | translate }}
+      </a>
     </div>
 
-    <h2 class="title">{{ 'auth.signInTitle' | translate }}</h2>
-    <p class="subtitle">{{ 'auth.signInSubtitle' | translate }}</p>
-
-    <form class="form" [formGroup]="formGroup">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ 'auth.login' | translate }}</mat-label>
-        <input matInput
-               [placeholder]="'auth.loginPlaceholder' | translate"
-               formControlName="login">
-        <mat-error>{{ 'auth.loginRequired' | translate }}</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>{{ 'auth.password' | translate }}</mat-label>
-        <input matInput type="password"
-               [placeholder]="'auth.password' | translate"
-               formControlName="password">
-        <mat-error>{{ 'auth.passwordRequired' | translate }}</mat-error>
-      </mat-form-field>
-    </form>
-
-    <button class="btn-primary"
-            (click)="submit()"
-            [disabled]="formGroup.invalid">
+    <button class="auth-primary-btn" type="submit" [disabled]="formGroup.invalid">
       {{ 'auth.signIn' | translate }}
     </button>
+  </form>
 
-    <div class="forgot">
-      <a [routerLink]="['/auth/forget-password']">{{ 'auth.forgotPassword' | translate }}</a>
-    </div>
-
-    <div class="register">
-      {{ 'auth.noAccount' | translate }}
-      <a [routerLink]="['/auth/sign-up']">{{ 'auth.signUp' | translate }}</a>
-    </div>
-  </div>
-</div>
+  <p class="auth-footer">
+    {{ 'auth.noAccount' | translate }}
+    <a class="auth-link" [routerLink]="['/auth/sign-up']">{{ 'auth.signUp' | translate }}</a>
+  </p>
+</app-auth-shell>

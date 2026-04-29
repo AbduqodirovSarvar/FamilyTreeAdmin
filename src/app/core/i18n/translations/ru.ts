@@ -51,6 +51,76 @@ export const ru = {
     loginRequired: 'Логин обязателен',
     passwordRequired: 'Пароль обязателен'
   },
+  authShell: {
+    taglineDefault: 'История вашей семьи — в одном месте.',
+    captionDefault: 'Shajara System — современное и надёжное управление семейным древом.',
+    feature1: 'Удобное управление членами и поколениями',
+    feature2: 'Многоязычный интерфейс и темы',
+    feature3: 'Конфиденциальное и безопасное хранение',
+    signIn: {
+      tagline: 'С возвращением! Войдите в свой аккаунт.',
+      caption: 'Продолжайте управлять своим семейным древом.'
+    },
+    signUp: {
+      tagline: 'Создайте новый аккаунт и начните.',
+      caption: 'Зарегистрируйтесь за несколько шагов и начните строить древо.'
+    },
+    forgot: {
+      tagline: 'Сбросить пароль — легко.',
+      caption: 'Введите email — мы отправим код подтверждения.'
+    },
+    reset: {
+      tagline: 'Установите новый пароль.',
+      caption: 'Введите код из письма и выберите новый пароль.'
+    }
+  },
+  signUp: {
+    title: 'Создать аккаунт',
+    subtitle: 'Регистрация за несколько шагов.',
+    firstName: 'Имя',
+    lastName: 'Фамилия',
+    userName: 'Имя пользователя',
+    email: 'Email',
+    phone: 'Телефон',
+    password: 'Пароль',
+    confirmPassword: 'Подтверждение пароля',
+    submit: 'Зарегистрироваться',
+    haveAccount: 'Уже есть аккаунт?',
+    firstNameRequired: 'Имя обязательно',
+    lastNameRequired: 'Фамилия обязательна',
+    emailRequired: 'Email обязателен',
+    emailInvalid: 'Неверный формат email',
+    phoneInvalid: 'Неверный формат телефона',
+    passwordRequired: 'Пароль обязателен',
+    passwordTooShort: 'Минимум 6 символов',
+    confirmPasswordRequired: 'Подтвердите пароль'
+  },
+  forgotPassword: {
+    title: 'Забыли пароль?',
+    subtitle: 'Введите email — мы отправим код для сброса пароля.',
+    calloutTitle: 'Проверьте также папку «Спам».',
+    calloutBody: 'Письмо приходит в течение 1–2 минут. Если не пришло — можно отправить повторно.',
+    email: 'Email',
+    emailRequired: 'Email обязателен',
+    emailInvalid: 'Неверный формат email',
+    submit: 'Отправить код',
+    back: 'Назад',
+    rememberPassword: 'Вспомнили пароль?'
+  },
+  resetPassword: {
+    title: 'Сброс пароля',
+    subtitle: 'Введите код из письма и выберите новый пароль.',
+    code: 'Код подтверждения',
+    codeRequired: 'Код обязателен',
+    codeInvalid: 'Неверный код',
+    newPassword: 'Новый пароль',
+    confirmPassword: 'Подтверждение пароля',
+    passwordRequired: 'Пароль обязателен',
+    passwordTooShort: 'Минимум 6 символов',
+    confirmRequired: 'Подтвердите пароль',
+    mismatch: 'Пароли не совпадают',
+    submit: 'Обновить пароль'
+  },
   dashboard: {
     title: 'Панель управления',
     subtitle: 'Общий обзор системы и быстрые действия.',

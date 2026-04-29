@@ -8,6 +8,53 @@ $line-width: 2px;
   align-items: center;
 }
 
+/* ─── Polygamy: row of independent marriage hubs ───
+   Each marriage owns its own hub-circle and its own children block,
+   so it's visually unambiguous which children belong to which wife.
+   The shared primary at the top is connected by faint trunks. */
+.poly-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 56px;
+  position: relative;
+  padding-top: 28px;
+}
+
+.poly-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 80px;
+  right: 80px;
+  height: $line-width;
+  background: var(--tree-line);
+  opacity: 0.45;
+}
+
+.poly-marriage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.poly-marriage::before {
+  content: '';
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  width: $line-width;
+  height: 28px;
+  background: var(--tree-line);
+  opacity: 0.55;
+  transform: translateX(-1px);
+}
+
+.common-area {
+  margin-top: 32px;
+}
+
 /* ─── Family hub ─── */
 .hub {
   position: relative;

@@ -1,0 +1,58 @@
+<div class="auth-shell">
+  <div class="auth-toolbar">
+    <button class="toolbar-btn"
+            type="button"
+            [matMenuTriggerFor]="langMenu"
+            [matTooltip]="'topbar.language' | translate"
+            aria-label="Language">
+      <span class="toolbar-text">{{ currentLangShort() }}</span>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #langMenu="matMenu">
+      <button mat-menu-item *ngFor="let l of i18n.availableLangs"
+              type="button"
+              (click)="setLang(l.value)"
+              [class.active-lang]="i18n.lang() === l.value">
+        <span class="lang-row">
+          <span class="lang-short">{{ l.short }}</span>
+          <span>{{ l.label }}</span>
+          <mat-icon *ngIf="i18n.lang() === l.value" class="check-icon">check</mat-icon>
+        </span>
+      </button>
+    </mat-menu>
+
+    <button class="toolbar-btn"
+            type="button"
+            (click)="toggleTheme()"
+            [matTooltip]="(theme.resolvedMode() === 'dark' ? 'topbar.lightMode' : 'topbar.darkMode') | translate"
+            aria-label="Toggle theme">
+      <mat-icon *ngIf="theme.resolvedMode() === 'dark'">light_mode</mat-icon>
+      <mat-icon *ngIf="theme.resolvedMode() !== 'dark'">dark_mode</mat-icon>
+    </button>
+  </div>
+
+  <aside class="brand-panel">
+    <div class="brand-panel-inner">
+      <div class="brand-mark">
+        <mat-icon>{{ icon }}</mat-icon>
+      </div>
+      <h1 class="brand-name">Shajara System</h1>
+      <p class="brand-tagline">{{ taglineKey | translate }}</p>
+      <p class="brand-caption">{{ captionKey | translate }}</p>
+
+      <ul class="brand-features">
+        <li><mat-icon>check_circle</mat-icon><span>{{ 'authShell.feature1' | translate }}</span></li>
+        <li><mat-icon>check_circle</mat-icon><span>{{ 'authShell.feature2' | translate }}</span></li>
+        <li><mat-icon>check_circle</mat-icon><span>{{ 'authShell.feature3' | translate }}</span></li>
+      </ul>
+    </div>
+    <div class="brand-blob brand-blob-1"></div>
+    <div class="brand-blob brand-blob-2"></div>
+  </aside>
+
+  <main class="form-panel">
+    <div class="form-card">
+      <ng-content></ng-content>
+    </div>
+  </main>
+</div>

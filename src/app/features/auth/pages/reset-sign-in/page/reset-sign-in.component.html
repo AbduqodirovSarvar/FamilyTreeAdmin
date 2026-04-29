@@ -1,0 +1,78 @@
+<app-auth-shell
+  icon="key"
+  taglineKey="authShell.reset.tagline"
+  captionKey="authShell.reset.caption">
+
+  <header class="auth-form-header">
+    <h2 class="auth-form-title">{{ 'resetPassword.title' | translate }}</h2>
+    <p class="auth-form-subtitle">{{ 'resetPassword.subtitle' | translate }}</p>
+  </header>
+
+  <form class="auth-form" [formGroup]="formGroup" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'resetPassword.code' | translate }}</mat-label>
+      <mat-icon matPrefix>pin</mat-icon>
+      <input matInput formControlName="code" placeholder="••••••" autocomplete="one-time-code">
+      <mat-error *ngIf="formGroup.get('code')?.hasError('required')">
+        {{ 'resetPassword.codeRequired' | translate }}
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('code')?.hasError('minlength')">
+        {{ 'resetPassword.codeInvalid' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'resetPassword.newPassword' | translate }}</mat-label>
+      <mat-icon matPrefix>lock_outline</mat-icon>
+      <input matInput
+             [type]="hidePassword ? 'password' : 'text'"
+             formControlName="password"
+             autocomplete="new-password">
+      <button matSuffix mat-icon-button type="button"
+              (click)="hidePassword = !hidePassword"
+              [attr.aria-label]="'resetPassword.newPassword' | translate">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+        {{ 'resetPassword.passwordRequired' | translate }}
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('password')?.hasError('minlength')">
+        {{ 'resetPassword.passwordTooShort' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'resetPassword.confirmPassword' | translate }}</mat-label>
+      <mat-icon matPrefix>lock</mat-icon>
+      <input matInput
+             [type]="hideConfirm ? 'password' : 'text'"
+             formControlName="confirmPassword"
+             autocomplete="new-password">
+      <button matSuffix mat-icon-button type="button"
+              (click)="hideConfirm = !hideConfirm"
+              [attr.aria-label]="'resetPassword.confirmPassword' | translate">
+        <mat-icon>{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="formGroup.get('confirmPassword')?.hasError('required')">
+        {{ 'resetPassword.confirmRequired' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <p class="form-error" *ngIf="formGroup.errors?.['mismatch'] && formGroup.get('confirmPassword')?.touched">
+      {{ 'resetPassword.mismatch' | translate }}
+    </p>
+
+    <div class="auth-actions">
+      <button class="auth-secondary-btn" type="button" routerLink="/auth/sign-in">
+        <mat-icon>arrow_back</mat-icon>
+        <span>{{ 'forgotPassword.back' | translate }}</span>
+      </button>
+      <button class="auth-primary-btn" type="submit" [disabled]="formGroup.invalid || loading">
+        <span *ngIf="!loading">{{ 'resetPassword.submit' | translate }}</span>
+        <span *ngIf="loading" class="auth-spinner-inline">
+          <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+        </span>
+      </button>
+    </div>
+  </form>
+</app-auth-shell>

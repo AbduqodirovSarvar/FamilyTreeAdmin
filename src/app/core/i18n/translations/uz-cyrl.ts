@@ -51,6 +51,76 @@ export const uzCyrl = {
     loginRequired: 'Логин мажбурий',
     passwordRequired: 'Парол мажбурий'
   },
+  authShell: {
+    taglineDefault: 'Оилангиз тарихини бир жойда сақланг',
+    captionDefault: 'Shajara System — замонавий ва ишончли оилавий дарахт бошқаруви.',
+    feature1: 'Аъзолар ва авлодларни қулай бошқариш',
+    feature2: 'Кўп тилли интерфейс ва мавзулар',
+    feature3: 'Махфий ва хавфсиз сақлаш',
+    signIn: {
+      tagline: 'Хуш келибсиз! Ҳисобингизга киринг.',
+      caption: 'Кириб оилангиз дарахтини бошқаришда давом этинг.'
+    },
+    signUp: {
+      tagline: 'Янги ҳисоб яратинг ва бошланг.',
+      caption: 'Бир неча қадамда рўйхатдан ўтинг ва шажарани қуришни бошланг.'
+    },
+    forgot: {
+      tagline: 'Паролни тиклаш осон.',
+      caption: 'Email манзилингизни киритинг — сизга тасдиқлаш коди юборамиз.'
+    },
+    reset: {
+      tagline: 'Янги парол ўрнатинг.',
+      caption: 'Email орқали олинган кодни киритинг ва янги парол танланг.'
+    }
+  },
+  signUp: {
+    title: 'Рўйхатдан ўтиш',
+    subtitle: 'Бир неча қадамда ҳисоб яратинг.',
+    firstName: 'Исм',
+    lastName: 'Фамилия',
+    userName: 'Фойдаланувчи номи',
+    email: 'Email',
+    phone: 'Телефон',
+    password: 'Парол',
+    confirmPassword: 'Паролни тасдиқланг',
+    submit: 'Рўйхатдан ўтиш',
+    haveAccount: 'Ҳисобингиз борми?',
+    firstNameRequired: 'Исм мажбурий',
+    lastNameRequired: 'Фамилия мажбурий',
+    emailRequired: 'Email мажбурий',
+    emailInvalid: 'Email формати нотўғри',
+    phoneInvalid: 'Телефон формати нотўғри',
+    passwordRequired: 'Парол мажбурий',
+    passwordTooShort: 'Камида 6 та белги',
+    confirmPasswordRequired: 'Паролни тасдиқланг'
+  },
+  forgotPassword: {
+    title: 'Паролни унутдингизми?',
+    subtitle: 'Email манзилингизни киритинг — сизга тиклаш коди келади.',
+    calloutTitle: 'Спам папкасини ҳам текширинг.',
+    calloutBody: 'Хат 1–2 дақиқада келади. Агар етиб бормаган бўлса, қайта юбориш мумкин.',
+    email: 'Email манзил',
+    emailRequired: 'Email мажбурий',
+    emailInvalid: 'Email формати нотўғри',
+    submit: 'Код юбориш',
+    back: 'Орқага',
+    rememberPassword: 'Паролни эсладингизми?'
+  },
+  resetPassword: {
+    title: 'Паролни тиклаш',
+    subtitle: 'Емаилга келган кодни киритинг ва янги парол танланг.',
+    code: 'Тасдиқлаш коди',
+    codeRequired: 'Код мажбурий',
+    codeInvalid: 'Код нотўғри',
+    newPassword: 'Янги парол',
+    confirmPassword: 'Паролни тасдиқланг',
+    passwordRequired: 'Парол мажбурий',
+    passwordTooShort: 'Камида 6 та белги',
+    confirmRequired: 'Паролни тасдиқланг',
+    mismatch: 'Пароллар мос келмади',
+    submit: 'Паролни янгилаш'
+  },
   dashboard: {
     title: 'Бошқарув панели',
     subtitle: 'Тизим умумий кўриниши ва тезкор амаллар.',

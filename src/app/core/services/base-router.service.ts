@@ -26,9 +26,12 @@ export class BaseRouterService {
   }
 
   /**
-   * Navigate to sign in page
+   * Navigate to sign in page.
+   * Idempotent: skips if the user is already on an auth route — prevents the
+   * UI from "bouncing" when several 401s land in rapid succession.
    */
   navigateToSignInPage(): void {
+    if (this.router.url.startsWith('/auth')) return;
     this.navigateTo('/auth/sign-in');
   }
 

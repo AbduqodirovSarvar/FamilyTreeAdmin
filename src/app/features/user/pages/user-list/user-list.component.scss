@@ -66,13 +66,17 @@
   border-bottom: 1px solid var(--border);
   padding-top: 14px;
   padding-bottom: 14px;
+  vertical-align: middle;
+}
+
+.cell-flex {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .name-cell {
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .row-avatar {
@@ -117,10 +121,8 @@
   border-radius: 999px;
 }
 
-.actions-cell {
-  display: flex;
+.actions-cell .cell-flex {
   gap: 4px;
-  align-items: center;
 }
 
 .icon-btn {

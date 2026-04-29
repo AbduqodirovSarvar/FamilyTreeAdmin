@@ -16,7 +16,6 @@ import {BaseRouterService} from '../../../../../core/services/base-router.servic
 export class SignInComponent {
 
   /**
-   *
    * @param signInService
    * @param routerService
    */
@@ -27,9 +26,15 @@ export class SignInComponent {
    * Sign in form
    */
   formGroup: FormGroup = new FormGroup({
-    login: new FormControl("admin", Validators.required),
-    password: new FormControl("Admin123!", Validators.required),
+    login: new FormControl('admin', Validators.required),
+    password: new FormControl('Admin123!', Validators.required),
   });
+
+  hidePassword: boolean = true;
+
+  toggleHidePassword(): void {
+    this.hidePassword = !this.hidePassword;
+  }
 
   /**
    * Submit

@@ -12,22 +12,11 @@ import { SignUpService } from "../services/sign-up.service";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent extends BaseFormComponent<SignUpRequestModel> {
-    
+
+    hidePassword: boolean = true;
+    hideConfirm: boolean = true;
+
     constructor(fb: FormBuilder, private signUpService: SignUpService) {
         super(fb, SignUpRequestModel, signUpService);
     }
-
-    /**
-     * onFileSelected
-     * @param event
-     */
-    onFileSelected(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        if (input.files && input.files.length > 0) {
-            const file = input.files[0];
-            this.formGroup.patchValue({ image: file });
-            this.formGroup.get('image')?.updateValueAndValidity();
-        }
-    }
-    
 }

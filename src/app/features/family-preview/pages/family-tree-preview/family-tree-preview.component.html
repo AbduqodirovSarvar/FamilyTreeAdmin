@@ -41,9 +41,21 @@
       </ng-container>
 
       <ng-template #hasMembers>
-        <div class="forest" [style.transform]="'scale(' + zoom() + ')'">
-          <div class="forest-row" *ngFor="let root of forest()">
-            <app-tree-node [node]="root" [isRoot]="true" [familyName]="tree()?.familyName"></app-tree-node>
+        <div class="forest-wrap" [style.transform]="'scale(' + zoom() + ')'">
+          <header class="forest-banner">
+            <div class="forest-banner-crest" aria-hidden="true">
+              <mat-icon>account_tree</mat-icon>
+            </div>
+            <h2 class="forest-banner-title">{{ tree()?.name || tree()?.familyName }}</h2>
+            <p class="forest-banner-sub" *ngIf="tree()?.familyName && tree()?.name && tree()?.familyName !== tree()?.name">
+              {{ tree()?.familyName }}
+            </p>
+          </header>
+
+          <div class="forest" [class.is-multi]="forest().length > 1">
+            <div class="forest-row" *ngFor="let root of forest()">
+              <app-tree-node [node]="root" [isRoot]="true" [familyName]="tree()?.familyName"></app-tree-node>
+            </div>
           </div>
         </div>
       </ng-template>

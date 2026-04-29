@@ -58,21 +58,124 @@
   min-height: 560px;
   padding: 48px 32px;
   overflow: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.forest-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  margin: 0 auto;
+  transform-origin: top center;
+  transition: transform 0.2s ease;
+}
+
+.forest-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 32px 24px;
+  text-align: center;
+  position: relative;
+}
+
+.forest-banner::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 2px;
+  height: 24px;
+  background: var(--tree-line);
+  transform: translateX(-1px);
+}
+
+.forest-banner-crest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  border: 2px solid var(--brand);
+  color: var(--brand);
+
+  mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.forest-banner-title {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.forest-banner-sub {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
 }
 
 .forest {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 64px;
-  transform-origin: top center;
-  transition: transform 0.2s ease;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 96px;
+}
+
+.forest.is-multi {
+  padding-top: 24px;
+  position: relative;
+}
+
+/* Faint horizontal connector across multi-root forests so disconnected
+   couples within the same family read as siblings of one canvas. */
+.forest.is-multi::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 80px;
+  right: 80px;
+  height: 2px;
+  background: var(--tree-line);
+  opacity: 0.4;
 }
 
 .forest-row {
   display: flex;
   justify-content: center;
-  min-width: max-content;
+  position: relative;
+}
+
+.forest.is-multi .forest-row {
+  padding-top: 32px;
+}
+
+.forest.is-multi .forest-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 32px;
+  background: var(--tree-line);
+  opacity: 0.5;
+  transform: translateX(-1px);
 }
 
 .empty-state {

@@ -1,110 +1,103 @@
-<div class="container">
-  <div class="form-container">
-    <div class="login-logo">
-      <mat-icon aria-hidden="false" aria-label="Register icon" fontIcon="person_add"></mat-icon>
+<app-auth-shell
+  icon="person_add"
+  taglineKey="authShell.signUp.tagline"
+  captionKey="authShell.signUp.caption">
+
+  <header class="auth-form-header">
+    <h2 class="auth-form-title">{{ 'signUp.title' | translate }}</h2>
+    <p class="auth-form-subtitle">{{ 'signUp.subtitle' | translate }}</p>
+  </header>
+
+  <form class="auth-form" [formGroup]="formGroup" (ngSubmit)="create()">
+    <div class="auth-form-grid-2">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'signUp.firstName' | translate }}</mat-label>
+        <mat-icon matPrefix>person_outline</mat-icon>
+        <input matInput formControlName="firstName">
+        <mat-error *ngIf="formGroup.get('firstName')?.hasError('required')">
+          {{ 'signUp.firstNameRequired' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'signUp.lastName' | translate }}</mat-label>
+        <mat-icon matPrefix>badge</mat-icon>
+        <input matInput formControlName="lastName">
+        <mat-error *ngIf="formGroup.get('lastName')?.hasError('required')">
+          {{ 'signUp.lastNameRequired' | translate }}
+        </mat-error>
+      </mat-form-field>
     </div>
 
-    <h3 class="login-title">Sign Up</h3>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'signUp.userName' | translate }}</mat-label>
+      <mat-icon matPrefix>alternate_email</mat-icon>
+      <input matInput formControlName="userName">
+    </mat-form-field>
 
-    <form class="login-form" [formGroup]="formGroup">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'signUp.email' | translate }}</mat-label>
+      <mat-icon matPrefix>mail_outline</mat-icon>
+      <input matInput type="email" formControlName="email" placeholder="name@example.com">
+      <mat-error *ngIf="formGroup.get('email')?.hasError('required')">
+        {{ 'signUp.emailRequired' | translate }}
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('email')?.hasError('email')">
+        {{ 'signUp.emailInvalid' | translate }}
+      </mat-error>
+    </mat-form-field>
 
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>First Name</mat-label>
-          <input matInput placeholder="Enter first name" formControlName="firstName">
-          <mat-error *ngIf="formGroup.get('firstName')?.hasError('required')">
-            First Name is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'signUp.phone' | translate }}</mat-label>
+      <mat-icon matPrefix>call</mat-icon>
+      <input matInput formControlName="phone" placeholder="+998901234567">
+      <mat-error *ngIf="formGroup.get('phone')?.hasError('pattern')">
+        {{ 'signUp.phoneInvalid' | translate }}
+      </mat-error>
+    </mat-form-field>
 
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>Last Name</mat-label>
-          <input matInput placeholder="Enter last name" formControlName="lastName">
-          <mat-error *ngIf="formGroup.get('lastName')?.hasError('required')">
-            Last Name is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'signUp.password' | translate }}</mat-label>
+      <mat-icon matPrefix>lock_outline</mat-icon>
+      <input matInput
+             [type]="hidePassword ? 'password' : 'text'"
+             formControlName="password">
+      <button matSuffix mat-icon-button type="button"
+              (click)="hidePassword = !hidePassword"
+              [attr.aria-label]="'signUp.password' | translate">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+        {{ 'signUp.passwordRequired' | translate }}
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('password')?.hasError('minlength')">
+        {{ 'signUp.passwordTooShort' | translate }}
+      </mat-error>
+    </mat-form-field>
 
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>Username</mat-label>
-          <input matInput placeholder="Enter username" formControlName="userName">
-        </mat-form-field>
-      </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'signUp.confirmPassword' | translate }}</mat-label>
+      <mat-icon matPrefix>lock</mat-icon>
+      <input matInput
+             [type]="hideConfirm ? 'password' : 'text'"
+             formControlName="confirmPassword">
+      <button matSuffix mat-icon-button type="button"
+              (click)="hideConfirm = !hideConfirm"
+              [attr.aria-label]="'signUp.confirmPassword' | translate">
+        <mat-icon>{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="formGroup.get('confirmPassword')?.hasError('required')">
+        {{ 'signUp.confirmPasswordRequired' | translate }}
+      </mat-error>
+    </mat-form-field>
 
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>Phone</mat-label>
-          <input matInput placeholder="+998901234567" formControlName="phone">
-          <mat-error *ngIf="formGroup.get('phone')?.hasError('pattern')">
-            Invalid phone number format
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>Email</mat-label>
-          <input matInput placeholder="youremail@gmail.com" formControlName="email">
-          <mat-error *ngIf="formGroup.get('email')?.hasError('required')">
-            Email is <strong>required</strong>
-          </mat-error>
-          <mat-error *ngIf="formGroup.get('email')?.hasError('email')">
-            Please enter a valid email
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" placeholder="Enter password" formControlName="password">
-          <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
-            Password is <strong>required</strong>
-          </mat-error>
-          <mat-error *ngIf="formGroup.get('password')?.hasError('minlength')">
-            Password must be at least 6 characters long
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>Confirm Password</mat-label>
-          <input matInput type="password" placeholder="Confirm your password" formControlName="confirmPassword">
-          <mat-error *ngIf="formGroup.get('confirmPassword')?.hasError('required')">
-            Confirm Password is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>Family ID</mat-label>
-          <input matInput placeholder="Optional" formControlName="familyId">
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field class="login-form-field">
-          <mat-label>Role ID</mat-label>
-          <input matInput placeholder="Optional" formControlName="roleId">
-        </mat-form-field>
-      </div>
-
-      <div>
-        <label for="fileInput" class="file-label">Profile Image</label>
-        <input id="fileInput" type="file" (change)="onFileSelected($event)" aria-label="Profile Image" title="Profile Image" />
-      </div>
-
-    </form>
-    <button class="login-button"
-            (click)="create()"
-            [disabled]="formGroup.invalid">
-      Sign Up
+    <button class="auth-primary-btn" type="submit" [disabled]="formGroup.invalid">
+      {{ 'signUp.submit' | translate }}
     </button>
-  </div>
-</div>
+  </form>
+
+  <p class="auth-footer">
+    {{ 'signUp.haveAccount' | translate }}
+    <a class="auth-link" [routerLink]="['/auth/sign-in']">{{ 'auth.signIn' | translate }}</a>
+  </p>
+</app-auth-shell>
