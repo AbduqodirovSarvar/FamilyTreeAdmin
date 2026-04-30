@@ -56,7 +56,12 @@
       </mat-form-field>
     </div>
 
-    <button class="btn-primary" (click)="openCreate()">
+    <button class="btn-primary"
+            (click)="openCreate()"
+            [disabled]="!canCreate() || !hasAnyOwnedFamily()"
+            [matTooltip]="(!canCreate()
+                ? 'common.noPermission'
+                : (!hasAnyOwnedFamily() ? 'member.needOwnFamily' : '')) | translate">
       <mat-icon>add</mat-icon>
       {{ 'member.new' | translate }}
     </button>
@@ -102,10 +107,20 @@
         <th mat-header-cell *matHeaderCellDef>{{ 'common.actions' | translate }}</th>
         <td mat-cell *matCellDef="let row" class="actions-cell">
           <div class="cell-flex">
-            <button class="icon-btn" (click)="openEdit(row)" [matTooltip]="'common.edit' | translate">
+            <button class="icon-btn"
+                    (click)="openEdit(row)"
+                    [disabled]="!canEdit(row)"
+                    [matTooltip]="(canUpdate()
+                        ? (canEdit(row) ? 'common.edit' : 'member.notOwnerEdit')
+                        : 'common.noPermission') | translate">
               <mat-icon>edit</mat-icon>
             </button>
-            <button class="icon-btn" (click)="confirmDelete(row)" [matTooltip]="'common.delete' | translate">
+            <button class="icon-btn"
+                    (click)="confirmDelete(row)"
+                    [disabled]="!canRemove(row)"
+                    [matTooltip]="(canDelete()
+                        ? (canRemove(row) ? 'common.delete' : 'member.notOwnerDelete')
+                        : 'common.noPermission') | translate">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

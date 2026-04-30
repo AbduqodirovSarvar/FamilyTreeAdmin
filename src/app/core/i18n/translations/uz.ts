@@ -17,7 +17,8 @@ export const uz = {
     actions: 'AMALLAR',
     refresh: 'Yangilash',
     confirm: 'Tasdiqlash',
-    saveChanges: "O'zgarishlarni saqlash"
+    saveChanges: "O'zgarishlarni saqlash",
+    noPermission: "Bu amal uchun sizda huquq yo'q"
   },
   nav: {
     dashboard: 'Bosh sahifa',
@@ -25,6 +26,7 @@ export const uz = {
     members: "Oila a'zolari",
     preview: "Daraxt ko'rinishi",
     users: 'Foydalanuvchilar',
+    roles: 'Rollar va huquqlar',
     documents: 'Hujjatlar',
     settings: 'Sozlamalar',
     profile: 'Profil',
@@ -143,7 +145,10 @@ export const uz = {
     colName: 'NOMI',
     colFamilyName: 'FAMILIYA',
     colDescription: 'TAVSIF',
-    colCreatedAt: 'YARATILGAN'
+    colCreatedAt: 'YARATILGAN',
+    notOwnerEdit: "Faqat o'zingiz yaratgan oilani tahrirlay olasiz",
+    notOwnerDelete: "Faqat o'zingiz yaratgan oilani o'chira olasiz",
+    onlyMine: "Faqat mening oilalarim"
   },
   member: {
     title: "Oila a'zolari",
@@ -164,7 +169,10 @@ export const uz = {
     daughter: 'Qizi',
     statusActive: 'FAOL',
     statusPending: 'KUTILMOQDA',
-    statusArchived: 'ARXIV'
+    statusArchived: 'ARXIV',
+    notOwnerEdit: "Faqat o'zingiz yaratgan oilaning a'zosini tahrirlay olasiz",
+    notOwnerDelete: "Faqat o'zingiz yaratgan oilaning a'zosini o'chira olasiz",
+    needOwnFamily: "A'zo qo'shish uchun avval o'zingiz oilangizni yarating"
   },
   user: {
     title: 'Foydalanuvchilar',
@@ -236,6 +244,25 @@ export const uz = {
     light: "Yorug'",
     dark: 'Tungi',
     system: 'Tizim'
+  },
+  role: {
+    title: 'Rollar va huquqlar',
+    subtitle: 'Tizim rollarini boshqaring va har bir rolga huquqlarni biriktiring.',
+    listTitle: 'Rollar',
+    create: 'Yangi rol',
+    createTitle: 'Yangi rol',
+    editTitle: 'Rolni tahrirlash',
+    name: 'Nomi',
+    designedName: 'Texnik nom',
+    description: "Ta'rif",
+    colName: 'Nomi',
+    colDesignedName: 'Texnik nom',
+    colDescription: "Ta'rif",
+    notFound: 'Rol topilmadi',
+    permissionsTitle: "Rol huquqlari",
+    permissionsNote: "Bu rolga ega barcha foydalanuvchilarga ta'sir qiladi.",
+    permissionsLoading: "Huquqlar yuklanmoqda…",
+    permissionsAfterCreate: "Rol yaratilgandan so'ng uni qayta ochib, huquqlarni belgilashingiz mumkin."
   },
   footer: {
     admin: 'Admin'

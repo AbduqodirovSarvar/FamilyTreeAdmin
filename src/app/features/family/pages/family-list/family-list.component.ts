@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal, WritableSignal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
@@ -8,6 +8,9 @@ import { FamilyModel } from '../../models/family.model';
 import { FamilyFormComponent, FamilyFormDialogData } from '../../dialogs/family-form/family-form.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { ImageUrlService } from '../../../../core/services/image-url.service';
+import { Permission } from '../../../../core/enums/permission.enum';
+import { PermissionsService } from '../../../../core/services/permissions.service';
+import { AccountService } from '../../../settings/services/account.service';
 
 @Component({
   selector: 'app-family-list',
@@ -25,6 +28,41 @@ export class FamilyListComponent implements OnInit {
   readonly pageIndex: WritableSignal<number> = signal(0);
   readonly pageSize: WritableSignal<number> = signal(10);
   readonly searchText: WritableSignal<string> = signal('');
+
+  /**
+   * "My families" toggle — when on, the list call includes
+   * `Filters[OwnerId]=<currentUserId>`. Non-admins are already filtered to
+   * their own families server-side, so the toggle is a no-op for them; we
+   * still surface it so the UI is consistent across roles.
+   */
+  readonly onlyMine: WritableSignal<boolean> = signal(false);
+
+  /** Action-level permission gating — buttons stay visible but disabled
+   *  when the user has GET_FAMILY (otherwise the page itself is hidden). */
+  private readonly permissions = inject(PermissionsService);
+  private readonly account = inject(AccountService);
+  readonly canCreate = computed(() => this.permissions.has(Permission.CREATE_FAMILY));
+  readonly canUpdate = computed(() => this.permissions.has(Permission.UPDATE_FAMILY));
+  readonly canDelete = computed(() => this.permissions.has(Permission.DELETE_FAMILY));
+
+  /**
+   * Edit/Delete are restricted to the family's owner — same rule applies to
+   * admins per product spec. The permission check stays in front so a row
+   * shows up disabled with the "no permission" tooltip when the user lacks
+   * UPDATE/DELETE entirely; once that's satisfied, ownership decides per-row.
+   */
+  canEdit(family: FamilyModel): boolean {
+    return this.canUpdate() && this.isOwner(family);
+  }
+
+  canRemove(family: FamilyModel): boolean {
+    return this.canDelete() && this.isOwner(family);
+  }
+
+  private isOwner(family: FamilyModel): boolean {
+    const me = this.account.currentUserId();
+    return !!me && !!family.ownerId && family.ownerId === me;
+  }
 
   constructor(
     private readonly familyService: FamilyService,
@@ -46,7 +84,8 @@ export class FamilyListComponent implements OnInit {
     this.familyService.list({
       pageIndex: this.pageIndex(),
       pageSize: this.pageSize(),
-      searchText: this.searchText() || undefined
+      searchText: this.searchText() || undefined,
+      ownerId: this.onlyMine() ? (this.account.currentUserId() ?? undefined) : undefined
     })
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
@@ -64,6 +103,12 @@ export class FamilyListComponent implements OnInit {
   onPageChange(event: PageEvent): void {
     this.pageIndex.set(event.pageIndex);
     this.pageSize.set(event.pageSize);
+    this.load();
+  }
+
+  onMineToggle(checked: boolean): void {
+    this.onlyMine.set(checked);
+    this.pageIndex.set(0); // reset paging — new filter, fresh count.
     this.load();
   }
 

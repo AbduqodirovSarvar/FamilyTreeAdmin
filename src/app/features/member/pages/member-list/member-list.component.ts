@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal, WritableSignal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
@@ -11,6 +11,9 @@ import { FamilyService } from '../../../family/services/family.service';
 import { FamilyModel } from '../../../family/models/family.model';
 import { Gender } from '../../../../core/enums/gender.enum';
 import { ImageUrlService } from '../../../../core/services/image-url.service';
+import { Permission } from '../../../../core/enums/permission.enum';
+import { PermissionsService } from '../../../../core/services/permissions.service';
+import { AccountService } from '../../../settings/services/account.service';
 
 @Component({
   selector: 'app-member-list',
@@ -38,6 +41,44 @@ export class MemberListComponent implements OnInit {
   }
 
   readonly Gender = Gender;
+
+  /** Action gating — see family-list for the same pattern. */
+  private readonly permissions = inject(PermissionsService);
+  private readonly account = inject(AccountService);
+  readonly canCreate = computed(() => this.permissions.has(Permission.CREATE_MEMBER));
+  readonly canUpdate = computed(() => this.permissions.has(Permission.UPDATE_MEMBER));
+  readonly canDelete = computed(() => this.permissions.has(Permission.DELETE_MEMBER));
+
+  /**
+   * Set of family ids the current user owns. Drives the per-row gating
+   * on edit/delete and decides whether to enable the "Add member" button.
+   * Recomputes when either families list or current user changes.
+   * (Non-admins receive only their own families from the API anyway, so
+   * this set effectively == every loaded family for them; admins may see
+   * other families and need the explicit filter.)
+   */
+  readonly myFamilyIds = computed(() => {
+    const me = this.account.currentUserId();
+    if (!me) return new Set<string>();
+    return new Set(
+      this.families()
+        .filter(f => f.ownerId === me)
+        .map(f => f.id)
+    );
+  });
+
+  readonly hasAnyOwnedFamily = computed(() => this.myFamilyIds().size > 0);
+
+  /** Per-row helpers — same shape as family-list. */
+  isOwnedFamily(member: MemberModel): boolean {
+    return !!member.familyId && this.myFamilyIds().has(member.familyId);
+  }
+  canEdit(member: MemberModel): boolean {
+    return this.canUpdate() && this.isOwnedFamily(member);
+  }
+  canRemove(member: MemberModel): boolean {
+    return this.canDelete() && this.isOwnedFamily(member);
+  }
 
   constructor(
     private readonly memberService: MemberService,

@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, computed, signal, Signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, tap, catchError, shareReplay, map } from 'rxjs';
 import { BaseApiService } from '../../../core/services/base-api.service';
 import { BaseResponseModel } from '../../../core/models/base-response-models/base-response.model';
 import { UserModel } from '../../user/models/user.model';
@@ -22,9 +22,51 @@ export interface ChangePasswordRequest {
 
 @Injectable({ providedIn: 'root' })
 export class AccountService extends BaseApiService {
+  /** Cached profile of the signed-in user. Populated by {@link loadMe}
+   *  on sign-in / app boot; consumed by ownership checks (e.g. "did
+   *  *I* create this family?"). */
+  private readonly _currentUser: WritableSignal<UserModel | null> = signal(null);
+  readonly currentUser: Signal<UserModel | null> = this._currentUser.asReadonly();
+  readonly currentUserId: Signal<string | null> = computed(() => this._currentUser()?.id ?? null);
+
+  /** Single in-flight /me request shared between concurrent callers. */
+  private pending: Observable<UserModel | null> | null = null;
+
   constructor(http: HttpClient) {
     super(http);
   }
+
+  /**
+   * Fetch + cache /me. Errors are swallowed so a transient failure on
+   * boot doesn't strand the app — the cached value (or null) stays
+   * available and the next caller can retry.
+   */
+  loadMe(): Observable<UserModel | null> {
+    if (this.pending) return this.pending;
+
+    this.pending = this.get<BaseResponseModel<UserModel>>('api/Auth/me').pipe(
+      map(response => response?.data ?? null),
+      tap(user => this._currentUser.set(user)),
+      catchError(() => of(this._currentUser())),
+      shareReplay({ bufferSize: 1, refCount: false })
+    );
+
+    // Reset the in-flight handle once the observable terminates so a fresh
+    // load() can be issued later (e.g. after a forced refresh).
+    this.pending.subscribe({
+      complete: () => (this.pending = null),
+      error: () => (this.pending = null)
+    });
+
+    return this.pending;
+  }
+
+  clear(): void {
+    this._currentUser.set(null);
+    this.pending = null;
+  }
+
+  // ─── Direct API calls ───────────────────────────────────────
 
   getMe(): Observable<BaseResponseModel<UserModel>> {
     return this.get<BaseResponseModel<UserModel>>('api/Auth/me');

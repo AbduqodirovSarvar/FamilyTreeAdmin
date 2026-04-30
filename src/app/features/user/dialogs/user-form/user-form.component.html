@@ -48,6 +48,48 @@
       <span class="file-name" *ngIf="selectedFile() as file">{{ file.name }}</span>
       <input #fileInput type="file" hidden accept="image/*" (change)="onFileSelected($event)">
     </div>
+
+    @if (canManagePermissions() && hasRole()) {
+      <section class="permissions">
+        <header class="permissions-head">
+          <div class="permissions-title-row">
+            <mat-icon class="lock-icon">lock_open</mat-icon>
+            <h3 class="permissions-title">Foydalanuvchi huquqlari</h3>
+          </div>
+          <p class="permissions-note">
+            O'zgartirishlar foydalanuvchining roli uchun amal qiladi —
+            shu rolga ega barcha foydalanuvchilar ta'sirlanadi.
+          </p>
+        </header>
+
+        @if (loadingPermissions()) {
+          <div class="permissions-loading">
+            <mat-spinner diameter="20"></mat-spinner>
+            <span>Huquqlar yuklanmoqda…</span>
+          </div>
+        } @else {
+          <div class="permission-grid">
+            @for (group of groups; track group.title) {
+              <div class="permission-group">
+                <h4 class="group-title">{{ group.title }}</h4>
+                <div class="group-rows">
+                  @for (row of group.rows; track row.name) {
+                    <mat-checkbox
+                      class="perm-checkbox"
+                      [checked]="isGranted(row.name)"
+                      [disabled]="isToggling(row.name) ||
+                                  (isGranted(row.name) ? !canRevoke() : !canGrant())"
+                      (change)="togglePermission(row.name, !isGranted(row.name))">
+                      {{ row.label }}
+                    </mat-checkbox>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </section>
+    }
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">

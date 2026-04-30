@@ -1,14 +1,15 @@
-.page-header { margin-bottom: 16px; }
+.page-header { margin-bottom: 20px; }
 
 .page-title {
   margin: 0;
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--text-primary);
 }
 
 .page-subtitle {
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   color: var(--text-secondary);
   font-size: 13px;
 }
@@ -17,7 +18,7 @@
 .settings-shell {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
@@ -25,6 +26,7 @@
 .settings-tabs {
   background: var(--surface) !important;
   border-bottom: 1px solid var(--border);
+  padding: 0 8px;
 }
 
 .tab-icon {
@@ -39,8 +41,12 @@
 .tab-content {
   background: var(--surface);
   color: var(--text-primary);
-  padding: 24px;
+  padding: 32px;
   min-height: 400px;
+}
+
+@media (max-width: 600px) {
+  .tab-content { padding: 20px; }
 }
 
 /* Force the Material tab nav panel host to be transparent so our wrapper bg shows. */
@@ -49,4 +55,70 @@
   background: transparent !important;
   display: block;
   color: inherit !important;
+}
+
+/* ─── Shared section chrome ───
+   Each child page (profile / password / appearance) renders a
+   `.settings-section` with a `.section-header` (icon + title +
+   subtitle) and a trailing `.form-actions`. Defining them here keeps
+   the three pages visually consistent without duplicating styles.
+   ::ng-deep is required because the children are routed inside
+   <router-outlet> and don't share this component's encapsulation. */
+::ng-deep .settings-section {
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-soft);
+    color: var(--brand);
+    flex-shrink: 0;
+
+    mat-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .section-text {
+    flex: 1;
+    min-width: 0;
+    padding-top: 4px;
+  }
+
+  .section-title {
+    margin: 0 0 4px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+
+  .section-subtitle {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 20px;
+    margin-top: 4px;
+    border-top: 1px solid var(--border);
+  }
 }

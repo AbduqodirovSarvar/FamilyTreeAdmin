@@ -17,7 +17,8 @@ export const uzCyrl = {
     actions: 'АМАЛЛАР',
     refresh: 'Янгилаш',
     confirm: 'Тасдиқлаш',
-    saveChanges: 'Ўзгаришларни сақлаш'
+    saveChanges: 'Ўзгаришларни сақлаш',
+    noPermission: "Бу амал учун сизда ҳуқуқ йўқ"
   },
   nav: {
     dashboard: 'Бош саҳифа',
@@ -25,6 +26,7 @@ export const uzCyrl = {
     members: 'Оила аъзолари',
     preview: 'Дарахт кўриниши',
     users: 'Фойдаланувчилар',
+    roles: 'Роллар ва ҳуқуқлар',
     documents: 'Ҳужжатлар',
     settings: 'Созламалар',
     profile: 'Профиль',
@@ -143,7 +145,10 @@ export const uzCyrl = {
     colName: 'НОМИ',
     colFamilyName: 'ФАМИЛИЯ',
     colDescription: 'ТАВСИФ',
-    colCreatedAt: 'ЯРАТИЛГАН'
+    colCreatedAt: 'ЯРАТИЛГАН',
+    notOwnerEdit: "Фақат ўзингиз яратган оилани таҳрирлай оласиз",
+    notOwnerDelete: "Фақат ўзингиз яратган оилани ўчира оласиз",
+    onlyMine: "Фақат менинг оилаларим"
   },
   member: {
     title: 'Оила аъзолари',
@@ -164,7 +169,10 @@ export const uzCyrl = {
     daughter: 'Қизи',
     statusActive: 'ФАОЛ',
     statusPending: 'КУТИЛМОҚДА',
-    statusArchived: 'АРХИВ'
+    statusArchived: 'АРХИВ',
+    notOwnerEdit: "Фақат ўзингиз яратган оиланинг аъзосини таҳрирлай оласиз",
+    notOwnerDelete: "Фақат ўзингиз яратган оиланинг аъзосини ўчира оласиз",
+    needOwnFamily: "Аъзо қўшиш учун аввал ўзингиз оилангизни яратинг"
   },
   user: {
     title: 'Фойдаланувчилар',
@@ -236,6 +244,25 @@ export const uzCyrl = {
     light: 'Ёруғ',
     dark: 'Тунги',
     system: 'Тизим'
+  },
+  role: {
+    title: 'Роллар ва ҳуқуқлар',
+    subtitle: 'Тизим ролларини бошқаринг ва ҳар бир ролга ҳуқуқлар бириктиринг.',
+    listTitle: 'Роллар',
+    create: 'Янги рол',
+    createTitle: 'Янги рол',
+    editTitle: 'Ролни таҳрирлаш',
+    name: 'Номи',
+    designedName: 'Техник ном',
+    description: 'Таърифи',
+    colName: 'Номи',
+    colDesignedName: 'Техник ном',
+    colDescription: 'Таърифи',
+    notFound: 'Рол топилмади',
+    permissionsTitle: 'Рол ҳуқуқлари',
+    permissionsNote: 'Бу ролга эга барча фойдаланувчиларга таъсир қилади.',
+    permissionsLoading: 'Ҳуқуқлар юкланмоқда…',
+    permissionsAfterCreate: 'Рол яратилгандан сўнг уни қайта очиб, ҳуқуқларни белгилашингиз мумкин.'
   },
   footer: {
     admin: 'Админ'

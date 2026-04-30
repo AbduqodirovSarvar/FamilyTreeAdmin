@@ -9,6 +9,8 @@ import {
 import {catchError, Observable, Subject, switchMap, take, throwError} from 'rxjs';
 import {BaseAuthService} from '../services/global-entity-services/base-auth.service';
 import {BaseRouterService} from '../services/base-router.service';
+import {PermissionsService} from '../services/permissions.service';
+import {AccountService} from '../../features/settings/services/account.service';
 
 /**
  * Set this on a request's HttpContext to bypass the auth interceptor entirely.
@@ -23,7 +25,12 @@ export class AuthInterceptor implements HttpInterceptor {
   /** Fresh Subject is created per refresh cycle so subscribers cannot leak across cycles. */
   private refreshTokenSubject: Subject<string> = new Subject<string>();
 
-  constructor(private authService: BaseAuthService, private routerService: BaseRouterService) {}
+  constructor(
+    private authService: BaseAuthService,
+    private routerService: BaseRouterService,
+    private permissionsService: PermissionsService,
+    private accountService: AccountService
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.context.get(SKIP_AUTH_INTERCEPTOR)) {
@@ -78,6 +85,9 @@ export class AuthInterceptor implements HttpInterceptor {
    */
   private failRefresh(err: unknown): Observable<never> {
     this.authService.clearTokens();
+    // Drop the cached permission set + profile with the tokens — next sign-in re-loads them.
+    this.permissionsService.clear();
+    this.accountService.clear();
     this.refreshTokenSubject.error(err);
     this.routerService.navigateToSignInPage();
     return throwError(() => err);

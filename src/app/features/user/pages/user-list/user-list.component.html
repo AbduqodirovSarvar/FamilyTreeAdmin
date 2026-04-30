@@ -66,10 +66,16 @@
         <th mat-header-cell *matHeaderCellDef>{{ 'common.actions' | translate }}</th>
         <td mat-cell *matCellDef="let row" class="actions-cell">
           <div class="cell-flex">
-            <button class="icon-btn" (click)="openEdit(row)" [matTooltip]="'common.edit' | translate">
+            <button class="icon-btn"
+                    (click)="openEdit(row)"
+                    [disabled]="!canUpdate()"
+                    [matTooltip]="(canUpdate() ? 'common.edit' : 'common.noPermission') | translate">
               <mat-icon>edit</mat-icon>
             </button>
-            <button class="icon-btn" (click)="confirmDelete(row)" [matTooltip]="'common.delete' | translate">
+            <button class="icon-btn"
+                    (click)="confirmDelete(row)"
+                    [disabled]="!canDelete()"
+                    [matTooltip]="(canDelete() ? 'common.delete' : 'common.noPermission') | translate">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

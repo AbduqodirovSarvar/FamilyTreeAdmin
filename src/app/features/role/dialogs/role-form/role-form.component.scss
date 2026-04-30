@@ -1,52 +1,43 @@
 :host {
   display: block;
   min-width: 540px;
-  max-width: 680px;
+  max-width: 720px;
 }
 
-.user-form {
+.role-form {
   display: flex;
   flex-direction: column;
-}
-
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
 }
 
 .full-width {
   width: 100%;
 }
 
-.file-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.file-name {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
 mat-spinner {
   display: inline-block;
 }
 
-/* ─── Permissions panel ─────────────────────────────────────── */
+.permissions-hint {
+  margin: 8px 0 0;
+  padding: 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--canvas-bg);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
+/* ─── Permissions panel (matches user-form for visual consistency) ─── */
 .permissions {
-  margin-top: 20px;
+  margin-top: 8px;
   padding: 16px;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--canvas-bg);
 }
 
-.permissions-head {
-  margin-bottom: 14px;
-}
+.permissions-head { margin-bottom: 14px; }
 
 .permissions-title-row {
   display: flex;
@@ -68,8 +59,6 @@ mat-spinner {
   font-weight: 700;
 }
 
-/* The reach of a permission flip is the whole role, not this user — make
-   that obvious so admins don't toggle it expecting per-user scope. */
 .permissions-note {
   margin: 6px 0 0;
   font-size: 12px;
@@ -91,7 +80,7 @@ mat-spinner {
   gap: 14px;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 600px) {
   .permission-grid { grid-template-columns: 1fr; }
 }
 

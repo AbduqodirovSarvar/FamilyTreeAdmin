@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal, WritableSignal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
@@ -10,6 +10,8 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../shared/co
 import { FamilyService } from '../../../family/services/family.service';
 import { FamilyModel } from '../../../family/models/family.model';
 import { ImageUrlService } from '../../../../core/services/image-url.service';
+import { Permission } from '../../../../core/enums/permission.enum';
+import { PermissionsService } from '../../../../core/services/permissions.service';
 
 @Component({
   selector: 'app-user-list',
@@ -29,6 +31,11 @@ export class UserListComponent implements OnInit {
   readonly pageSize: WritableSignal<number> = signal(10);
   readonly searchText: WritableSignal<string> = signal('');
   readonly familyFilter: WritableSignal<string | null> = signal(null);
+
+  /** Action gating — see family-list for the same pattern. */
+  private readonly permissions = inject(PermissionsService);
+  readonly canUpdate = computed(() => this.permissions.has(Permission.UPDATE_USER));
+  readonly canDelete = computed(() => this.permissions.has(Permission.DELETE_USER));
 
   constructor(
     private readonly userService: UserService,

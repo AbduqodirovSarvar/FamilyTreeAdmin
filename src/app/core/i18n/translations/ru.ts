@@ -17,7 +17,8 @@ export const ru = {
     actions: 'ДЕЙСТВИЯ',
     refresh: 'Обновить',
     confirm: 'Подтвердить',
-    saveChanges: 'Сохранить изменения'
+    saveChanges: 'Сохранить изменения',
+    noPermission: 'У вас нет прав на это действие'
   },
   nav: {
     dashboard: 'Главная',
@@ -25,6 +26,7 @@ export const ru = {
     members: 'Члены семьи',
     preview: 'Древо',
     users: 'Пользователи',
+    roles: 'Роли и права',
     documents: 'Документы',
     settings: 'Настройки',
     profile: 'Профиль',
@@ -143,7 +145,10 @@ export const ru = {
     colName: 'НАЗВАНИЕ',
     colFamilyName: 'ФАМИЛИЯ',
     colDescription: 'ОПИСАНИЕ',
-    colCreatedAt: 'СОЗДАНО'
+    colCreatedAt: 'СОЗДАНО',
+    notOwnerEdit: 'Редактировать можно только созданные вами семьи',
+    notOwnerDelete: 'Удалить можно только созданные вами семьи',
+    onlyMine: 'Только мои семьи'
   },
   member: {
     title: 'Члены семьи',
@@ -164,7 +169,10 @@ export const ru = {
     daughter: 'Дочь',
     statusActive: 'АКТИВЕН',
     statusPending: 'ОЖИДАЕТСЯ',
-    statusArchived: 'АРХИВ'
+    statusArchived: 'АРХИВ',
+    notOwnerEdit: 'Редактировать можно только участников созданных вами семей',
+    notOwnerDelete: 'Удалять можно только участников созданных вами семей',
+    needOwnFamily: 'Чтобы добавить участника, сначала создайте свою семью'
   },
   user: {
     title: 'Пользователи',
@@ -236,6 +244,25 @@ export const ru = {
     light: 'Светлая',
     dark: 'Тёмная',
     system: 'Системная'
+  },
+  role: {
+    title: 'Роли и права',
+    subtitle: 'Управляйте ролями системы и назначайте права для каждой.',
+    listTitle: 'Роли',
+    create: 'Новая роль',
+    createTitle: 'Новая роль',
+    editTitle: 'Редактирование роли',
+    name: 'Название',
+    designedName: 'Технический ID',
+    description: 'Описание',
+    colName: 'Название',
+    colDesignedName: 'Техн. ID',
+    colDescription: 'Описание',
+    notFound: 'Роли не найдены',
+    permissionsTitle: 'Права роли',
+    permissionsNote: 'Изменения затронут всех пользователей с этой ролью.',
+    permissionsLoading: 'Загрузка прав…',
+    permissionsAfterCreate: 'После создания роли откройте её снова, чтобы назначить права.'
   },
   footer: {
     admin: 'Админ'

@@ -3,33 +3,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs';
-import { UserService } from '../../services/user.service';
-import { UserModel } from '../../models/user.model';
-import { FamilyService } from '../../../family/services/family.service';
-import { FamilyModel } from '../../../family/models/family.model';
+import { RoleService } from '../../services/role.service';
+import { RoleModel } from '../../models/role.model';
 import { Permission, PermissionName } from '../../../../core/enums/permission.enum';
 import { PermissionsService } from '../../../../core/services/permissions.service';
 import { RolePermissionService } from '../../../../core/services/role-permission.service';
 
-export interface UserFormDialogData {
-  user: UserModel;
+export interface RoleFormDialogData {
+  mode: 'create' | 'edit';
+  role?: RoleModel;
 }
 
-interface PermissionRow {
-  /** Permission name, e.g. "GET_FAMILY". */
-  name: PermissionName;
-  /** Display label shown to the admin. */
-  label: string;
-}
+interface PermissionRow { name: PermissionName; label: string; }
+interface PermissionGroup { title: string; rows: PermissionRow[]; }
 
-interface PermissionGroup {
-  /** Group title (entity), e.g. "Family". */
-  title: string;
-  rows: PermissionRow[];
-}
-
-/** Layout the 24 permissions in entity-grouped rows so the toggle grid
- *  reads cleanly. Order intentionally mirrors the backend Permission enum. */
 const PERMISSION_GROUPS: PermissionGroup[] = [
   { title: 'Family',           rows: [
     { name: Permission.GET_FAMILY,             label: 'View'   },
@@ -70,95 +57,64 @@ const PERMISSION_GROUPS: PermissionGroup[] = [
 ];
 
 @Component({
-  selector: 'app-user-form',
+  selector: 'app-role-form',
   standalone: false,
-  templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.scss'],
+  templateUrl: './role-form.component.html',
+  styleUrls: ['./role-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserFormComponent implements OnInit {
+export class RoleFormComponent implements OnInit {
   readonly form: FormGroup;
   readonly submitting: WritableSignal<boolean> = signal(false);
-  readonly selectedFile: WritableSignal<File | null> = signal(null);
-  readonly families: WritableSignal<FamilyModel[]> = signal([]);
 
-  /** True while the role's existing permission rows are being fetched. */
+  /** Permissions panel state — shared shape with the user-edit dialog. */
   readonly loadingPermissions: WritableSignal<boolean> = signal(false);
-
-  /**
-   * Map of permission-name → row id in UserRolePermissions table. Presence
-   * means "granted"; absence means "not granted". The id is what DELETE
-   * needs to revoke without an extra round-trip.
-   */
   readonly permissionRows: WritableSignal<Map<string, string>> = signal(new Map());
-
-  /** Permissions currently being toggled — disables the checkbox during the request. */
   readonly togglingPerms: WritableSignal<ReadonlySet<string>> = signal(new Set());
 
-  /** Hide the panel when there's no role. */
-  readonly hasRole = computed(() => !!this.data.user.roleId);
-
-  /** Show the panel only if the current admin can either grant or revoke. */
-  readonly canManagePermissions = computed(() =>
-    this.permissions.any(Permission.CREATE_ROLE_PERMISSION, Permission.DELETE_ROLE_PERMISSION)
-  );
-
-  readonly canGrant = computed(() => this.permissions.has(Permission.CREATE_ROLE_PERMISSION));
-  readonly canRevoke = computed(() => this.permissions.has(Permission.DELETE_ROLE_PERMISSION));
-
-  /** Permission groups exposed for the template. */
+  readonly mode = computed(() => this.data.mode);
+  readonly isEdit = computed(() => this.data.mode === 'edit');
   readonly groups = PERMISSION_GROUPS;
 
   private readonly permissions = inject(PermissionsService);
   private readonly rolePermissions = inject(RolePermissionService);
 
+  /** Permission gating for the panel itself. The role must already exist
+   *  (only after Save → reopen) so we have an id to grant against. */
+  readonly canManagePermissions = computed(() =>
+    this.isEdit() && this.permissions.any(Permission.CREATE_ROLE_PERMISSION, Permission.DELETE_ROLE_PERMISSION)
+  );
+  readonly canGrant = computed(() => this.permissions.has(Permission.CREATE_ROLE_PERMISSION));
+  readonly canRevoke = computed(() => this.permissions.has(Permission.DELETE_ROLE_PERMISSION));
+
   constructor(
     private readonly fb: FormBuilder,
-    private readonly userService: UserService,
-    private readonly familyService: FamilyService,
+    private readonly roleService: RoleService,
     private readonly snackBar: MatSnackBar,
-    public dialogRef: MatDialogRef<UserFormComponent, boolean>,
-    @Inject(MAT_DIALOG_DATA) public data: UserFormDialogData
+    public dialogRef: MatDialogRef<RoleFormComponent, boolean>,
+    @Inject(MAT_DIALOG_DATA) public data: RoleFormDialogData
   ) {
-    const u = data.user;
+    const r = data.role;
     this.form = this.fb.group({
-      firstName: [u.firstName ?? ''],
-      lastName: [u.lastName ?? ''],
-      userName: [u.userName ?? ''],
-      email: [u.email ?? '', Validators.email],
-      phone: [u.phone ?? ''],
-      familyId: [u.familyId ?? null]
+      name: [r?.name ?? '', Validators.required],
+      designedName: [r?.designedName ?? ''],
+      description: [r?.description ?? '']
     });
   }
 
   ngOnInit(): void {
-    this.familyService.list({ pageIndex: 0, pageSize: 200 }).subscribe({
-      next: response => this.families.set(response?.data ?? []),
-      error: () => this.families.set([])
-    });
-
-    if (this.hasRole() && this.canManagePermissions()) {
-      this.loadRolePermissions(this.data.user.roleId!);
+    if (this.canManagePermissions() && this.data.role?.id) {
+      this.loadRolePermissions(this.data.role.id);
     }
   }
 
-  // ─── Permission management ──────────────────────────────────
+  // ─── Permission management (mirrors user-form for consistency) ───
 
-  isGranted(name: PermissionName): boolean {
-    return this.permissionRows().has(name);
-  }
+  isGranted(name: PermissionName): boolean { return this.permissionRows().has(name); }
+  isToggling(name: PermissionName): boolean { return this.togglingPerms().has(name); }
 
-  isToggling(name: PermissionName): boolean {
-    return this.togglingPerms().has(name);
-  }
-
-  /**
-   * Toggle handler invoked by the checkbox change event. Fires the
-   * appropriate grant/revoke request and updates the permission map.
-   * On failure the map is unchanged and a snack-bar surfaces the reason.
-   */
   togglePermission(name: PermissionName, shouldGrant: boolean): void {
-    const roleId = this.data.user.roleId;
+    const roleId = this.data.role?.id;
     if (!roleId) return;
 
     const currentlyGranted = this.isGranted(name);
@@ -225,50 +181,43 @@ export class UserFormComponent implements OnInit {
         next: rows => {
           const map = new Map<string, string>();
           for (const row of rows) {
-            const name = row?.permission?.name;
-            if (name && row.id) map.set(name, row.id);
+            const n = row?.permission?.name;
+            if (n && row.id) map.set(n, row.id);
           }
           this.permissionRows.set(map);
         },
-        error: () => { /* leave map empty so all toggles render OFF — admin can re-grant. */ }
+        error: () => { /* leave map empty */ }
       });
   }
 
-  // ─── User-form basics (unchanged) ───────────────────────────
+  // ─── Submit ──────────────────────────────────────────────────
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedFile.set(input.files[0]);
-    }
-  }
-
-  cancel(): void {
-    this.dialogRef.close(false);
-  }
+  cancel(): void { this.dialogRef.close(false); }
 
   submit(): void {
     if (this.form.invalid || this.submitting()) return;
-
-    this.submitting.set(true);
     const v = this.form.value;
-    const file = this.selectedFile();
+    this.submitting.set(true);
 
-    this.userService.updateUser({
-      id: this.data.user.id,
-      firstName: v.firstName || null,
-      lastName: v.lastName || null,
-      userName: v.userName || null,
-      email: v.email || null,
-      phone: v.phone || null,
-      familyId: v.familyId || null,
-      image: file
-    })
+    const op$ = this.isEdit()
+      ? this.roleService.updateRole({
+          id: this.data.role!.id,
+          name: v.name || null,
+          designedName: v.designedName || null,
+          description: v.description || null
+        })
+      : this.roleService.createRole({
+          name: v.name,
+          designedName: v.designedName || null,
+          description: v.description || null
+        });
+
+    op$
       .pipe(finalize(() => this.submitting.set(false)))
       .subscribe({
         next: response => {
           if (response?.success) {
-            this.snackBar.open('User updated', 'OK', { duration: 2500 });
+            this.snackBar.open(this.isEdit() ? 'Role updated' : 'Role created', 'OK', { duration: 2500 });
             this.dialogRef.close(true);
           } else {
             this.snackBar.open(response?.message ?? 'Operation failed', 'OK', { duration: 4000 });

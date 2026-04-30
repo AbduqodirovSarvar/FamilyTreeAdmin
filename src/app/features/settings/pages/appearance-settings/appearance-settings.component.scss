@@ -1,29 +1,29 @@
+/* Section header chrome lives in settings-layout.component.scss. */
+
 .settings-section { max-width: 720px; }
 
-.section-title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
+.setting-group {
+  padding: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.section-subtitle {
-  margin: 4px 0 24px;
-  color: var(--text-secondary);
-  font-size: 13px;
+.group-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-
-.setting-group { padding: 16px 0 24px; }
 
 .group-title {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
 .group-description {
-  margin: 0 0 16px;
+  margin: 0;
   color: var(--text-secondary);
   font-size: 13px;
 
@@ -33,4 +33,8 @@
   }
 }
 
-mat-button-toggle-group { border-radius: 8px; }
+.theme-toggle {
+  align-self: flex-start;
+  border-radius: 10px;
+  overflow: hidden;
+}

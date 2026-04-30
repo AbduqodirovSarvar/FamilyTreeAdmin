@@ -17,7 +17,8 @@ export const en = {
     actions: 'ACTIONS',
     refresh: 'Refresh',
     confirm: 'Confirm',
-    saveChanges: 'Save changes'
+    saveChanges: 'Save changes',
+    noPermission: "You don't have permission for this action"
   },
   nav: {
     dashboard: 'Home',
@@ -25,6 +26,7 @@ export const en = {
     members: 'Family members',
     preview: 'Tree view',
     users: 'Users',
+    roles: 'Roles & permissions',
     documents: 'Documents',
     settings: 'Settings',
     profile: 'Profile',
@@ -143,7 +145,10 @@ export const en = {
     colName: 'NAME',
     colFamilyName: 'SURNAME',
     colDescription: 'DESCRIPTION',
-    colCreatedAt: 'CREATED'
+    colCreatedAt: 'CREATED',
+    notOwnerEdit: 'You can only edit families you created',
+    notOwnerDelete: 'You can only delete families you created',
+    onlyMine: 'Only my families'
   },
   member: {
     title: 'Family members',
@@ -164,7 +169,10 @@ export const en = {
     daughter: 'Daughter',
     statusActive: 'ACTIVE',
     statusPending: 'PENDING',
-    statusArchived: 'ARCHIVED'
+    statusArchived: 'ARCHIVED',
+    notOwnerEdit: 'You can only edit members of families you created',
+    notOwnerDelete: 'You can only delete members of families you created',
+    needOwnFamily: 'Create your own family first to add members'
   },
   user: {
     title: 'Users',
@@ -236,6 +244,25 @@ export const en = {
     light: 'Light',
     dark: 'Dark',
     system: 'System'
+  },
+  role: {
+    title: 'Roles & permissions',
+    subtitle: 'Manage system roles and assign permissions to each.',
+    listTitle: 'Roles',
+    create: 'New role',
+    createTitle: 'New role',
+    editTitle: 'Edit role',
+    name: 'Name',
+    designedName: 'System ID',
+    description: 'Description',
+    colName: 'Name',
+    colDesignedName: 'System ID',
+    colDescription: 'Description',
+    notFound: 'No roles found',
+    permissionsTitle: 'Role permissions',
+    permissionsNote: 'Changes affect every user assigned to this role.',
+    permissionsLoading: 'Loading permissions…',
+    permissionsAfterCreate: 'After the role is created, reopen it to assign permissions.'
   },
   footer: {
     admin: 'Admin'

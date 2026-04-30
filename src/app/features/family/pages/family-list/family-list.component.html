@@ -12,8 +12,17 @@
                [placeholder]="'common.search' | translate">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
+
+      <mat-checkbox class="mine-toggle"
+                    [checked]="onlyMine()"
+                    (change)="onMineToggle($any($event).checked)">
+        {{ 'family.onlyMine' | translate }}
+      </mat-checkbox>
     </div>
-    <button class="btn-primary" (click)="openCreate()">
+    <button class="btn-primary"
+            (click)="openCreate()"
+            [disabled]="!canCreate()"
+            [matTooltip]="canCreate() ? '' : ('common.noPermission' | translate)">
       <mat-icon>add</mat-icon>
       {{ 'family.new' | translate }}
     </button>
@@ -59,10 +68,20 @@
         <th mat-header-cell *matHeaderCellDef>{{ 'common.actions' | translate }}</th>
         <td mat-cell *matCellDef="let row" class="actions-cell">
           <div class="cell-flex">
-            <button class="icon-btn" (click)="openEdit(row)" [matTooltip]="'common.edit' | translate">
+            <button class="icon-btn"
+                    (click)="openEdit(row)"
+                    [disabled]="!canEdit(row)"
+                    [matTooltip]="(canUpdate()
+                        ? (canEdit(row) ? 'common.edit' : 'family.notOwnerEdit')
+                        : 'common.noPermission') | translate">
               <mat-icon>edit</mat-icon>
             </button>
-            <button class="icon-btn" (click)="confirmDelete(row)" [matTooltip]="'common.delete' | translate">
+            <button class="icon-btn"
+                    (click)="confirmDelete(row)"
+                    [disabled]="!canRemove(row)"
+                    [matTooltip]="(canDelete()
+                        ? (canRemove(row) ? 'common.delete' : 'family.notOwnerDelete')
+                        : 'common.noPermission') | translate">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

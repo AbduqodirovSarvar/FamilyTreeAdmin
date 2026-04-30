@@ -1,30 +1,30 @@
-.settings-section {
-  max-width: 720px;
-}
+/* Section header / form-actions chrome lives in
+   settings-layout.component.scss — see the shared `::ng-deep
+   .settings-section` block. Page-specific layout is below. */
 
-.section-title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.section-subtitle {
-  margin: 4px 0 24px;
-  color: var(--text-secondary);
-  font-size: 13px;
-}
+.settings-section { max-width: 720px; }
 
 .profile-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
 }
 
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Avatar row — sits visually as a "card" inside the form. */
 .avatar-row {
   display: flex;
   align-items: center;
   gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--canvas-bg);
 }
 
 .avatar {
@@ -38,6 +38,7 @@
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
 }
 
 .avatar-img {
@@ -58,6 +59,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .file-name {
@@ -68,17 +70,12 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px 16px;
+  /* Roomier than the previous `12px 16px` so labels don't collide on
+     dense locales (Russian fields are noticeably longer). */
+  gap: 14px 18px;
 }
 
-.actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-mat-spinner {
-  display: inline-block;
-}
+mat-spinner { display: inline-block; }
 
 @media (max-width: 600px) {
   .grid { grid-template-columns: 1fr; }

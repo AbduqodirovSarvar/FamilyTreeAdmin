@@ -20,6 +20,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { TranslatePipe } from '../core/i18n/translate.pipe';
 
@@ -42,7 +43,8 @@ const MATERIAL_MODULES = [
   MatCardModule,
   MatChipsModule,
   MatDividerModule,
-  MatMenuModule
+  MatMenuModule,
+  MatCheckboxModule
 ];
 
 @NgModule({

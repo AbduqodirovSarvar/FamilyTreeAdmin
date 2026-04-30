@@ -9,8 +9,23 @@ import { FamilyTreeModel } from '../../family-preview/models/family-tree.model';
 export class FamilyService extends BaseEntityService<BaseResponseModel<FamilyModel>> {
   protected override endpoint: string = 'api/Family';
 
-  list(query?: { pageIndex?: number; pageSize?: number; searchText?: string }): Observable<BaseResponseModel<FamilyModel[]>> {
-    return this.getList<BaseResponseModel<FamilyModel[]>>(`${this.endpoint}/list`, query);
+  list(query?: {
+    pageIndex?: number;
+    pageSize?: number;
+    searchText?: string;
+    /** When set, restrict the list to families owned by the given user. Used
+     *  by the "My families" toggle on the list page so admins can pivot from
+     *  the all-families view to their own subset. */
+    ownerId?: string;
+  }): Observable<BaseResponseModel<FamilyModel[]>> {
+    const filters: Record<string, string> = {};
+    if (query?.ownerId) filters['OwnerId'] = query.ownerId;
+    return this.getList<BaseResponseModel<FamilyModel[]>>(`${this.endpoint}/list`, {
+      pageIndex: query?.pageIndex,
+      pageSize: query?.pageSize,
+      searchText: query?.searchText,
+      filters
+    });
   }
 
   getOne(id: string): Observable<BaseResponseModel<FamilyModel>> {

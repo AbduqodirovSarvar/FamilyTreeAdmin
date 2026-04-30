@@ -19,6 +19,7 @@ import { StorageKeys } from '../../../../core/enums/storage-keys.enum';
 import { ThemeService } from '../../../../core/services/theme.service';
 import { I18nService, Lang } from '../../../../core/i18n/i18n.service';
 import { ImageUrlService } from '../../../../core/services/image-url.service';
+import { PermissionsService } from '../../../../core/services/permissions.service';
 import { AccountService } from '../../../settings/services/account.service';
 
 interface Crumb {
@@ -62,6 +63,7 @@ export class TopbarComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly accountService = inject(AccountService);
   private readonly imageUrl = inject(ImageUrlService);
+  private readonly permissionsService = inject(PermissionsService);
   readonly theme = inject(ThemeService);
   readonly i18n = inject(I18nService);
   private readonly isBrowser: boolean;
@@ -128,6 +130,10 @@ export class TopbarComponent implements OnInit {
       localStorage.removeItem(StorageKeys.AccessToken);
       localStorage.removeItem(StorageKeys.RefreshToken);
     }
+    // Wipe the cached permission set + profile so the next user sees their
+    // own sidebar/buttons instead of the previous account's filtered view.
+    this.permissionsService.clear();
+    this.accountService.clear();
     this.router.navigate(['/auth/sign-in']);
   }
 }

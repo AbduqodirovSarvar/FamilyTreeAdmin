@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>
+  {{ (isEdit() ? 'role.editTitle' : 'role.createTitle') | translate }}
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="role-form">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'role.name' | translate }}</mat-label>
+      <input matInput formControlName="name">
+      @if (form.controls['name'].hasError('required')) {
+        <mat-error>{{ 'common.required' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'role.designedName' | translate }}</mat-label>
+      <input matInput formControlName="designedName" placeholder="ADMIN">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'role.description' | translate }}</mat-label>
+      <textarea matInput formControlName="description" rows="2"></textarea>
+    </mat-form-field>
+
+    @if (canManagePermissions()) {
+      <section class="permissions">
+        <header class="permissions-head">
+          <div class="permissions-title-row">
+            <mat-icon class="lock-icon">lock_open</mat-icon>
+            <h3 class="permissions-title">{{ 'role.permissionsTitle' | translate }}</h3>
+          </div>
+          <p class="permissions-note">{{ 'role.permissionsNote' | translate }}</p>
+        </header>
+
+        @if (loadingPermissions()) {
+          <div class="permissions-loading">
+            <mat-spinner diameter="20"></mat-spinner>
+            <span>{{ 'role.permissionsLoading' | translate }}</span>
+          </div>
+        } @else {
+          <div class="permission-grid">
+            @for (group of groups; track group.title) {
+              <div class="permission-group">
+                <h4 class="group-title">{{ group.title }}</h4>
+                <div class="group-rows">
+                  @for (row of group.rows; track row.name) {
+                    <mat-checkbox
+                      class="perm-checkbox"
+                      [checked]="isGranted(row.name)"
+                      [disabled]="isToggling(row.name) ||
+                                  (isGranted(row.name) ? !canRevoke() : !canGrant())"
+                      (change)="togglePermission(row.name, !isGranted(row.name))">
+                      {{ row.label }}
+                    </mat-checkbox>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </section>
+    } @else if (!isEdit()) {
+      <p class="permissions-hint">{{ 'role.permissionsAfterCreate' | translate }}</p>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()" [disabled]="submitting()">
+      {{ 'common.cancel' | translate }}
+    </button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || submitting()">
+      @if (submitting()) {
+        <mat-spinner diameter="18"></mat-spinner>
+      } @else {
+        <span>{{ 'common.save' | translate }}</span>
+      }
+    </button>
+  </mat-dialog-actions>
+</form>
