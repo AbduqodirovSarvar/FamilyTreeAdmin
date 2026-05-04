@@ -2,7 +2,7 @@ import {Injectable, signal, WritableSignal} from '@angular/core';
 import {BaseStorageService} from '../base-storage.service';
 import {HttpClient, HttpContext} from '@angular/common/http';
 import {BaseApiService} from '../base-api.service';
-import {map, Observable, tap} from 'rxjs';
+import {map, Observable, of, tap} from 'rxjs';
 import {TokenResponseModel} from '../../models/base-response-models/token-response.model';
 import { BaseEntityService } from './base-entity.service';
 import { BaseResponseModel } from '../../models/base-response-models/base-response.model';
@@ -111,9 +111,13 @@ export class BaseAuthService extends BaseEntityService<BaseResponseModel<any>> {
    * @returns
    */
   public getAccessTokenWithRefleshToken(): Observable<string | null> {
+    const refreshToken: string | null = this.getRefleshToken();
+    if (!refreshToken) return of(null);
+
     const context: HttpContext = new HttpContext().set(SKIP_AUTH_INTERCEPTOR, true);
-    return this.http.get<BaseResponseModel<TokenResponseModel>>(
-      `${this.baseUrl}/api/auth/token`,
+    return this.http.post<BaseResponseModel<TokenResponseModel>>(
+      `${this.baseUrl}/api/auth/refresh-token`,
+      { refreshToken },
       { context }
     ).pipe(
       tap((response: BaseResponseModel<TokenResponseModel>): void => {

@@ -44,6 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError(error => {
+        console.error('HTTP error in AuthInterceptor:', error);
         if (error.status === 401) {
           return this.handle401Error(req, next);
         }
