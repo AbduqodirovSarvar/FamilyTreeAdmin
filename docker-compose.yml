@@ -1,0 +1,14 @@
+services:
+  admin:
+    image: ${DOCKER_USERNAME:-yourusername}/family-tree-admin:${IMAGE_TAG:-v1.0.0}
+    pull_policy: always
+    container_name: family-tree-admin
+    restart: unless-stopped
+    ports:
+      - "${ADMIN_PORT:-4400}:80"
+    networks:
+      - family-tree-admin-net
+
+networks:
+  family-tree-admin-net:
+    driver: bridge
