@@ -1,14 +1,22 @@
 services:
   admin:
-    image: ${DOCKER_USERNAME:-yourusername}/family-tree-admin:${IMAGE_TAG:-v1.0.0}
+    image: ${DOCKER_USERNAME:-yourusername}/family-tree-admin:${IMAGE_TAG:-latest}
     pull_policy: always
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
     container_name: family-tree-admin
     restart: unless-stopped
+    # Host port mapping ixtiyoriy — proxy ishlatsangiz 4400 tashqaridan kerak emas.
+    # Lokal dev/debug uchun qoldirildi.
     ports:
       - "${ADMIN_PORT:-4400}:80"
     networks:
-      - family-tree-admin-net
+      - global-net
 
 networks:
-  family-tree-admin-net:
-    driver: bridge
+  # `database` repo yaratgan tashqi network. Caddy proxy va boshqa servislar
+  # shu network'da bo'lishi kerak — Caddy `family-tree-admin:80`'ga to'g'ridan-to'g'ri ulanadi.
+  global-net:
+    external: true
+    name: global-app-network
