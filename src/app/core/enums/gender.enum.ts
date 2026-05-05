@@ -3,7 +3,8 @@ export enum Gender {
   FEMALE = 1
 }
 
-export const GENDER_OPTIONS: { value: Gender; label: string }[] = [
-  { value: Gender.MALE, label: 'Male' },
-  { value: Gender.FEMALE, label: 'Female' }
+/** Translate key for the option label, resolved via the `translate` pipe in templates. */
+export const GENDER_OPTIONS: { value: Gender; key: string }[] = [
+  { value: Gender.MALE, key: 'gender.male' },
+  { value: Gender.FEMALE, key: 'gender.female' }
 ];

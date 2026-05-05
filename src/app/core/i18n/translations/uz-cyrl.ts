@@ -18,7 +18,9 @@ export const uzCyrl = {
     refresh: 'Янгилаш',
     confirm: 'Тасдиқлаш',
     saveChanges: 'Ўзгаришларни сақлаш',
-    noPermission: "Бу амал учун сизда ҳуқуқ йўқ"
+    noPermission: "Бу амал учун сизда ҳуқуқ йўқ",
+    saveConfirmTitle: 'Ўзгаришларни сақлаш',
+    saveConfirmMessage: 'Киритилган ўзгаришларни сақлашни хоҳлайсизми?'
   },
   nav: {
     dashboard: 'Бош саҳифа',
@@ -53,9 +55,12 @@ export const uzCyrl = {
     loginRequired: 'Логин мажбурий',
     passwordRequired: 'Парол мажбурий'
   },
+  brand: {
+    name: 'Шажара Тизими'
+  },
   authShell: {
     taglineDefault: 'Оилангиз тарихини бир жойда сақланг',
-    captionDefault: 'Shajara System — замонавий ва ишончли оилавий дарахт бошқаруви.',
+    captionDefault: 'Шажара Тизими — замонавий ва ишончли оилавий дарахт бошқаруви.',
     feature1: 'Аъзолар ва авлодларни қулай бошқариш',
     feature2: 'Кўп тилли интерфейс ва мавзулар',
     feature3: 'Махфий ва хавфсиз сақлаш',
@@ -109,6 +114,26 @@ export const uzCyrl = {
     back: 'Орқага',
     rememberPassword: 'Паролни эсладингизми?'
   },
+  confirmEmail: {
+    title: 'Эмаилни тасдиқлаш',
+    subtitle: 'Эмаил манзилингизни тасдиқлаш учун хабарларни текширинг.',
+    tagline: 'Фақат битта қадам қолди.',
+    caption: 'Эмаилингизни тасдиқлаб, ҳисобингизнинг тўлиқ имкониятларидан фойдаланинг.',
+    pending: 'Тасдиқланмоқда…',
+    successTitle: 'Эмаил тасдиқланди!',
+    successBody: 'Энди тизимга кириб, оилангиз дарахтини бошқаришингиз мумкин.',
+    toSignIn: 'Кириш саҳифасига ўтиш',
+    errorTitle: 'Тасдиқлаб бўлмади',
+    generic: 'Тасдиқлаб бўлмади. Линк муддати тугаган ёки нотўғри.',
+    missingToken: 'Манзилда тасдиқлаш коди йўқ.',
+    resendHint: 'Хабар келмади? Қуйидаги формада эмаил киритинг ва янги линк олинг.',
+    email: 'Эмаил',
+    emailRequired: 'Эмаил мажбурий',
+    emailInvalid: 'Эмаил формати нотўғри',
+    resendButton: 'Хабарни қайта юбориш',
+    resendSent: 'Янги тасдиқлаш хабари юборилди.',
+    resendFailed: 'Хабар юбориб бўлмади.'
+  },
   resetPassword: {
     title: 'Паролни тиклаш',
     subtitle: 'Емаилга келган кодни киритинг ва янги парол танланг.',
@@ -134,7 +159,12 @@ export const uzCyrl = {
     actionManageFamilies: 'Оилаларни бошқариш',
     actionMembersList: 'Аъзолар рўйхати',
     actionViewTree: 'Шажарани кўриш',
-    actionUsers: 'Фойдаланувчилар'
+    actionUsers: 'Фойдаланувчилар',
+    unconnectedTitle: 'Боғланмаган аъзолар',
+    unconnectedSubtitle: 'Ҳеч ким билан оилавий алоқаси бўлмаган аъзолар — улар дарахтда алоҳида кўринади.',
+    unconnectedCount: 'Боғланмаган: {count} та',
+    unconnectedView: 'Аъзоларга ўтиш',
+    unconnectedEmpty: "Барча аъзолар тўғри боғланган."
   },
   family: {
     title: 'Оилалар',
@@ -148,7 +178,8 @@ export const uzCyrl = {
     colCreatedAt: 'ЯРАТИЛГАН',
     notOwnerEdit: "Фақат ўзингиз яратган оилани таҳрирлай оласиз",
     notOwnerDelete: "Фақат ўзингиз яратган оилани ўчира оласиз",
-    onlyMine: "Фақат менинг оилаларим"
+    onlyMine: "Фақат менинг оилаларим",
+    openWebPage: 'Веб саҳифасига ўтиш'
   },
   member: {
     title: 'Оила аъзолари',
@@ -164,7 +195,10 @@ export const uzCyrl = {
     colFio: 'Ф.И.Ш.',
     colRelation: 'МУНОСАБАТИ',
     colBirthYear: 'ТУҒИЛГАН ЙИЛИ',
+    colBirthDate: 'ТУҒИЛГАН САНАСИ',
+    colGender: 'ЖИНСИ',
     colStatus: 'ҲОЛАТИ',
+    colFamily: 'ОИЛАСИ',
     son: 'Ўғли',
     daughter: 'Қизи',
     statusActive: 'ФАОЛ',
@@ -172,7 +206,35 @@ export const uzCyrl = {
     statusArchived: 'АРХИВ',
     notOwnerEdit: "Фақат ўзингиз яратган оиланинг аъзосини таҳрирлай оласиз",
     notOwnerDelete: "Фақат ўзингиз яратган оиланинг аъзосини ўчира оласиз",
-    needOwnFamily: "Аъзо қўшиш учун аввал ўзингиз оилангизни яратинг"
+    needOwnFamily: "Аъзо қўшиш учун аввал ўзингиз оилангизни яратинг",
+    createTitle: 'Янги аъзо қўшиш',
+    editTitle: 'Аъзони таҳрирлаш',
+    firstName: 'Исм',
+    lastName: 'Фамилия',
+    description: 'Тавсиф',
+    birthDay: 'Туғилган куни',
+    deathDay: 'Вафот этган куни',
+    deathDayOptional: 'Вафот этган куни (ихтиёрий)',
+    gender: 'Жинси',
+    father: 'Отаси',
+    mother: 'Онаси',
+    spouse: 'Турмуш ўртоғи',
+    uploadImage: 'Расм юклаш',
+    changeImage: 'Расмни алмаштириш',
+    create: 'Яратиш',
+    save: 'Сақлаш',
+    createdToast: 'Аъзо яратилди',
+    updatedToast: 'Янгиланди',
+    operationFailed: 'Амал бажарилмади',
+    loadRefsFailed: 'Маълумотларни юклаб бўлмади',
+    requestFailed: 'Сўров бажарилмади',
+    noRelationsTitle: "Ҳеч ким билан боғланмаган",
+    noRelationsMessage: "Бу аъзо ҳеч ким билан боғланмаган (ота, она ёки турмуш ўртоғи кўрсатилмаган). Давом этишни хоҳлайсизми?",
+    continueAnyway: 'Давом этиш'
+  },
+  gender: {
+    male: 'Эркак',
+    female: 'Аёл'
   },
   user: {
     title: 'Фойдаланувчилар',
@@ -184,7 +246,32 @@ export const uzCyrl = {
     colUserName: 'USERNAME',
     colEmail: 'EMAIL',
     colPhone: 'ТЕЛЕФОН',
-    colFamily: 'ОИЛА'
+    colFamily: 'ОИЛА',
+    editTitle: 'Фойдаланувчини таҳрирлаш',
+    emailConfirmed: 'Эмаил тасдиқланган',
+    emailUnconfirmed: 'Эмаил тасдиқланмаган',
+    emailConfirmedToggle: 'Эмаил тасдиқланган деб белгилаш',
+    emailConfirmedHint: 'Фақат администратор ёки фойдаланувчилар устида тўлиқ ваколатга эга user бу ерда ўзгартира олади.',
+    editConfirmTitle: 'Таҳрирлашни давом эттириш',
+    editConfirmMessage: '"{name}" фойдаланувчини таҳрирлашни хоҳлайсизми?',
+    deleteConfirmTitle: 'Фойдаланувчини ўчириш',
+    deleteConfirmMessage: '"{name}" фойдаланувчини ўчирасизми? Бу амал қайтарилмайди.',
+    deletedToast: 'Фойдаланувчи ўчирилди',
+    deleteFailed: 'Ўчириб бўлмади'
+  },
+  permissions: {
+    action: {
+      view: 'Кўриш',
+      create: 'Яратиш',
+      update: 'Янгилаш',
+      delete: 'Ўчириш'
+    },
+    family: { title: 'Оилалар' },
+    member: { title: 'Оила аъзолари' },
+    user: { title: 'Фойдаланувчилар' },
+    role: { title: 'Роллар' },
+    file: { title: 'Файллар' },
+    rolePermission: { title: 'Рол ҳуқуқлари' }
   },
   preview: {
     title: 'Шажара Дарахти',
@@ -201,7 +288,8 @@ export const uzCyrl = {
     son: 'Ўғли',
     daughter: 'Қизи',
     commonChildren: 'УМУМИЙ ФАРЗАНДЛАР',
-    childrenSuffix: 'ФАРЗАНДЛАРИ'
+    childrenSuffix: 'ФАРЗАНДЛАРИ',
+    and: 'ва'
   },
   documents: {
     title: 'Ҳужжатлар',
@@ -223,7 +311,12 @@ export const uzCyrl = {
     phone: 'Телефон',
     emailInvalid: 'Email хато',
     uploadAvatar: 'Аватар юклаш',
-    changeAvatar: 'Аватарни алмаштириш'
+    changeAvatar: 'Аватарни алмаштириш',
+    emailNotConfirmedTitle: 'Эмаил тасдиқланмаган',
+    emailNotConfirmedBody: 'Почтангизга юборилган линкни босинг. Тасдиқламагунча паролни тиклаш ва бошқа эмаил амаллари блокланган.',
+    resendConfirmation: 'Тасдиқлаш хабарини қайта юбориш',
+    confirmationResent: 'Тасдиқлаш хабари юборилди.',
+    resendFailed: 'Хабарни юбориб бўлмади.'
   },
   password: {
     title: 'Парол',

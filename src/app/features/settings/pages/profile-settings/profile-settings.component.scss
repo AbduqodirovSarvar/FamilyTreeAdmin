@@ -4,6 +4,52 @@
 
 .settings-section { max-width: 720px; }
 
+.email-confirm-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid #f59e0b;
+  border-left: 4px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.banner-icon {
+  flex: 0 0 auto;
+  color: #d97706;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.banner-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.banner-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.banner-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.banner-success {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #16a34a;
+}
+
 .profile-form {
   display: flex;
   flex-direction: column;

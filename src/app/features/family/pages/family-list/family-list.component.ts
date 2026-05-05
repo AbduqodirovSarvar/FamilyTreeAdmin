@@ -11,6 +11,7 @@ import { ImageUrlService } from '../../../../core/services/image-url.service';
 import { Permission } from '../../../../core/enums/permission.enum';
 import { PermissionsService } from '../../../../core/services/permissions.service';
 import { AccountService } from '../../../settings/services/account.service';
+import { FamilyWebUrlService } from '../../../../core/services/family-web-url.service';
 
 @Component({
   selector: 'app-family-list',
@@ -68,11 +69,27 @@ export class FamilyListComponent implements OnInit {
     private readonly familyService: FamilyService,
     private readonly dialog: MatDialog,
     private readonly snackBar: MatSnackBar,
-    private readonly imageUrl: ImageUrlService
+    private readonly imageUrl: ImageUrlService,
+    private readonly familyWebUrl: FamilyWebUrlService
   ) {}
 
   avatarUrl(family: FamilyModel): string | null {
     return this.imageUrl.resolve(family);
+  }
+
+  /** Public web-page URL for the row's family, or null when familyName is missing. */
+  webUrl(family: FamilyModel): string | null {
+    return this.familyWebUrl.build(family.familyName);
+  }
+
+  /** Opens the public family page in a new tab. */
+  openWebPage(family: FamilyModel): void {
+    const url = this.webUrl(family);
+    if (!url) return;
+    // `noopener` prevents the new page from accessing window.opener;
+    // `noreferrer` strips the Referer header so the public site doesn't
+    // know the visitor came from the admin.
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   ngOnInit(): void {

@@ -22,6 +22,8 @@ import { ResetSignInComponent } from './pages/reset-sign-in/page/reset-sign-in.c
 import { ResetSignInService } from './pages/reset-sign-in/services/reset-sign-in.service';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { AuthShellComponent } from './components/auth-shell/auth-shell.component';
+import { ConfirmEmailComponent } from './pages/confirm-email/page/confirm-email.component';
+import { ConfirmEmailService } from './pages/confirm-email/services/confirm-email.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { AuthShellComponent } from './components/auth-shell/auth-shell.component
     SignUpComponent,
     ForgetPasswordComponent,
     ResetSignInComponent,
-    AuthShellComponent
+    AuthShellComponent,
+    ConfirmEmailComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +61,8 @@ import { AuthShellComponent } from './components/auth-shell/auth-shell.component
     SignInService,
     SignUpService,
     ForgetPasswordService,
-    ResetSignInService
+    ResetSignInService,
+    ConfirmEmailService
   ]
 })
 export class AuthModule { }

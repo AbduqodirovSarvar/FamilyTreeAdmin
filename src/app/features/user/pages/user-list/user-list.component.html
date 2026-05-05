@@ -49,7 +49,17 @@
 
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>{{ 'user.colEmail' | translate }}</th>
-        <td mat-cell *matCellDef="let row">{{ row.email || '—' }}</td>
+        <td mat-cell *matCellDef="let row">
+          <div class="cell-flex">
+            <span>{{ row.email || '—' }}</span>
+            <mat-icon *ngIf="row.email && row.emailConfirmed"
+                      class="status-icon confirmed"
+                      [matTooltip]="'user.emailConfirmed' | translate">verified</mat-icon>
+            <mat-icon *ngIf="row.email && !row.emailConfirmed"
+                      class="status-icon unconfirmed"
+                      [matTooltip]="'user.emailUnconfirmed' | translate">error_outline</mat-icon>
+          </div>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="phone">

@@ -1,3 +1,13 @@
+.status-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+
+  &.confirmed { color: #16a34a; }
+  &.unconfirmed { color: #d97706; }
+}
+
 .page-title {
   margin: 0;
   font-size: 24px;

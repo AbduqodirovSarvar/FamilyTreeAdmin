@@ -5,6 +5,8 @@ import { finalize } from 'rxjs';
 import { AccountService } from '../../services/account.service';
 import { UserModel } from '../../../user/models/user.model';
 import { ImageUrlService } from '../../../../core/services/image-url.service';
+import { ConfirmEmailService } from '../../../auth/pages/confirm-email/services/confirm-email.service';
+import { I18nService } from '../../../../core/i18n/i18n.service';
 
 @Component({
   selector: 'app-profile-settings',
@@ -19,12 +21,16 @@ export class ProfileSettingsComponent implements OnInit {
   readonly saving: WritableSignal<boolean> = signal(false);
   readonly user: WritableSignal<UserModel | null> = signal(null);
   readonly selectedFile: WritableSignal<File | null> = signal(null);
+  readonly resendingConfirmation: WritableSignal<boolean> = signal(false);
+  readonly resentAt: WritableSignal<number | null> = signal(null);
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly accountService: AccountService,
     private readonly snackBar: MatSnackBar,
-    private readonly imageUrl: ImageUrlService
+    private readonly imageUrl: ImageUrlService,
+    private readonly confirmEmailService: ConfirmEmailService,
+    private readonly i18n: I18nService
   ) {
     this.form = this.fb.group({
       firstName: [''],
@@ -83,6 +89,41 @@ export class ProfileSettingsComponent implements OnInit {
     const f = (u.firstName ?? '').trim();
     const l = (u.lastName ?? '').trim();
     return ((f[0] ?? '') + (l[0] ?? '')).toUpperCase() || (u.userName?.[0] ?? '?').toUpperCase();
+  }
+
+  /**
+   * Triggers a fresh confirmation email for the signed-in user. Disabled
+   * (and hidden) once the email is confirmed; throttled with `resentAt` so
+   * accidental double-clicks don't spam the SMTP provider.
+   */
+  resendConfirmation(): void {
+    const u = this.user();
+    if (!u?.email || u.emailConfirmed || this.resendingConfirmation()) return;
+    this.resendingConfirmation.set(true);
+    this.confirmEmailService.resend(u.email)
+      .pipe(finalize(() => this.resendingConfirmation.set(false)))
+      .subscribe({
+        next: response => {
+          if (response?.success) {
+            this.resentAt.set(Date.now());
+            this.snackBar.open(
+              this.i18n.translate('profile.confirmationResent'),
+              this.i18n.translate('common.ok'),
+              { duration: 3500 }
+            );
+          } else {
+            this.snackBar.open(
+              response?.message ?? this.i18n.translate('profile.resendFailed'),
+              this.i18n.translate('common.ok'),
+              { duration: 4000 }
+            );
+          }
+        },
+        error: err => {
+          const message = err?.error?.message ?? err?.message ?? this.i18n.translate('profile.resendFailed');
+          this.snackBar.open(message, this.i18n.translate('common.ok'), { duration: 4000 });
+        }
+      });
   }
 
   submit(): void {

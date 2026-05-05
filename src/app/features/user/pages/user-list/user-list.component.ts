@@ -12,6 +12,7 @@ import { FamilyModel } from '../../../family/models/family.model';
 import { ImageUrlService } from '../../../../core/services/image-url.service';
 import { Permission } from '../../../../core/enums/permission.enum';
 import { PermissionsService } from '../../../../core/services/permissions.service';
+import { I18nService } from '../../../../core/i18n/i18n.service';
 
 @Component({
   selector: 'app-user-list',
@@ -42,7 +43,8 @@ export class UserListComponent implements OnInit {
     private readonly familyService: FamilyService,
     private readonly dialog: MatDialog,
     private readonly snackBar: MatSnackBar,
-    private readonly imageUrl: ImageUrlService
+    private readonly imageUrl: ImageUrlService,
+    private readonly i18n: I18nService
   ) {}
 
   avatarUrl(user: UserModel): string | null {
@@ -109,12 +111,12 @@ export class UserListComponent implements OnInit {
   }
 
   confirmDelete(user: UserModel): void {
-    const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ') || user.userName || user.email || 'this user';
     const ref = this.dialog.open<ConfirmDialogComponent, ConfirmDialogData, boolean>(ConfirmDialogComponent, {
       data: {
-        title: 'Delete user',
-        message: `Delete "${fullName}"? This cannot be undone.`,
-        confirmText: 'Delete',
+        title: this.i18n.translate('user.deleteConfirmTitle'),
+        message: this.i18n.translate('user.deleteConfirmMessage', { name: this.displayName(user) }),
+        confirmText: this.i18n.translate('common.delete'),
+        cancelText: this.i18n.translate('common.cancel'),
         confirmColor: 'warn'
       }
     });
@@ -123,19 +125,25 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  /** Best-effort label for the row — used in confirmation messages. */
+  private displayName(user: UserModel): string {
+    const full = [user.firstName, user.lastName].filter(Boolean).join(' ').trim();
+    return full || user.userName || user.email || '—';
+  }
+
   private delete(id: string): void {
     this.userService.removeUser(id).subscribe({
       next: response => {
         if (response?.success) {
-          this.snackBar.open('User deleted', 'OK', { duration: 2500 });
+          this.snackBar.open(this.i18n.translate('user.deletedToast'), this.i18n.translate('common.ok'), { duration: 2500 });
           this.load();
         } else {
-          this.snackBar.open(response?.message ?? 'Delete failed', 'OK', { duration: 4000 });
+          this.snackBar.open(response?.message ?? this.i18n.translate('user.deleteFailed'), this.i18n.translate('common.ok'), { duration: 4000 });
         }
       },
       error: err => {
-        const message = err?.error?.message ?? err?.message ?? 'Delete failed';
-        this.snackBar.open(message, 'OK', { duration: 4000 });
+        const message = err?.error?.message ?? err?.message ?? this.i18n.translate('user.deleteFailed');
+        this.snackBar.open(message, this.i18n.translate('common.ok'), { duration: 4000 });
       }
     });
   }

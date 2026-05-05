@@ -1,14 +1,14 @@
-<h2 mat-dialog-title>{{ data.title || 'Confirm' }}</h2>
+<h2 mat-dialog-title>{{ data.title || ('common.confirm' | translate) }}</h2>
 <mat-dialog-content>
   <p>{{ data.message }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="cancel()">
-    {{ data.cancelText || 'Cancel' }}
+    {{ data.cancelText || ('common.cancel' | translate) }}
   </button>
   <button mat-flat-button
           [color]="data.confirmColor || 'primary'"
           (click)="confirm()">
-    {{ data.confirmText || 'Confirm' }}
+    {{ data.confirmText || ('common.confirm' | translate) }}
   </button>
 </mat-dialog-actions>

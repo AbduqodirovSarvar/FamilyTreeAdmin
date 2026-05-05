@@ -18,7 +18,9 @@ export const en = {
     refresh: 'Refresh',
     confirm: 'Confirm',
     saveChanges: 'Save changes',
-    noPermission: "You don't have permission for this action"
+    noPermission: "You don't have permission for this action",
+    saveConfirmTitle: 'Save changes',
+    saveConfirmMessage: 'Save your changes?'
   },
   nav: {
     dashboard: 'Home',
@@ -52,6 +54,9 @@ export const en = {
     signUp: 'Sign up',
     loginRequired: 'Login is required',
     passwordRequired: 'Password is required'
+  },
+  brand: {
+    name: 'Shajara System'
   },
   authShell: {
     taglineDefault: 'Keep your family history in one place.',
@@ -109,6 +114,26 @@ export const en = {
     back: 'Back',
     rememberPassword: 'Remembered your password?'
   },
+  confirmEmail: {
+    title: 'Confirm email',
+    subtitle: 'Check your inbox to confirm your email address.',
+    tagline: 'Just one more step.',
+    caption: 'Confirm your email to unlock your account.',
+    pending: 'Confirming…',
+    successTitle: 'Email confirmed!',
+    successBody: 'You can now sign in and manage your family tree.',
+    toSignIn: 'Go to sign in',
+    errorTitle: 'Could not confirm',
+    generic: 'Could not confirm. The link is invalid or expired.',
+    missingToken: 'The URL has no confirmation token.',
+    resendHint: "Didn't get the email? Enter your address below and we'll send a new link.",
+    email: 'Email',
+    emailRequired: 'Email is required',
+    emailInvalid: 'Invalid email format',
+    resendButton: 'Resend email',
+    resendSent: 'A new confirmation email has been sent.',
+    resendFailed: 'Could not send the email.'
+  },
   resetPassword: {
     title: 'Reset password',
     subtitle: 'Enter the code from your email and pick a new password.',
@@ -134,7 +159,12 @@ export const en = {
     actionManageFamilies: 'Manage families',
     actionMembersList: 'Members list',
     actionViewTree: 'View tree',
-    actionUsers: 'Users'
+    actionUsers: 'Users',
+    unconnectedTitle: 'Unconnected members',
+    unconnectedSubtitle: 'Members with no family relations — they appear separated on the tree.',
+    unconnectedCount: 'Unconnected: {count}',
+    unconnectedView: 'Go to members',
+    unconnectedEmpty: 'All members are properly connected.'
   },
   family: {
     title: 'Families',
@@ -148,7 +178,8 @@ export const en = {
     colCreatedAt: 'CREATED',
     notOwnerEdit: 'You can only edit families you created',
     notOwnerDelete: 'You can only delete families you created',
-    onlyMine: 'Only my families'
+    onlyMine: 'Only my families',
+    openWebPage: 'Open web page'
   },
   member: {
     title: 'Family members',
@@ -164,7 +195,10 @@ export const en = {
     colFio: 'FULL NAME',
     colRelation: 'RELATION',
     colBirthYear: 'BIRTH YEAR',
+    colBirthDate: 'BIRTHDAY',
+    colGender: 'GENDER',
     colStatus: 'STATUS',
+    colFamily: 'FAMILY',
     son: 'Son',
     daughter: 'Daughter',
     statusActive: 'ACTIVE',
@@ -172,7 +206,35 @@ export const en = {
     statusArchived: 'ARCHIVED',
     notOwnerEdit: 'You can only edit members of families you created',
     notOwnerDelete: 'You can only delete members of families you created',
-    needOwnFamily: 'Create your own family first to add members'
+    needOwnFamily: 'Create your own family first to add members',
+    createTitle: 'New member',
+    editTitle: 'Edit member',
+    firstName: 'First name',
+    lastName: 'Last name',
+    description: 'Description',
+    birthDay: 'Birth day',
+    deathDay: 'Death day',
+    deathDayOptional: 'Death day (optional)',
+    gender: 'Gender',
+    father: 'Father',
+    mother: 'Mother',
+    spouse: 'Spouse',
+    uploadImage: 'Upload image',
+    changeImage: 'Change image',
+    create: 'Create',
+    save: 'Save',
+    createdToast: 'Member created',
+    updatedToast: 'Member updated',
+    operationFailed: 'Operation failed',
+    loadRefsFailed: 'Failed to load reference data',
+    requestFailed: 'Request failed',
+    noRelationsTitle: 'No relations set',
+    noRelationsMessage: 'This member has no relations (father, mother, or spouse) set. They will appear disconnected on the tree. Continue anyway?',
+    continueAnyway: 'Continue'
+  },
+  gender: {
+    male: 'Male',
+    female: 'Female'
   },
   user: {
     title: 'Users',
@@ -184,7 +246,32 @@ export const en = {
     colUserName: 'USERNAME',
     colEmail: 'EMAIL',
     colPhone: 'PHONE',
-    colFamily: 'FAMILY'
+    colFamily: 'FAMILY',
+    editTitle: 'Edit user',
+    emailConfirmed: 'Email confirmed',
+    emailUnconfirmed: 'Email not confirmed',
+    emailConfirmedToggle: 'Mark email as confirmed',
+    emailConfirmedHint: 'Only administrators or users with full User permissions can change this flag.',
+    editConfirmTitle: 'Confirm edit',
+    editConfirmMessage: 'Open the editor for "{name}"?',
+    deleteConfirmTitle: 'Delete user',
+    deleteConfirmMessage: 'Delete user "{name}"? This cannot be undone.',
+    deletedToast: 'User deleted',
+    deleteFailed: 'Delete failed'
+  },
+  permissions: {
+    action: {
+      view: 'View',
+      create: 'Create',
+      update: 'Update',
+      delete: 'Delete'
+    },
+    family: { title: 'Family' },
+    member: { title: 'Member' },
+    user: { title: 'User' },
+    role: { title: 'Role' },
+    file: { title: 'File' },
+    rolePermission: { title: 'Role permissions' }
   },
   preview: {
     title: 'Family tree',
@@ -201,7 +288,8 @@ export const en = {
     son: 'Son',
     daughter: 'Daughter',
     commonChildren: 'COMMON CHILDREN',
-    childrenSuffix: 'CHILDREN'
+    childrenSuffix: 'CHILDREN',
+    and: 'and'
   },
   documents: {
     title: 'Documents',
@@ -223,7 +311,12 @@ export const en = {
     phone: 'Phone',
     emailInvalid: 'Invalid email',
     uploadAvatar: 'Upload avatar',
-    changeAvatar: 'Change avatar'
+    changeAvatar: 'Change avatar',
+    emailNotConfirmedTitle: 'Email not confirmed',
+    emailNotConfirmedBody: 'Open your inbox and click the confirmation link. Password reset and other email actions are blocked until you confirm.',
+    resendConfirmation: 'Resend confirmation email',
+    confirmationResent: 'Confirmation email sent.',
+    resendFailed: 'Could not send the email.'
   },
   password: {
     title: 'Password',

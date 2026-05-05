@@ -12,6 +12,28 @@
   @if (loading()) {
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   } @else {
+    @if (user() && user()!.emailConfirmed === false) {
+      <div class="email-confirm-banner">
+        <mat-icon class="banner-icon">mark_email_unread</mat-icon>
+        <div class="banner-body">
+          <div class="banner-title">{{ 'profile.emailNotConfirmedTitle' | translate }}</div>
+          <div class="banner-text">{{ 'profile.emailNotConfirmedBody' | translate }}</div>
+          @if (resentAt()) {
+            <div class="banner-success">{{ 'profile.confirmationResent' | translate }}</div>
+          }
+        </div>
+        <button mat-flat-button color="primary"
+                (click)="resendConfirmation()"
+                [disabled]="resendingConfirmation()">
+          @if (resendingConfirmation()) {
+            <mat-spinner diameter="18"></mat-spinner>
+          } @else {
+            <span>{{ 'profile.resendConfirmation' | translate }}</span>
+          }
+        </button>
+      </div>
+    }
+
     <form [formGroup]="form" (ngSubmit)="submit()" class="profile-form">
       <div class="avatar-row">
         <div class="avatar" [class.has-image]="!!avatarSrc()">

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize, forkJoin, of } from 'rxjs';
 import { MemberService } from '../../services/member.service';
@@ -8,6 +8,8 @@ import { MemberModel } from '../../models/member.model';
 import { FamilyService } from '../../../family/services/family.service';
 import { FamilyModel } from '../../../family/models/family.model';
 import { Gender, GENDER_OPTIONS } from '../../../../core/enums/gender.enum';
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 export interface MemberFormDialogData {
   mode: 'create' | 'edit';
@@ -39,6 +41,8 @@ export class MemberFormComponent implements OnInit {
     private readonly memberService: MemberService,
     private readonly familyService: FamilyService,
     private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog,
+    private readonly i18n: I18nService,
     public dialogRef: MatDialogRef<MemberFormComponent, boolean>,
     @Inject(MAT_DIALOG_DATA) public data: MemberFormDialogData
   ) {
@@ -78,7 +82,7 @@ export class MemberFormComponent implements OnInit {
         this.relatives.set(relatives?.data ?? []);
       },
       error: () => {
-        this.snackBar.open('Failed to load reference data', 'OK', { duration: 4000 });
+        this.snackBar.open(this.i18n.translate('member.loadRefsFailed'), this.i18n.translate('common.ok'), { duration: 4000 });
       }
     });
   }
@@ -101,8 +105,72 @@ export class MemberFormComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  submit(): void {
+  /**
+   * Spouse picker should only show opposite-gender candidates — same-sex
+   * marriages aren't part of this domain, and filtering keeps the dropdown
+   * short and unambiguous.
+   */
+  oppositeGender(m: MemberModel): boolean {
+    const current = this.form.get('gender')?.value;
+    return m.gender !== current;
+  }
+
+  /**
+   * No-relations check: blocks the silent "stray member" path that used to
+   * leave a wife floating in a separate corner of the tree. We still allow
+   * the user to confirm and proceed (e.g. they really do want a standalone
+   * head-of-family entry), but the warning surfaces the missing link before
+   * it bites them on the tree-preview.
+   */
+  private hasNoRelations(): boolean {
+    const v = this.form.value;
+    return !v.fatherId && !v.motherId && !v.spouseId;
+  }
+
+  private confirmNoRelations(): Promise<boolean> {
+    return new Promise(resolve => {
+      const ref = this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: this.i18n.translate('member.noRelationsTitle'),
+          message: this.i18n.translate('member.noRelationsMessage'),
+          confirmText: this.i18n.translate('member.continueAnyway'),
+          cancelText: this.i18n.translate('common.cancel'),
+          confirmColor: 'warn'
+        },
+        width: '420px'
+      });
+      ref.afterClosed().subscribe(ok => resolve(!!ok));
+    });
+  }
+
+  /** Generic save-time confirmation — same UX in every form dialog. */
+  private confirmSave(): Promise<boolean> {
+    return new Promise(resolve => {
+      const ref = this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: this.i18n.translate('common.saveConfirmTitle'),
+          message: this.i18n.translate('common.saveConfirmMessage'),
+          confirmText: this.i18n.translate('common.save'),
+          cancelText: this.i18n.translate('common.cancel'),
+          confirmColor: 'primary'
+        }
+      });
+      ref.afterClosed().subscribe(ok => resolve(!!ok));
+    });
+  }
+
+  async submit(): Promise<void> {
     if (this.form.invalid || this.submitting()) return;
+
+    if (this.hasNoRelations()) {
+      const confirmed = await this.confirmNoRelations();
+      if (!confirmed) return;
+    } else {
+      // Two confirmations would be overkill — only ask the generic save
+      // question when the no-relations warning didn't already gate the flow.
+      const confirmed = await this.confirmSave();
+      if (!confirmed) return;
+    }
 
     this.submitting.set(true);
     const v = this.form.value;
@@ -140,15 +208,16 @@ export class MemberFormComponent implements OnInit {
     request$.pipe(finalize(() => this.submitting.set(false))).subscribe({
       next: response => {
         if (response?.success) {
-          this.snackBar.open(this.mode === 'create' ? 'Member created' : 'Member updated', 'OK', { duration: 2500 });
+          const toastKey = this.mode === 'create' ? 'member.createdToast' : 'member.updatedToast';
+          this.snackBar.open(this.i18n.translate(toastKey), this.i18n.translate('common.ok'), { duration: 2500 });
           this.dialogRef.close(true);
         } else {
-          this.snackBar.open(response?.message ?? 'Operation failed', 'OK', { duration: 4000 });
+          this.snackBar.open(response?.message ?? this.i18n.translate('member.operationFailed'), this.i18n.translate('common.ok'), { duration: 4000 });
         }
       },
       error: err => {
-        const message = err?.error?.message ?? err?.message ?? 'Request failed';
-        this.snackBar.open(message, 'OK', { duration: 4000 });
+        const message = err?.error?.message ?? err?.message ?? this.i18n.translate('member.requestFailed');
+        this.snackBar.open(message, this.i18n.translate('common.ok'), { duration: 4000 });
       }
     });
   }

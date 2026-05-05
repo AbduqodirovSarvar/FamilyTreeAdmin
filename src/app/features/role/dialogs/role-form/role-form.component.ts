@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, computed, inject, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs';
 import { RoleService } from '../../services/role.service';
@@ -8,51 +8,54 @@ import { RoleModel } from '../../models/role.model';
 import { Permission, PermissionName } from '../../../../core/enums/permission.enum';
 import { PermissionsService } from '../../../../core/services/permissions.service';
 import { RolePermissionService } from '../../../../core/services/role-permission.service';
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 export interface RoleFormDialogData {
   mode: 'create' | 'edit';
   role?: RoleModel;
 }
 
-interface PermissionRow { name: PermissionName; label: string; }
-interface PermissionGroup { title: string; rows: PermissionRow[]; }
+/** Translation-key shape — same layout as user-form. */
+interface PermissionRowKey { name: PermissionName; labelKey: string; }
+interface PermissionGroupKey { titleKey: string; rows: PermissionRowKey[]; }
 
-const PERMISSION_GROUPS: PermissionGroup[] = [
-  { title: 'Family',           rows: [
-    { name: Permission.GET_FAMILY,             label: 'View'   },
-    { name: Permission.CREATE_FAMILY,          label: 'Create' },
-    { name: Permission.UPDATE_FAMILY,          label: 'Update' },
-    { name: Permission.DELETE_FAMILY,          label: 'Delete' }
+const PERMISSION_GROUPS: PermissionGroupKey[] = [
+  { titleKey: 'permissions.family.title', rows: [
+    { name: Permission.GET_FAMILY,             labelKey: 'permissions.action.view'   },
+    { name: Permission.CREATE_FAMILY,          labelKey: 'permissions.action.create' },
+    { name: Permission.UPDATE_FAMILY,          labelKey: 'permissions.action.update' },
+    { name: Permission.DELETE_FAMILY,          labelKey: 'permissions.action.delete' }
   ]},
-  { title: 'Member',           rows: [
-    { name: Permission.GET_MEMBER,             label: 'View'   },
-    { name: Permission.CREATE_MEMBER,          label: 'Create' },
-    { name: Permission.UPDATE_MEMBER,          label: 'Update' },
-    { name: Permission.DELETE_MEMBER,          label: 'Delete' }
+  { titleKey: 'permissions.member.title', rows: [
+    { name: Permission.GET_MEMBER,             labelKey: 'permissions.action.view'   },
+    { name: Permission.CREATE_MEMBER,          labelKey: 'permissions.action.create' },
+    { name: Permission.UPDATE_MEMBER,          labelKey: 'permissions.action.update' },
+    { name: Permission.DELETE_MEMBER,          labelKey: 'permissions.action.delete' }
   ]},
-  { title: 'User',             rows: [
-    { name: Permission.GET_USER,               label: 'View'   },
-    { name: Permission.CREATE_USER,            label: 'Create' },
-    { name: Permission.UPDATE_USER,            label: 'Update' },
-    { name: Permission.DELETE_USER,            label: 'Delete' }
+  { titleKey: 'permissions.user.title', rows: [
+    { name: Permission.GET_USER,               labelKey: 'permissions.action.view'   },
+    { name: Permission.CREATE_USER,            labelKey: 'permissions.action.create' },
+    { name: Permission.UPDATE_USER,            labelKey: 'permissions.action.update' },
+    { name: Permission.DELETE_USER,            labelKey: 'permissions.action.delete' }
   ]},
-  { title: 'Role',             rows: [
-    { name: Permission.GET_ROLE,               label: 'View'   },
-    { name: Permission.CREATE_ROLE,            label: 'Create' },
-    { name: Permission.UPDATE_ROLE,            label: 'Update' },
-    { name: Permission.DELETE_ROLE,            label: 'Delete' }
+  { titleKey: 'permissions.role.title', rows: [
+    { name: Permission.GET_ROLE,               labelKey: 'permissions.action.view'   },
+    { name: Permission.CREATE_ROLE,            labelKey: 'permissions.action.create' },
+    { name: Permission.UPDATE_ROLE,            labelKey: 'permissions.action.update' },
+    { name: Permission.DELETE_ROLE,            labelKey: 'permissions.action.delete' }
   ]},
-  { title: 'File',             rows: [
-    { name: Permission.GET_FILE,               label: 'View'   },
-    { name: Permission.CREATE_FILE,            label: 'Create' },
-    { name: Permission.UPDATE_FILE,            label: 'Update' },
-    { name: Permission.DELETE_FILE,            label: 'Delete' }
+  { titleKey: 'permissions.file.title', rows: [
+    { name: Permission.GET_FILE,               labelKey: 'permissions.action.view'   },
+    { name: Permission.CREATE_FILE,            labelKey: 'permissions.action.create' },
+    { name: Permission.UPDATE_FILE,            labelKey: 'permissions.action.update' },
+    { name: Permission.DELETE_FILE,            labelKey: 'permissions.action.delete' }
   ]},
-  { title: 'Role permissions', rows: [
-    { name: Permission.GET_ROLE_PERMISSION,    label: 'View'   },
-    { name: Permission.CREATE_ROLE_PERMISSION, label: 'Create' },
-    { name: Permission.UPDATE_ROLE_PERMISSION, label: 'Update' },
-    { name: Permission.DELETE_ROLE_PERMISSION, label: 'Delete' }
+  { titleKey: 'permissions.rolePermission.title', rows: [
+    { name: Permission.GET_ROLE_PERMISSION,    labelKey: 'permissions.action.view'   },
+    { name: Permission.CREATE_ROLE_PERMISSION, labelKey: 'permissions.action.create' },
+    { name: Permission.UPDATE_ROLE_PERMISSION, labelKey: 'permissions.action.update' },
+    { name: Permission.DELETE_ROLE_PERMISSION, labelKey: 'permissions.action.delete' }
   ]}
 ];
 
@@ -91,6 +94,8 @@ export class RoleFormComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly roleService: RoleService,
     private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog,
+    private readonly i18n: I18nService,
     public dialogRef: MatDialogRef<RoleFormComponent, boolean>,
     @Inject(MAT_DIALOG_DATA) public data: RoleFormDialogData
   ) {
@@ -194,8 +199,30 @@ export class RoleFormComponent implements OnInit {
 
   cancel(): void { this.dialogRef.close(false); }
 
-  submit(): void {
+  /** Save-time confirmation, mirrored across every form dialog. */
+  private confirmSave(): Promise<boolean> {
+    return new Promise(resolve => {
+      const ref = this.dialog.open<ConfirmDialogComponent, ConfirmDialogData, boolean>(
+        ConfirmDialogComponent, {
+          data: {
+            title: this.i18n.translate('common.saveConfirmTitle'),
+            message: this.i18n.translate('common.saveConfirmMessage'),
+            confirmText: this.i18n.translate('common.save'),
+            cancelText: this.i18n.translate('common.cancel'),
+            confirmColor: 'primary'
+          }
+        }
+      );
+      ref.afterClosed().subscribe(ok => resolve(!!ok));
+    });
+  }
+
+  async submit(): Promise<void> {
     if (this.form.invalid || this.submitting()) return;
+
+    const ok = await this.confirmSave();
+    if (!ok) return;
+
     const v = this.form.value;
     this.submitting.set(true);
 

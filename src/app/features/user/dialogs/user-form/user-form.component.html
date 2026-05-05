@@ -1,49 +1,59 @@
-<h2 mat-dialog-title>Edit user</h2>
+<h2 mat-dialog-title>{{ 'user.editTitle' | translate }}</h2>
 
 <form [formGroup]="form" (ngSubmit)="submit()" class="user-form">
   <mat-dialog-content>
     <div class="row">
       <mat-form-field appearance="outline">
-        <mat-label>First name</mat-label>
+        <mat-label>{{ 'profile.firstName' | translate }}</mat-label>
         <input matInput formControlName="firstName">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Last name</mat-label>
+        <mat-label>{{ 'profile.lastName' | translate }}</mat-label>
         <input matInput formControlName="lastName">
       </mat-form-field>
     </div>
 
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Username</mat-label>
+      <mat-label>{{ 'profile.userName' | translate }}</mat-label>
       <input matInput formControlName="userName">
     </mat-form-field>
 
     <div class="row">
       <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
+        <mat-label>{{ 'profile.email' | translate }}</mat-label>
         <input matInput type="email" formControlName="email">
-        <mat-error *ngIf="form.controls['email'].hasError('email')">Invalid email</mat-error>
+        <mat-error *ngIf="form.controls['email'].hasError('email')">{{ 'profile.emailInvalid' | translate }}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Phone</mat-label>
+        <mat-label>{{ 'profile.phone' | translate }}</mat-label>
         <input matInput formControlName="phone">
       </mat-form-field>
     </div>
 
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Family</mat-label>
+      <mat-label>{{ 'user.family' | translate }}</mat-label>
       <mat-select formControlName="familyId">
-        <mat-option [value]="null">— None —</mat-option>
+        <mat-option [value]="null">{{ 'common.none' | translate }}</mat-option>
         <mat-option *ngFor="let f of families()" [value]="f.id">{{ f.name }}</mat-option>
       </mat-select>
     </mat-form-field>
 
+    <!-- Email confirmation toggle — admin-only. The backend re-validates the
+         caller's permissions, so even if a non-admin somehow flips this in
+         the DOM, the request will be rejected with 401. -->
+    <div class="email-confirmed-row" *ngIf="canToggleEmailConfirmed()">
+      <mat-checkbox formControlName="emailConfirmed">
+        {{ 'user.emailConfirmedToggle' | translate }}
+      </mat-checkbox>
+      <p class="hint">{{ 'user.emailConfirmedHint' | translate }}</p>
+    </div>
+
     <div class="file-row">
       <button mat-stroked-button type="button" (click)="fileInput.click()">
         <mat-icon>image</mat-icon>
-        {{ selectedFile() ? 'Change avatar' : 'Upload avatar' }}
+        {{ (selectedFile() ? 'profile.changeAvatar' : 'profile.uploadAvatar') | translate }}
       </button>
       <span class="file-name" *ngIf="selectedFile() as file">{{ file.name }}</span>
       <input #fileInput type="file" hidden accept="image/*" (change)="onFileSelected($event)">
@@ -54,24 +64,21 @@
         <header class="permissions-head">
           <div class="permissions-title-row">
             <mat-icon class="lock-icon">lock_open</mat-icon>
-            <h3 class="permissions-title">Foydalanuvchi huquqlari</h3>
+            <h3 class="permissions-title">{{ 'role.permissionsTitle' | translate }}</h3>
           </div>
-          <p class="permissions-note">
-            O'zgartirishlar foydalanuvchining roli uchun amal qiladi —
-            shu rolga ega barcha foydalanuvchilar ta'sirlanadi.
-          </p>
+          <p class="permissions-note">{{ 'role.permissionsNote' | translate }}</p>
         </header>
 
         @if (loadingPermissions()) {
           <div class="permissions-loading">
             <mat-spinner diameter="20"></mat-spinner>
-            <span>Huquqlar yuklanmoqda…</span>
+            <span>{{ 'role.permissionsLoading' | translate }}</span>
           </div>
         } @else {
           <div class="permission-grid">
-            @for (group of groups; track group.title) {
+            @for (group of groups; track group.titleKey) {
               <div class="permission-group">
-                <h4 class="group-title">{{ group.title }}</h4>
+                <h4 class="group-title">{{ group.titleKey | translate }}</h4>
                 <div class="group-rows">
                   @for (row of group.rows; track row.name) {
                     <mat-checkbox
@@ -80,7 +87,7 @@
                       [disabled]="isToggling(row.name) ||
                                   (isGranted(row.name) ? !canRevoke() : !canGrant())"
                       (change)="togglePermission(row.name, !isGranted(row.name))">
-                      {{ row.label }}
+                      {{ row.labelKey | translate }}
                     </mat-checkbox>
                   }
                 </div>
@@ -93,10 +100,10 @@
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button mat-button type="button" (click)="cancel()" [disabled]="submitting()">Cancel</button>
+    <button mat-button type="button" (click)="cancel()" [disabled]="submitting()">{{ 'common.cancel' | translate }}</button>
     <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || submitting()">
       <mat-spinner *ngIf="submitting()" diameter="18"></mat-spinner>
-      <span *ngIf="!submitting()">Save</span>
+      <span *ngIf="!submitting()">{{ 'common.save' | translate }}</span>
     </button>
   </mat-dialog-actions>
 </form>

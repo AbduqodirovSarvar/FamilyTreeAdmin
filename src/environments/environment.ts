@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5009'
+  apiUrl: 'https://api.my-family.svlab.uz',
+  webAppUrl: 'https://family.svlab.uz'
 };

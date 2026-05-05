@@ -61,7 +61,11 @@ export class TreeNodeComponent {
   birthYear(m: TreeMemberModel): string {
     if (!m.birthDay) return '';
     const d = new Date(m.birthDay);
-    return isNaN(d.getTime()) ? '' : d.getFullYear().toString();
+    if (isNaN(d.getTime())) return '';
+    const day = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}.${month}.${year}`;
   }
 
   /** Status dot color: alive (green), pending/unknown (amber), deceased (gray). */
@@ -88,14 +92,32 @@ export class TreeNodeComponent {
     return index === 0 ? base : `${base} (${index + 1})`;
   }
 
-  /** "[SPOUSE LASTNAME] FARZANDLARI" — pink badge above each spouse-group's children block. */
+  /**
+   * Children-block badge — shows BOTH parents' full name (first + last)
+   * so users instantly see whose kids belong to whom. Falls back gracefully
+   * when one side has only a partial name. Format:
+   *   "Sarvar Abduqodirov va Gulnora Xolmurodova FARZANDLARI"
+   */
   spouseGroupLabel(group: SpouseGroupModel): string {
     this.i18n.lang();
-    const last = (group.spouse.lastName ?? '').trim();
-    const first = (group.spouse.firstName ?? '').trim();
-    const tag = (last || first || this.familyName || '').toUpperCase();
+    const node = this._node();
+    const primaryFull = node ? this.fullName(node.primary) : '';
+    const spouseFull = this.fullName(group.spouse);
     const suffix = this.i18n.translate('preview.childrenSuffix');
-    return tag ? `${tag} ${suffix}` : suffix;
+    const conjunction = this.i18n.translate('preview.and');
+
+    const parts = [primaryFull, spouseFull].filter(p => p.length > 0);
+    if (parts.length === 0) {
+      return (this.familyName ?? '').toUpperCase() + ' ' + suffix;
+    }
+    const couple = parts.join(` ${conjunction} `);
+    return `${couple.toUpperCase()} ${suffix}`;
+  }
+
+  /** "First Last" with graceful fallback — used by spouseGroupLabel. */
+  private fullName(m: TreeMemberModel): string {
+    const parts = [m.firstName, m.lastName].filter(Boolean).map(s => (s as string).trim());
+    return parts.filter(p => p.length > 0).join(' ');
   }
 
   /** "UMUMIY FARZANDLAR" — gray badge above the common-children block. */

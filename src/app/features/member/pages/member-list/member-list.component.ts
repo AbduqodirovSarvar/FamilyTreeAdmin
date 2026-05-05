@@ -36,10 +36,6 @@ export class MemberListComponent implements OnInit {
   readonly recentCount: WritableSignal<number> = signal(0);
   readonly generations: WritableSignal<number> = signal(0);
 
-  birthYear(m: MemberModel): string {
-    return m.birthDay ? new Date(m.birthDay).getFullYear().toString() : '—';
-  }
-
   readonly Gender = Gender;
 
   /** Action gating — see family-list for the same pattern. */

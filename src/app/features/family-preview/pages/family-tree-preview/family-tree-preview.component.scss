@@ -45,6 +45,40 @@
   }
 }
 
+/* "Open web page" CTA — icon-only square button, matched in height to the
+   text outline buttons next to it. Tooltip carries the label so the visual
+   stays uncluttered. */
+.btn-icon.btn-web {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+
+  &:hover:not(:disabled) {
+    border-color: var(--brand);
+    color: var(--brand);
+    background: var(--brand-soft);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
 .canvas-card {
   background: var(--surface);
   border: 1px solid var(--border);

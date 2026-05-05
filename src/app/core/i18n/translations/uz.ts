@@ -18,7 +18,9 @@ export const uz = {
     refresh: 'Yangilash',
     confirm: 'Tasdiqlash',
     saveChanges: "O'zgarishlarni saqlash",
-    noPermission: "Bu amal uchun sizda huquq yo'q"
+    noPermission: "Bu amal uchun sizda huquq yo'q",
+    saveConfirmTitle: "O'zgarishlarni saqlash",
+    saveConfirmMessage: "Kiritilgan o'zgarishlarni saqlashni xohlaysizmi?"
   },
   nav: {
     dashboard: 'Bosh sahifa',
@@ -53,9 +55,12 @@ export const uz = {
     loginRequired: 'Login majburiy',
     passwordRequired: 'Parol majburiy'
   },
+  brand: {
+    name: 'Shajara Tizimi'
+  },
   authShell: {
     taglineDefault: 'Oilangiz tarixini bir joyda saqlang',
-    captionDefault: "Shajara System — zamonaviy va ishonchli oilaviy daraxt boshqaruvi.",
+    captionDefault: "Shajara Tizimi — zamonaviy va ishonchli oilaviy daraxt boshqaruvi.",
     feature1: "A'zolar va avlodlarni qulay boshqarish",
     feature2: "Ko'p tilli interfeys va mavzular",
     feature3: 'Maxfiy va xavfsiz saqlash',
@@ -109,6 +114,26 @@ export const uz = {
     back: 'Orqaga',
     rememberPassword: 'Parolni esladingizmi?'
   },
+  confirmEmail: {
+    title: 'Emailni tasdiqlash',
+    subtitle: 'Email manzilingizni tasdiqlash uchun habarlarni tekshiring.',
+    tagline: 'Faqat bitta qadam qoldi.',
+    caption: 'Pochta manzilingizni tasdiqlab, hisobingizning to\'liq imkoniyatlaridan foydalaning.',
+    pending: 'Tasdiqlanmoqda…',
+    successTitle: 'Email tasdiqlandi!',
+    successBody: 'Endi tizimga kirib, oilangiz daraxtini boshqarishingiz mumkin.',
+    toSignIn: 'Kirish sahifasiga o\'tish',
+    errorTitle: 'Tasdiqlab bo\'lmadi',
+    generic: 'Tasdiqlab bo\'lmadi. Link muddati tugagan yoki noto\'g\'ri.',
+    missingToken: 'Manzilda tasdiqlash kodi yo\'q.',
+    resendHint: 'Habar kelmadi? Quyidagi formada email kiriting va yangi link oling.',
+    email: 'Email',
+    emailRequired: 'Email majburiy',
+    emailInvalid: 'Email formati noto\'g\'ri',
+    resendButton: 'Habarni qayta yuborish',
+    resendSent: 'Yangi tasdiqlash habari yuborildi.',
+    resendFailed: 'Habar yuborib bo\'lmadi.'
+  },
   resetPassword: {
     title: 'Parolni tiklash',
     subtitle: 'Emailga kelgan kodni kiriting va yangi parol tanlang.',
@@ -134,7 +159,12 @@ export const uz = {
     actionManageFamilies: 'Oilalarni boshqarish',
     actionMembersList: "A'zolar ro'yxati",
     actionViewTree: "Shajarani ko'rish",
-    actionUsers: 'Foydalanuvchilar'
+    actionUsers: 'Foydalanuvchilar',
+    unconnectedTitle: "Bog'lanmagan a'zolar",
+    unconnectedSubtitle: "Hech kim bilan oilaviy aloqasi bo'lmagan a'zolar — ular daraxtda alohida ko'rinadi.",
+    unconnectedCount: "Bog'lanmagan: {count} ta",
+    unconnectedView: "A'zolarga o'tish",
+    unconnectedEmpty: "Barcha a'zolar to'g'ri bog'langan."
   },
   family: {
     title: 'Oilalar',
@@ -148,7 +178,8 @@ export const uz = {
     colCreatedAt: 'YARATILGAN',
     notOwnerEdit: "Faqat o'zingiz yaratgan oilani tahrirlay olasiz",
     notOwnerDelete: "Faqat o'zingiz yaratgan oilani o'chira olasiz",
-    onlyMine: "Faqat mening oilalarim"
+    onlyMine: "Faqat mening oilalarim",
+    openWebPage: "Web sahifasiga o'tish"
   },
   member: {
     title: "Oila a'zolari",
@@ -164,7 +195,10 @@ export const uz = {
     colFio: 'F.I.O.',
     colRelation: 'MUNOSABATI',
     colBirthYear: "TUG'ILGAN YILI",
+    colBirthDate: "TUG'ILGAN SANASI",
+    colGender: 'JINSI',
     colStatus: 'HOLATI',
+    colFamily: 'OILASI',
     son: "O'g'li",
     daughter: 'Qizi',
     statusActive: 'FAOL',
@@ -172,7 +206,35 @@ export const uz = {
     statusArchived: 'ARXIV',
     notOwnerEdit: "Faqat o'zingiz yaratgan oilaning a'zosini tahrirlay olasiz",
     notOwnerDelete: "Faqat o'zingiz yaratgan oilaning a'zosini o'chira olasiz",
-    needOwnFamily: "A'zo qo'shish uchun avval o'zingiz oilangizni yarating"
+    needOwnFamily: "A'zo qo'shish uchun avval o'zingiz oilangizni yarating",
+    createTitle: "Yangi a'zo qo'shish",
+    editTitle: "A'zoni tahrirlash",
+    firstName: 'Ism',
+    lastName: 'Familiya',
+    description: 'Tavsif',
+    birthDay: "Tug'ilgan kuni",
+    deathDay: 'Vafot etgan kuni',
+    deathDayOptional: 'Vafot etgan kuni (ixtiyoriy)',
+    gender: 'Jinsi',
+    father: 'Otasi',
+    mother: 'Onasi',
+    spouse: "Turmush o'rtog'i",
+    uploadImage: 'Rasm yuklash',
+    changeImage: 'Rasmni almashtirish',
+    create: 'Yaratish',
+    save: 'Saqlash',
+    createdToast: "A'zo yaratildi",
+    updatedToast: 'Yangilandi',
+    operationFailed: 'Amal bajarilmadi',
+    loadRefsFailed: "Ma'lumotlarni yuklab bo'lmadi",
+    requestFailed: "So'rov bajarilmadi",
+    noRelationsTitle: "Hech kim bilan bog'lanmagan",
+    noRelationsMessage: "Bu a'zo hech kim bilan bog'lanmagan (ota, ona yoki turmush o'rtog'i ko'rsatilmagan). Davom etishni xohlaysizmi?",
+    continueAnyway: 'Davom etish'
+  },
+  gender: {
+    male: 'Erkak',
+    female: 'Ayol'
   },
   user: {
     title: 'Foydalanuvchilar',
@@ -184,7 +246,32 @@ export const uz = {
     colUserName: 'USERNAME',
     colEmail: 'EMAIL',
     colPhone: 'TELEFON',
-    colFamily: 'OILA'
+    colFamily: 'OILA',
+    editTitle: 'Foydalanuvchini tahrirlash',
+    emailConfirmed: 'Email tasdiqlangan',
+    emailUnconfirmed: 'Email tasdiqlanmagan',
+    emailConfirmedToggle: 'Email tasdiqlangan deb belgilash',
+    emailConfirmedHint: "Faqat administrator yoki foydalanuvchilar ustida to'liq vakolatga ega user bu yerda o'zgartira oladi.",
+    editConfirmTitle: 'Tahrirlashni davom ettirish',
+    editConfirmMessage: '"{name}" foydalanuvchini tahrirlashni xohlaysizmi?',
+    deleteConfirmTitle: "Foydalanuvchini o'chirish",
+    deleteConfirmMessage: '"{name}" foydalanuvchini o\'chirasizmi? Bu amal qaytarilmaydi.',
+    deletedToast: "Foydalanuvchi o'chirildi",
+    deleteFailed: "O'chirib bo'lmadi"
+  },
+  permissions: {
+    action: {
+      view: "Ko'rish",
+      create: 'Yaratish',
+      update: 'Yangilash',
+      delete: "O'chirish"
+    },
+    family: { title: 'Oilalar' },
+    member: { title: "Oila a'zolari" },
+    user: { title: 'Foydalanuvchilar' },
+    role: { title: 'Rollar' },
+    file: { title: 'Fayllar' },
+    rolePermission: { title: 'Rol huquqlari' }
   },
   preview: {
     title: 'Shajara Daraxti',
@@ -201,7 +288,8 @@ export const uz = {
     son: "O'g'li",
     daughter: 'Qizi',
     commonChildren: 'UMUMIY FARZANDLAR',
-    childrenSuffix: 'FARZANDLARI'
+    childrenSuffix: 'FARZANDLARI',
+    and: 'va'
   },
   documents: {
     title: 'Hujjatlar',
@@ -223,7 +311,12 @@ export const uz = {
     phone: 'Telefon',
     emailInvalid: 'Email xato',
     uploadAvatar: 'Avatar yuklash',
-    changeAvatar: 'Avatarni almashtirish'
+    changeAvatar: 'Avatarni almashtirish',
+    emailNotConfirmedTitle: 'Email tasdiqlanmagan',
+    emailNotConfirmedBody: 'Pochtangizga yuborilgan linkni bosing. Tasdiqlamaguncha parolni tiklash va boshqa email amallari bloklangan.',
+    resendConfirmation: 'Tasdiqlash habarini qayta yuborish',
+    confirmationResent: 'Tasdiqlash habari yuborildi.',
+    resendFailed: 'Habarni yuborib bo\'lmadi.'
   },
   password: {
     title: 'Parol',

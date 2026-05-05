@@ -29,11 +29,12 @@ export class RoleService extends BaseEntityService<BaseResponseModel<RoleModel>>
     return this.delete<BaseResponseModel<boolean>>(this.endpoint, { id });
   }
 
+  /** `null` clears nullable fields; `undefined` leaves them unchanged. */
   private toFormData(payload: Record<string, unknown>): FormData {
     const fd = new FormData();
     for (const [key, value] of Object.entries(payload)) {
-      if (value === null || value === undefined) continue;
-      fd.append(this.pascalCase(key), String(value));
+      if (value === undefined) continue;
+      fd.append(this.pascalCase(key), value === null ? '' : String(value));
     }
     return fd;
   }

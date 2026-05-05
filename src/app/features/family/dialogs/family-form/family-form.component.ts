@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, Inject, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs';
 import { FamilyService } from '../../services/family.service';
 import { FamilyModel } from '../../models/family.model';
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 export interface FamilyFormDialogData {
   mode: 'create' | 'edit';
@@ -28,6 +30,8 @@ export class FamilyFormComponent {
     private readonly fb: FormBuilder,
     private readonly familyService: FamilyService,
     private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog,
+    private readonly i18n: I18nService,
     public dialogRef: MatDialogRef<FamilyFormComponent, boolean>,
     @Inject(MAT_DIALOG_DATA) public data: FamilyFormDialogData
   ) {
@@ -50,8 +54,29 @@ export class FamilyFormComponent {
     this.dialogRef.close(false);
   }
 
-  submit(): void {
+  /** Save-time confirmation gate, mirrored across every form dialog. */
+  private confirmSave(): Promise<boolean> {
+    return new Promise(resolve => {
+      const ref = this.dialog.open<ConfirmDialogComponent, ConfirmDialogData, boolean>(
+        ConfirmDialogComponent, {
+          data: {
+            title: this.i18n.translate('common.saveConfirmTitle'),
+            message: this.i18n.translate('common.saveConfirmMessage'),
+            confirmText: this.i18n.translate('common.save'),
+            cancelText: this.i18n.translate('common.cancel'),
+            confirmColor: 'primary'
+          }
+        }
+      );
+      ref.afterClosed().subscribe(ok => resolve(!!ok));
+    });
+  }
+
+  async submit(): Promise<void> {
     if (this.form.invalid || this.submitting()) return;
+
+    const ok = await this.confirmSave();
+    if (!ok) return;
 
     this.submitting.set(true);
     const value = this.form.value;

@@ -5,6 +5,7 @@ import { finalize } from 'rxjs';
 import { FamilyService } from '../../../family/services/family.service';
 import { FamilyModel } from '../../../family/models/family.model';
 import { FamilyTreeModel, TreeNodeModel } from '../../models/family-tree.model';
+import { FamilyWebUrlService } from '../../../../core/services/family-web-url.service';
 
 @Component({
   selector: 'app-family-tree-preview',
@@ -34,12 +35,31 @@ export class FamilyTreePreviewComponent implements OnInit {
     return id ? this.families().find(f => f.id === id) ?? null : null;
   });
 
+  /**
+   * Public family-page URL for the currently-selected family. Prefers the
+   * tree response's `familyName` (it's the freshest source after a load),
+   * falling back to the list-row name so the button stays usable while the
+   * tree is still fetching.
+   */
+  readonly webUrl: Signal<string | null> = computed(() => {
+    const name = this.tree()?.familyName ?? this.selectedFamily()?.familyName;
+    return this.familyWebUrl.build(name);
+  });
+
   constructor(
     private readonly familyService: FamilyService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly familyWebUrl: FamilyWebUrlService
   ) {}
+
+  /** Opens the public family page in a new tab. */
+  openWebPage(): void {
+    const url = this.webUrl();
+    if (!url) return;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
 
   ngOnInit(): void {
     this.loadFamilies();

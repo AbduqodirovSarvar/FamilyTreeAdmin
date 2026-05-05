@@ -39,9 +39,9 @@
           </div>
         } @else {
           <div class="permission-grid">
-            @for (group of groups; track group.title) {
+            @for (group of groups; track group.titleKey) {
               <div class="permission-group">
-                <h4 class="group-title">{{ group.title }}</h4>
+                <h4 class="group-title">{{ group.titleKey | translate }}</h4>
                 <div class="group-rows">
                   @for (row of group.rows; track row.name) {
                     <mat-checkbox
@@ -50,7 +50,7 @@
                       [disabled]="isToggling(row.name) ||
                                   (isGranted(row.name) ? !canRevoke() : !canGrant())"
                       (change)="togglePermission(row.name, !isGranted(row.name))">
-                      {{ row.label }}
+                      {{ row.labelKey | translate }}
                     </mat-checkbox>
                   }
                 </div>

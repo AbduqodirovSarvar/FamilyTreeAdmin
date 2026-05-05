@@ -1,0 +1,55 @@
+<app-auth-shell
+  icon="mark_email_read"
+  taglineKey="confirmEmail.tagline"
+  captionKey="confirmEmail.caption">
+
+  <header class="auth-form-header">
+    <h2 class="auth-form-title">{{ 'confirmEmail.title' | translate }}</h2>
+    <p class="auth-form-subtitle">{{ 'confirmEmail.subtitle' | translate }}</p>
+  </header>
+
+  <!-- Pending state — waiting on the API call -->
+  <div class="state-block" *ngIf="status() === 'pending'">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p class="state-text">{{ 'confirmEmail.pending' | translate }}</p>
+  </div>
+
+  <!-- Success — confirm action lands here, primary CTA pulls user to sign-in -->
+  <div class="state-block state-success" *ngIf="status() === 'success'">
+    <mat-icon class="state-icon">check_circle</mat-icon>
+    <h3 class="state-title">{{ 'confirmEmail.successTitle' | translate }}</h3>
+    <p class="state-text">{{ 'confirmEmail.successBody' | translate }}</p>
+    <button mat-flat-button color="primary" (click)="goSignIn()">
+      {{ 'confirmEmail.toSignIn' | translate }}
+    </button>
+  </div>
+
+  <!-- Error — reason shown, plus resend form so the user isn't stuck -->
+  <div class="state-block state-error" *ngIf="status() === 'error'">
+    <mat-icon class="state-icon">error</mat-icon>
+    <h3 class="state-title">{{ 'confirmEmail.errorTitle' | translate }}</h3>
+    <p class="state-text">{{ (errorMessage() || 'confirmEmail.generic') | translate }}</p>
+
+    <form class="auth-form" [formGroup]="resendForm" (ngSubmit)="resend()">
+      <p class="resend-hint">{{ 'confirmEmail.resendHint' | translate }}</p>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'confirmEmail.email' | translate }}</mat-label>
+        <mat-icon matPrefix>mail_outline</mat-icon>
+        <input matInput type="email" formControlName="email" placeholder="name@example.com">
+        <mat-error *ngIf="resendForm.get('email')?.hasError('required')">
+          {{ 'confirmEmail.emailRequired' | translate }}
+        </mat-error>
+        <mat-error *ngIf="resendForm.get('email')?.hasError('email')">
+          {{ 'confirmEmail.emailInvalid' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit" [disabled]="resendForm.invalid || resending()">
+        <mat-spinner *ngIf="resending()" diameter="18"></mat-spinner>
+        <span *ngIf="!resending()">{{ 'confirmEmail.resendButton' | translate }}</span>
+      </button>
+      <p class="resend-success" *ngIf="resendSent()">
+        {{ 'confirmEmail.resendSent' | translate }}
+      </p>
+    </form>
+  </div>
+</app-auth-shell>

@@ -16,6 +16,12 @@
     <button class="btn-outline" (click)="zoomOut()" [disabled]="!selectedFamilyId()">
       {{ 'preview.zoomOut' | translate }}
     </button>
+    <button class="btn-icon btn-web"
+            (click)="openWebPage()"
+            [disabled]="!webUrl()"
+            [matTooltip]="'family.openWebPage' | translate">
+      <mat-icon>open_in_new</mat-icon>
+    </button>
   </div>
 </div>
 

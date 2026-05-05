@@ -11,6 +11,8 @@ export interface UserModel extends BaseAudiTableEntityModel {
   imageId?: string | null;
   image?: UploadedFileShortModel | null;
   roleId?: string | null;
+  /** False until the user clicks the link in their welcome email. */
+  emailConfirmed?: boolean;
 }
 
 export interface UpdateUserRequest {
@@ -23,4 +25,6 @@ export interface UpdateUserRequest {
   familyId?: string | null;
   roleId?: string | null;
   image?: File | null;
+  /** Admin-only override — backend rejects callers without full User permissions. */
+  emailConfirmed?: boolean | null;
 }

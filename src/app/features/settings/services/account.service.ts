@@ -73,10 +73,16 @@ export class AccountService extends BaseApiService {
   }
 
   updateProfile(payload: UpdateProfileRequest): Observable<BaseResponseModel<UserModel>> {
+    // `undefined` = "field omitted, no change". `null` or empty string = "explicit clear"
+    // — sent as empty value so the backend can null-out the column.
     const formData = new FormData();
     for (const [key, value] of Object.entries(payload)) {
-      if (value === null || value === undefined || value === '') continue;
+      if (value === undefined) continue;
       const pascalKey = key.charAt(0).toUpperCase() + key.slice(1);
+      if (value === null || value === '') {
+        formData.append(pascalKey, '');
+        continue;
+      }
       if (value instanceof File) {
         formData.append(pascalKey, value, value.name);
       } else {

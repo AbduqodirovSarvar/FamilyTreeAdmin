@@ -31,10 +31,20 @@ export class UserService extends BaseEntityService<BaseResponseModel<UserModel>>
     return this.delete<BaseResponseModel<boolean>>(this.endpoint, { id });
   }
 
+  /**
+   * `undefined` = "field not provided" (no change, skip).
+   * `null` = "explicit clear" (sent as empty string so the backend can null-out
+   * the column). Without this distinction, clearing a nullable field silently
+   * kept the previous value.
+   */
   private toFormData(payload: Record<string, unknown>): FormData {
     const formData = new FormData();
     for (const [key, value] of Object.entries(payload)) {
-      if (value === null || value === undefined) continue;
+      if (value === undefined) continue;
+      if (value === null) {
+        formData.append(this.pascalCase(key), '');
+        continue;
+      }
       if (value instanceof File) {
         formData.append(this.pascalCase(key), value, value.name);
       } else {

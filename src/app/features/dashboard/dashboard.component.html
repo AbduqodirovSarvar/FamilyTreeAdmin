@@ -36,6 +36,29 @@
     </div>
   </div>
 
+  <div class="unconnected-warning" *ngIf="unconnectedCount() > 0">
+    <div class="unconnected-icon">
+      <mat-icon>warning</mat-icon>
+    </div>
+    <div class="unconnected-body">
+      <div class="unconnected-title">{{ 'dashboard.unconnectedTitle' | translate }}</div>
+      <div class="unconnected-subtitle">{{ 'dashboard.unconnectedSubtitle' | translate }}</div>
+      <div class="unconnected-count">
+        {{ 'dashboard.unconnectedCount' | translate: { count: unconnectedCount() } }}
+      </div>
+      <div class="unconnected-names" *ngIf="unconnectedNames().length > 0">
+        <span *ngFor="let n of unconnectedNames(); let last = last">
+          {{ n }}<ng-container *ngIf="!last">, </ng-container>
+        </span>
+        <span *ngIf="unconnectedCount() > unconnectedNames().length">…</span>
+      </div>
+    </div>
+    <a [routerLink]="['/member']" class="unconnected-link">
+      {{ 'dashboard.unconnectedView' | translate }}
+      <mat-icon>arrow_forward</mat-icon>
+    </a>
+  </div>
+
   <div class="quick-actions">
     <h2 class="section-title">{{ 'dashboard.quickActions' | translate }}</h2>
     <div class="actions-grid">

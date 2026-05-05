@@ -85,22 +85,20 @@
       </ng-container>
 
       <ng-container matColumnDef="relation">
-        <th mat-header-cell *matHeaderCellDef>{{ 'member.colRelation' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'member.colGender' | translate }}</th>
         <td mat-cell *matCellDef="let row">
-          {{ (row.gender === Gender.MALE ? 'member.son' : 'member.daughter') | translate }}
+          {{ (row.gender === Gender.MALE ? 'gender.male' : 'gender.female') | translate }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="birthYear">
-        <th mat-header-cell *matHeaderCellDef>{{ 'member.colBirthYear' | translate }}</th>
-        <td mat-cell *matCellDef="let row">{{ birthYear(row) }}</td>
+        <th mat-header-cell *matHeaderCellDef>{{ 'member.colBirthDate' | translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.birthDay ? (row.birthDay | date:'dd.MM.yyyy') : '—' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>{{ 'member.colStatus' | translate }}</th>
-        <td mat-cell *matCellDef="let row">
-          <span class="pill pill-faol">{{ 'member.statusActive' | translate }}</span>
-        </td>
+        <th mat-header-cell *matHeaderCellDef>{{ 'member.colFamily' | translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ familyName(row.familyId) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">

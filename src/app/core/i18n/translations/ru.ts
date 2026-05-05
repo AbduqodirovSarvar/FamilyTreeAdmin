@@ -18,7 +18,9 @@ export const ru = {
     refresh: 'Обновить',
     confirm: 'Подтвердить',
     saveChanges: 'Сохранить изменения',
-    noPermission: 'У вас нет прав на это действие'
+    noPermission: 'У вас нет прав на это действие',
+    saveConfirmTitle: 'Сохранить изменения',
+    saveConfirmMessage: 'Сохранить внесённые изменения?'
   },
   nav: {
     dashboard: 'Главная',
@@ -53,9 +55,12 @@ export const ru = {
     loginRequired: 'Логин обязателен',
     passwordRequired: 'Пароль обязателен'
   },
+  brand: {
+    name: 'Система Шажара'
+  },
   authShell: {
     taglineDefault: 'История вашей семьи — в одном месте.',
-    captionDefault: 'Shajara System — современное и надёжное управление семейным древом.',
+    captionDefault: 'Система Шажара — современное и надёжное управление семейным древом.',
     feature1: 'Удобное управление членами и поколениями',
     feature2: 'Многоязычный интерфейс и темы',
     feature3: 'Конфиденциальное и безопасное хранение',
@@ -109,6 +114,26 @@ export const ru = {
     back: 'Назад',
     rememberPassword: 'Вспомнили пароль?'
   },
+  confirmEmail: {
+    title: 'Подтверждение email',
+    subtitle: 'Проверьте почту для подтверждения адреса.',
+    tagline: 'Остался один шаг.',
+    caption: 'Подтвердите email и получите полный доступ к учётной записи.',
+    pending: 'Подтверждается…',
+    successTitle: 'Email подтверждён!',
+    successBody: 'Теперь вы можете войти и управлять семейным древом.',
+    toSignIn: 'Перейти ко входу',
+    errorTitle: 'Не удалось подтвердить',
+    generic: 'Не удалось подтвердить. Срок действия ссылки истёк или она недействительна.',
+    missingToken: 'В адресе нет кода подтверждения.',
+    resendHint: 'Письмо не пришло? Введите email ниже и получите новую ссылку.',
+    email: 'Email',
+    emailRequired: 'Email обязателен',
+    emailInvalid: 'Неверный формат email',
+    resendButton: 'Отправить заново',
+    resendSent: 'Новое письмо отправлено.',
+    resendFailed: 'Не удалось отправить письмо.'
+  },
   resetPassword: {
     title: 'Сброс пароля',
     subtitle: 'Введите код из письма и выберите новый пароль.',
@@ -134,7 +159,12 @@ export const ru = {
     actionManageFamilies: 'Управлять семьями',
     actionMembersList: 'Список членов',
     actionViewTree: 'Просмотр древа',
-    actionUsers: 'Пользователи'
+    actionUsers: 'Пользователи',
+    unconnectedTitle: 'Несвязанные члены',
+    unconnectedSubtitle: 'Члены без семейных связей — они отображаются отдельно на дереве.',
+    unconnectedCount: 'Несвязанных: {count}',
+    unconnectedView: 'Перейти к членам',
+    unconnectedEmpty: 'Все члены связаны корректно.'
   },
   family: {
     title: 'Семьи',
@@ -148,7 +178,8 @@ export const ru = {
     colCreatedAt: 'СОЗДАНО',
     notOwnerEdit: 'Редактировать можно только созданные вами семьи',
     notOwnerDelete: 'Удалить можно только созданные вами семьи',
-    onlyMine: 'Только мои семьи'
+    onlyMine: 'Только мои семьи',
+    openWebPage: 'Открыть веб-страницу'
   },
   member: {
     title: 'Члены семьи',
@@ -164,7 +195,10 @@ export const ru = {
     colFio: 'Ф.И.О.',
     colRelation: 'РОДСТВО',
     colBirthYear: 'ГОД РОЖДЕНИЯ',
+    colBirthDate: 'ДАТА РОЖДЕНИЯ',
+    colGender: 'ПОЛ',
     colStatus: 'СТАТУС',
+    colFamily: 'СЕМЬЯ',
     son: 'Сын',
     daughter: 'Дочь',
     statusActive: 'АКТИВЕН',
@@ -172,7 +206,35 @@ export const ru = {
     statusArchived: 'АРХИВ',
     notOwnerEdit: 'Редактировать можно только участников созданных вами семей',
     notOwnerDelete: 'Удалять можно только участников созданных вами семей',
-    needOwnFamily: 'Чтобы добавить участника, сначала создайте свою семью'
+    needOwnFamily: 'Чтобы добавить участника, сначала создайте свою семью',
+    createTitle: 'Добавить члена',
+    editTitle: 'Редактировать члена',
+    firstName: 'Имя',
+    lastName: 'Фамилия',
+    description: 'Описание',
+    birthDay: 'Дата рождения',
+    deathDay: 'Дата смерти',
+    deathDayOptional: 'Дата смерти (необязательно)',
+    gender: 'Пол',
+    father: 'Отец',
+    mother: 'Мать',
+    spouse: 'Супруг(а)',
+    uploadImage: 'Загрузить фото',
+    changeImage: 'Изменить фото',
+    create: 'Создать',
+    save: 'Сохранить',
+    createdToast: 'Член создан',
+    updatedToast: 'Обновлено',
+    operationFailed: 'Не удалось выполнить операцию',
+    loadRefsFailed: 'Не удалось загрузить справочные данные',
+    requestFailed: 'Запрос не выполнен',
+    noRelationsTitle: 'Нет связей',
+    noRelationsMessage: 'У этого члена нет ни одной связи (отец, мать или супруг(а) не указаны). Продолжить?',
+    continueAnyway: 'Продолжить'
+  },
+  gender: {
+    male: 'Мужской',
+    female: 'Женский'
   },
   user: {
     title: 'Пользователи',
@@ -184,7 +246,32 @@ export const ru = {
     colUserName: 'USERNAME',
     colEmail: 'EMAIL',
     colPhone: 'ТЕЛЕФОН',
-    colFamily: 'СЕМЬЯ'
+    colFamily: 'СЕМЬЯ',
+    editTitle: 'Редактирование пользователя',
+    emailConfirmed: 'Email подтверждён',
+    emailUnconfirmed: 'Email не подтверждён',
+    emailConfirmedToggle: 'Отметить email как подтверждённый',
+    emailConfirmedHint: 'Только администратор или пользователь с полным доступом к разделу «Пользователи» может изменить этот флаг.',
+    editConfirmTitle: 'Подтвердить редактирование',
+    editConfirmMessage: 'Открыть редактирование пользователя «{name}»?',
+    deleteConfirmTitle: 'Удалить пользователя',
+    deleteConfirmMessage: 'Удалить пользователя «{name}»? Действие необратимо.',
+    deletedToast: 'Пользователь удалён',
+    deleteFailed: 'Не удалось удалить'
+  },
+  permissions: {
+    action: {
+      view: 'Просмотр',
+      create: 'Создание',
+      update: 'Редактирование',
+      delete: 'Удаление'
+    },
+    family: { title: 'Семьи' },
+    member: { title: 'Члены семьи' },
+    user: { title: 'Пользователи' },
+    role: { title: 'Роли' },
+    file: { title: 'Файлы' },
+    rolePermission: { title: 'Права роли' }
   },
   preview: {
     title: 'Семейное древо',
@@ -201,7 +288,8 @@ export const ru = {
     son: 'Сын',
     daughter: 'Дочь',
     commonChildren: 'ОБЩИЕ ДЕТИ',
-    childrenSuffix: 'ДЕТИ'
+    childrenSuffix: 'ДЕТИ',
+    and: 'и'
   },
   documents: {
     title: 'Документы',
@@ -223,7 +311,12 @@ export const ru = {
     phone: 'Телефон',
     emailInvalid: 'Неверный email',
     uploadAvatar: 'Загрузить аватар',
-    changeAvatar: 'Изменить аватар'
+    changeAvatar: 'Изменить аватар',
+    emailNotConfirmedTitle: 'Email не подтверждён',
+    emailNotConfirmedBody: 'Откройте письмо в почте и нажмите ссылку. Сброс пароля и другие email-операции заблокированы до подтверждения.',
+    resendConfirmation: 'Отправить письмо заново',
+    confirmationResent: 'Письмо отправлено.',
+    resendFailed: 'Не удалось отправить письмо.'
   },
   password: {
     title: 'Пароль',
