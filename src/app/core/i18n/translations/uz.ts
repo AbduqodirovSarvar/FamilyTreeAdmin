@@ -165,7 +165,13 @@ export const uz = {
     unconnectedSubtitle: "Hech kim bilan oilaviy aloqasi bo'lmagan a'zolar — ular daraxtda alohida ko'rinadi.",
     unconnectedCount: "Bog'lanmagan: {count} ta",
     unconnectedView: "A'zolarga o'tish",
-    unconnectedEmpty: "Barcha a'zolar to'g'ri bog'langan."
+    unconnectedEmpty: "Barcha a'zolar to'g'ri bog'langan.",
+    visitsTitle: 'Tashriflar statistikasi',
+    visitsSubtitle: "Oila daraxtini ochiq sahifada kim ko'rganini kunlik kesimda ko'ring.",
+    visitsTotal: 'Jami tashrif',
+    visitsForbidden: "Sizda bu oila statistikasini ko'rishga ruxsat yo'q.",
+    visitsEmpty: "Hozircha tashriflar yo'q.",
+    daysShort: 'kun'
   },
   family: {
     title: 'Oilalar',

@@ -165,7 +165,13 @@ export const uzCyrl = {
     unconnectedSubtitle: 'Ҳеч ким билан оилавий алоқаси бўлмаган аъзолар — улар дарахтда алоҳида кўринади.',
     unconnectedCount: 'Боғланмаган: {count} та',
     unconnectedView: 'Аъзоларга ўтиш',
-    unconnectedEmpty: "Барча аъзолар тўғри боғланган."
+    unconnectedEmpty: "Барча аъзолар тўғри боғланган.",
+    visitsTitle: 'Ташрифлар статистикаси',
+    visitsSubtitle: "Оила дарахтини очиқ саҳифада ким кўрганини кунлик кесимда кўринг.",
+    visitsTotal: 'Жами ташриф',
+    visitsForbidden: "Сизда бу оила статистикасини кўришга рухсат йўқ.",
+    visitsEmpty: "Ҳозирча ташрифлар йўқ.",
+    daysShort: 'кун'
   },
   family: {
     title: 'Оилалар',

@@ -4,6 +4,11 @@
   max-width: 720px;
 }
 
+/* Phones — drop fixed widths, let the global dialog 95vw cap rule. */
+@media (max-width: 600px) {
+  :host { min-width: 0; width: 100%; max-width: 100%; }
+}
+
 .role-form {
   display: flex;
   flex-direction: column;

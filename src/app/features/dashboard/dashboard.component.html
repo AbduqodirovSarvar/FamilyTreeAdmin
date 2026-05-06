@@ -59,6 +59,100 @@
     </a>
   </div>
 
+  <div class="visits-card" *ngIf="chartFamilies().length > 0">
+    <div class="visits-header">
+      <div class="visits-title-block">
+        <h2 class="section-title">{{ 'dashboard.visitsTitle' | translate }}</h2>
+        <p class="visits-subtitle">{{ 'dashboard.visitsSubtitle' | translate }}</p>
+      </div>
+
+      <div class="visits-controls">
+        <mat-form-field appearance="outline" class="family-select">
+          <mat-select [value]="selectedFamilyId()" (selectionChange)="onFamilyChange($event.value)">
+            <mat-option *ngFor="let f of chartFamilies()" [value]="f.id">{{ f.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="range-toggle" role="group">
+          <button type="button"
+                  class="range-btn"
+                  [class.is-active]="selectedRangeDays() === 7"
+                  (click)="setRange(7)">7 {{ 'dashboard.daysShort' | translate }}</button>
+          <button type="button"
+                  class="range-btn"
+                  [class.is-active]="selectedRangeDays() === 30"
+                  (click)="setRange(30)">30 {{ 'dashboard.daysShort' | translate }}</button>
+          <button type="button"
+                  class="range-btn"
+                  [class.is-active]="selectedRangeDays() === 90"
+                  (click)="setRange(90)">90 {{ 'dashboard.daysShort' | translate }}</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="visits-summary" *ngIf="stats() as s">
+      <div class="visits-total">
+        <span class="visits-total-value">{{ s.total }}</span>
+        <span class="visits-total-label">{{ 'dashboard.visitsTotal' | translate }}</span>
+      </div>
+      <div class="visits-range">{{ s.from }} — {{ s.to }}</div>
+    </div>
+
+    <div class="visits-chart">
+      <ng-container *ngIf="chartLoading()">
+        <div class="visits-status">
+          <mat-progress-spinner mode="indeterminate" diameter="28"></mat-progress-spinner>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!chartLoading() && chartError() as err">
+        <div class="visits-status error">
+          <mat-icon>lock</mat-icon>
+          <span *ngIf="err === 'forbidden'">{{ 'dashboard.visitsForbidden' | translate }}</span>
+          <span *ngIf="err !== 'forbidden'">{{ err }}</span>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!chartLoading() && !chartError() && bars().length > 0">
+        <svg class="chart-svg"
+             [attr.viewBox]="'0 0 ' + svgWidth + ' ' + svgHeight"
+             preserveAspectRatio="none"
+             role="img"
+             [attr.aria-label]="'dashboard.visitsTitle' | translate">
+          <line *ngFor="let t of yTicks()"
+                class="grid-line"
+                [attr.x1]="36" [attr.x2]="svgWidth - 12"
+                [attr.y1]="t.y" [attr.y2]="t.y"></line>
+
+          <text *ngFor="let t of yTicks()"
+                class="y-label"
+                [attr.x]="32" [attr.y]="t.y + 4"
+                text-anchor="end">{{ t.value }}</text>
+
+          <rect *ngFor="let b of bars()"
+                class="bar"
+                [attr.x]="b.x" [attr.y]="b.y"
+                [attr.width]="b.width" [attr.height]="b.height"
+                [attr.rx]="3" [attr.ry]="3">
+            <title>{{ b.label }} — {{ b.count }}</title>
+          </rect>
+
+          <text *ngFor="let l of xLabels()"
+                class="x-label"
+                [attr.x]="l.x" [attr.y]="svgHeight - 6"
+                text-anchor="middle">{{ l.label }}</text>
+        </svg>
+      </ng-container>
+
+      <ng-container *ngIf="!chartLoading() && !chartError() && bars().length === 0 && stats()">
+        <div class="visits-status empty">
+          <mat-icon>insights</mat-icon>
+          <span>{{ 'dashboard.visitsEmpty' | translate }}</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
   <div class="quick-actions">
     <h2 class="section-title">{{ 'dashboard.quickActions' | translate }}</h2>
     <div class="actions-grid">

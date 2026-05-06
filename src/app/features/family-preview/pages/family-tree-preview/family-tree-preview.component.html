@@ -10,11 +10,14 @@
       </mat-select>
     </mat-form-field>
 
-    <button class="btn-outline" (click)="zoomIn()" [disabled]="!selectedFamilyId()">
-      {{ 'preview.zoomIn' | translate }}
-    </button>
     <button class="btn-outline" (click)="zoomOut()" [disabled]="!selectedFamilyId()">
       {{ 'preview.zoomOut' | translate }}
+    </button>
+    <button class="btn-outline" (click)="resetView()" [disabled]="!selectedFamilyId()" matTooltip="100%">
+      {{ (zoom() * 100) | number:'1.0-0' }}%
+    </button>
+    <button class="btn-outline" (click)="zoomIn()" [disabled]="!selectedFamilyId()">
+      {{ 'preview.zoomIn' | translate }}
     </button>
     <button class="btn-icon btn-web"
             (click)="openWebPage()"
@@ -28,7 +31,15 @@
 <div class="canvas-card">
   <mat-progress-bar *ngIf="loadingTree()" mode="indeterminate"></mat-progress-bar>
 
-  <div class="canvas">
+  <div
+    class="canvas"
+    #viewport
+    (wheel)="onWheel($event)"
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerUp($event)"
+    (pointercancel)="onPointerUp($event)"
+    (pointerleave)="onPointerUp($event)">
     <ng-container *ngIf="!selectedFamilyId()">
       <div class="empty-state">
         <mat-icon class="big-icon">account_tree</mat-icon>
@@ -47,7 +58,7 @@
       </ng-container>
 
       <ng-template #hasMembers>
-        <div class="forest-wrap" [style.transform]="'scale(' + zoom() + ')'">
+        <div class="forest-wrap" [style.transform]="transform()">
           <header class="forest-banner">
             <div class="forest-banner-crest" aria-hidden="true">
               <mat-icon>account_tree</mat-icon>

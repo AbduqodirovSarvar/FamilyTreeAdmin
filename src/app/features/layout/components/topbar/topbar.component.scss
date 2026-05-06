@@ -190,3 +190,68 @@
   height: 22px;
   color: #fff;
 }
+
+/* ── Responsive — phones and small tablets ─────────────────────── */
+
+/* Tablets and smaller (sidebar drawer territory). The hamburger is
+   already revealed at this width by the .menu-btn rule above; we
+   just compress the surrounding chrome to fit. */
+@media (max-width: 768px) {
+  .topbar {
+    gap: 12px;
+    padding: 0 16px;
+    height: 56px;
+  }
+
+  /* Breadcrumbs are space-hungry on phones (single deep page = 4 chips
+     + separators) and not very useful when the back button does the
+     same job. Hide everything but the current page label. */
+  .breadcrumbs .crumb:not(.current),
+  .breadcrumbs .separator {
+    display: none;
+  }
+
+  .crumb.current {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .user-name {
+    max-width: 100px;
+  }
+}
+
+/* True phone — drop the user name entirely so the avatar + lang/theme
+   buttons + menu button all fit in a single row without wrapping. */
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .user-btn {
+    padding: 4px;
+    margin-left: 0;
+  }
+
+  /* The language pill carries text — collapse to icon-only width so it
+     doesn't compete with the avatar for horizontal space. */
+  .lang-btn {
+    padding: 0 4px;
+    .lang-code { font-size: 11px; }
+  }
+
+  .theme-toggle,
+  .user-avatar,
+  .lang-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .lang-btn { width: auto; }
+}

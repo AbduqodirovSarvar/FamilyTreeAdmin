@@ -18,6 +18,14 @@
   background: var(--sidebar-bg);
 }
 
+/* Mobile drawer — slightly wider so the sidebar items breathe, capped
+   to 85vw so very narrow screens (320px) still show a sliver of
+   content behind the backdrop as a navigation hint. */
+.layout-sidenav--mobile {
+  width: 280px;
+  max-width: 85vw;
+}
+
 .layout-content {
   display: flex;
   flex-direction: column;
@@ -29,4 +37,12 @@
   padding: 24px 32px;
   overflow: auto;
   background: var(--bg);
+}
+
+/* Phone viewports — reclaim horizontal space lost to padding now that
+   the sidebar isn't permanently parked next to the content. */
+@media (max-width: 600px) {
+  .page-area {
+    padding: 16px 12px;
+  }
 }

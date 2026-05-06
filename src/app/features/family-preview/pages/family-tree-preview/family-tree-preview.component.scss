@@ -87,23 +87,37 @@
   overflow: hidden;
 }
 
+/* Pan/zoom viewport. Pointer + wheel events live on this element, so it
+   must capture all touch gestures (touch-action: none stops the browser
+   from hijacking them for native scroll/pinch-zoom). */
 .canvas {
+  position: relative;
   background: var(--canvas-bg);
   min-height: 560px;
+  height: 70vh;
   padding: 48px 32px;
-  overflow: auto;
+  overflow: hidden;
   display: flex;
+  align-items: center;
   justify-content: center;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+
+  &:active { cursor: grabbing; }
 }
 
+/* Centred in the viewport via flexbox; the inline `transform` from the
+   component (translate + scale) shifts/scales it from its centre. */
 .forest-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 32px;
-  margin: 0 auto;
-  transform-origin: top center;
-  transition: transform 0.2s ease;
+  transform-origin: center center;
+  will-change: transform;
+  flex: 0 0 auto;
 }
 
 .forest-banner {

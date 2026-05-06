@@ -4,6 +4,12 @@
   max-width: 680px;
 }
 
+/* Phones — drop min-width and let the global dialog max-width:95vw take
+   over so the user form fits even on a 360-wide viewport. */
+@media (max-width: 600px) {
+  :host { min-width: 0; width: 100%; max-width: 100%; }
+}
+
 .email-confirmed-row {
   margin: 8px 0 16px;
   padding: 12px 16px;

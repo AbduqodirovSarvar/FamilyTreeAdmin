@@ -27,6 +27,13 @@
   background: var(--surface) !important;
   border-bottom: 1px solid var(--border);
   padding: 0 8px;
+  /* Horizontal scroll on small screens — Material's mat-tab-nav-bar
+     doesn't auto-scroll like mat-tab-group, so 4+ tabs (Profile, Password,
+     Appearance, Admin notifications) on a phone wrap to two rows or get
+     clipped. overflow-x: auto makes the user swipe sideways instead. */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
 .tab-icon {
@@ -47,6 +54,14 @@
 
 @media (max-width: 600px) {
   .tab-content { padding: 20px; }
+  .page-header { margin-bottom: 14px; }
+  .page-title { font-size: 22px; }
+  .settings-tabs { padding: 0 4px; }
+  /* Section header stacks: avatar + text + button were a single flex row
+     that overflowed phones. Re-flow to columns. */
+  ::ng-deep .settings-section .section-header { flex-wrap: wrap; }
+  ::ng-deep .settings-section .form-actions { flex-direction: column-reverse; align-items: stretch; }
+  ::ng-deep .settings-section .form-actions button { width: 100%; }
 }
 
 /* Force the Material tab nav panel host to be transparent so our wrapper bg shows. */

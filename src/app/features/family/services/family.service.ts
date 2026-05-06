@@ -4,6 +4,7 @@ import { BaseEntityService } from '../../../core/services/global-entity-services
 import { BaseResponseModel } from '../../../core/models/base-response-models/base-response.model';
 import { CreateFamilyRequest, FamilyModel, UpdateFamilyRequest } from '../models/family.model';
 import { FamilyTreeModel } from '../../family-preview/models/family-tree.model';
+import { FamilyViewStatsModel } from '../models/family-view-stats.model';
 
 @Injectable({ providedIn: 'root' })
 export class FamilyService extends BaseEntityService<BaseResponseModel<FamilyModel>> {
@@ -34,6 +35,18 @@ export class FamilyService extends BaseEntityService<BaseResponseModel<FamilyMod
 
   getTree(familyId: string): Observable<BaseResponseModel<FamilyTreeModel>> {
     return this.get<BaseResponseModel<FamilyTreeModel>>(`${this.endpoint}/tree/${familyId}`);
+  }
+
+  /**
+   * Daily public-page visit counts for one family. The backend fills missing
+   * days with zero so the returned `points` array always covers `days` items
+   * in chronological order.
+   */
+  getViewStats(familyId: string, days: number = 30): Observable<BaseResponseModel<FamilyViewStatsModel>> {
+    return this.get<BaseResponseModel<FamilyViewStatsModel>>(
+      `${this.endpoint}/${familyId}/views/stats`,
+      { days }
+    );
   }
 
   createFamily(payload: CreateFamilyRequest): Observable<BaseResponseModel<FamilyModel>> {

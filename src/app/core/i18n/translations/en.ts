@@ -165,7 +165,13 @@ export const en = {
     unconnectedSubtitle: 'Members with no family relations — they appear separated on the tree.',
     unconnectedCount: 'Unconnected: {count}',
     unconnectedView: 'Go to members',
-    unconnectedEmpty: 'All members are properly connected.'
+    unconnectedEmpty: 'All members are properly connected.',
+    visitsTitle: 'Visit statistics',
+    visitsSubtitle: 'See how many people viewed the family tree on the public site each day.',
+    visitsTotal: 'Total visits',
+    visitsForbidden: "You are not allowed to view this family's statistics.",
+    visitsEmpty: 'No visits yet.',
+    daysShort: 'd'
   },
   family: {
     title: 'Families',

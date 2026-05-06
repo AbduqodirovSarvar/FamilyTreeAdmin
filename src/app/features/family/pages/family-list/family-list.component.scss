@@ -185,3 +185,24 @@
   text-align: center;
   color: var(--text-muted);
 }
+
+/* ── Responsive ─────────────────────────────────────────────────
+   Tablet width: stack the header so the search field and "Add new"
+   button each take a full row instead of crowding the title. The
+   table itself stays horizontally scrollable via .table-wrapper —
+   small phones can swipe sideways through the columns. */
+@media (max-width: 768px) {
+  .data-card-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 16px 0;
+  }
+  .header-left { flex-direction: column; align-items: stretch; gap: 10px; }
+  .search-field { width: 100%; }
+  .btn-primary { align-self: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .card-title { font-size: 16px; }
+  .btn-primary { width: 100%; justify-content: center; }
+}

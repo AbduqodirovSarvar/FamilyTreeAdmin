@@ -3,6 +3,12 @@
   min-width: 480px;
 }
 
+/* Phones — drop the min-width so the dialog (capped at 95vw via the
+   global MAT_DIALOG_DEFAULT_OPTIONS) doesn't overflow narrow viewports. */
+@media (max-width: 540px) {
+  :host { min-width: 0; width: 100%; }
+}
+
 .family-form {
   display: flex;
   flex-direction: column;

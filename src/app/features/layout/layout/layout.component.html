@@ -1,9 +1,11 @@
 <div class="layout">
-  <mat-sidenav-container class="layout-container" autosize>
+  <mat-sidenav-container class="layout-container" autosize [hasBackdrop]="hasBackdrop()">
     <mat-sidenav
-      mode="side"
+      [mode]="sidenavMode()"
       [opened]="sidenavOpened()"
-      class="layout-sidenav">
+      (closed)="onSidenavClosed()"
+      class="layout-sidenav"
+      [class.layout-sidenav--mobile]="isMobile()">
       <app-sidebar></app-sidebar>
     </mat-sidenav>
 

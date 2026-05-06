@@ -165,7 +165,13 @@ export const ru = {
     unconnectedSubtitle: 'Члены без семейных связей — они отображаются отдельно на дереве.',
     unconnectedCount: 'Несвязанных: {count}',
     unconnectedView: 'Перейти к членам',
-    unconnectedEmpty: 'Все члены связаны корректно.'
+    unconnectedEmpty: 'Все члены связаны корректно.',
+    visitsTitle: 'Статистика посещений',
+    visitsSubtitle: 'Сколько человек посмотрели семейное древо на публичной странице за день.',
+    visitsTotal: 'Всего посещений',
+    visitsForbidden: 'У вас нет прав смотреть статистику этой семьи.',
+    visitsEmpty: 'Пока нет посещений.',
+    daysShort: 'д'
   },
   family: {
     title: 'Семьи',
