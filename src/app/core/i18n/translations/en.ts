@@ -34,6 +34,7 @@ export const en = {
     profile: 'Profile',
     password: 'Password',
     appearance: 'Appearance',
+    adminNotifications: 'Admin notifications',
     boshqaruv: 'Admin panel'
   },
   topbar: {
@@ -343,6 +344,20 @@ export const en = {
     light: 'Light',
     dark: 'Dark',
     system: 'System'
+  },
+  adminNotifications: {
+    title: 'Admin notifications',
+    subtitle: 'Manually trigger statistics and DB backup deliveries to Telegram. Administrators only.',
+    sendNow: 'Send now',
+    statsTitle: 'Send statistics',
+    statsSubtitle: 'User, family and member counts — current snapshot is delivered to the stats topic.',
+    statsSent: 'Statistics queued for delivery.',
+    statsFailed: 'Could not send statistics.',
+    backupTitle: 'Send DB backup',
+    backupSubtitle: 'Full database dump (gzip) is uploaded to the backup topic. Can take a few seconds depending on size.',
+    backupConfirm: 'Generate a backup of the current database state and send it to Telegram? This may take a few seconds.',
+    backupSent: 'Database backup sent successfully.',
+    backupFailed: 'Could not send the database backup.'
   },
   role: {
     title: 'Roles & permissions',

@@ -34,6 +34,7 @@ export const uzCyrl = {
     profile: 'Профиль',
     password: 'Парол',
     appearance: 'Кўриниш',
+    adminNotifications: 'Админ хабарлари',
     boshqaruv: 'Бошқарув панели'
   },
   topbar: {
@@ -343,6 +344,20 @@ export const uzCyrl = {
     light: 'Ёруғ',
     dark: 'Тунги',
     system: 'Тизим'
+  },
+  adminNotifications: {
+    title: 'Админ хабарлари',
+    subtitle: "Telegram'га статистика ва DB backup'ларни қўлда юбориш — фақат администраторлар учун.",
+    sendNow: 'Ҳозир юбориш',
+    statsTitle: 'Статистикани юбориш',
+    statsSubtitle: "Фойдаланувчилар, оилалар ва аъзолар сони — ҳозирги ҳолат статистика топигига юборилади.",
+    statsSent: 'Статистика юборишга қабул қилинди.',
+    statsFailed: 'Статистикани юбориб бўлмади.',
+    backupTitle: "DB backup'ини юбориш",
+    backupSubtitle: "Базанинг тўлиқ дампи (gzip) backup топигига юборилади. Бир неча сония кутишингиз керак бўлиши мумкин.",
+    backupConfirm: "Базанинг ҳозирги ҳолатидан backup яратиб Telegram'га юборишни тасдиқлайсизми? Бу бир неча сония давом этиши мумкин.",
+    backupSent: 'Backup муваффақиятли юборилди.',
+    backupFailed: "Backup юбориб бўлмади."
   },
   role: {
     title: 'Роллар ва ҳуқуқлар',

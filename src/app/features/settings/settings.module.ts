@@ -7,6 +7,7 @@ import { SettingsLayoutComponent } from './pages/settings-layout/settings-layout
 import { ProfileSettingsComponent } from './pages/profile-settings/profile-settings.component';
 import { PasswordSettingsComponent } from './pages/password-settings/password-settings.component';
 import { AppearanceSettingsComponent } from './pages/appearance-settings/appearance-settings.component';
+import { AdminNotificationsComponent } from './pages/admin-notifications/admin-notifications.component';
 import { ConfirmEmailService } from '../auth/pages/confirm-email/services/confirm-email.service';
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ConfirmEmailService } from '../auth/pages/confirm-email/services/confir
     SettingsLayoutComponent,
     ProfileSettingsComponent,
     PasswordSettingsComponent,
-    AppearanceSettingsComponent
+    AppearanceSettingsComponent,
+    AdminNotificationsComponent
   ],
   imports: [
     SharedModule,

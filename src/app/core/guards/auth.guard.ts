@@ -3,6 +3,7 @@ import { CanActivateFn } from '@angular/router';
 import { BaseAuthService } from '../services/global-entity-services/base-auth.service';
 import { BaseRouterService } from '../services/base-router.service';
 import { PermissionsService } from '../services/permissions.service';
+import { AdminService } from '../services/admin.service';
 import { AccountService } from '../../features/settings/services/account.service';
 
 export const authGuard: CanActivateFn = () => {
@@ -10,6 +11,7 @@ export const authGuard: CanActivateFn = () => {
   const routerService = inject(BaseRouterService);
   const permissionsService = inject(PermissionsService);
   const accountService = inject(AccountService);
+  const adminService = inject(AdminService);
 
   if (!authService.getAccessToken()) {
     routerService.navigateToSignInPage();
@@ -26,6 +28,9 @@ export const authGuard: CanActivateFn = () => {
   if (!accountService.currentUser()) {
     accountService.loadMe().subscribe();
   }
+  // Always re-check admin status — role changes server-side shouldn't
+  // require a sign-out to take effect, and the response is a 1-byte boolean.
+  adminService.check().subscribe();
 
   return true;
 };

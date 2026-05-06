@@ -34,6 +34,7 @@ export const uz = {
     profile: 'Profil',
     password: 'Parol',
     appearance: "Ko'rinish",
+    adminNotifications: 'Admin xabarlari',
     boshqaruv: 'Boshqaruv paneli'
   },
   topbar: {
@@ -343,6 +344,20 @@ export const uz = {
     light: "Yorug'",
     dark: 'Tungi',
     system: 'Tizim'
+  },
+  adminNotifications: {
+    title: 'Admin xabarlari',
+    subtitle: "Telegram'ga statistika va DB backup'larni qo'lda yuborish — faqat administratorlar uchun.",
+    sendNow: 'Hozir yuborish',
+    statsTitle: 'Statistikani yuborish',
+    statsSubtitle: "Foydalanuvchilar, oilalar va a'zolar soni — hozirgi holat statistika topiciga yuboriladi.",
+    statsSent: 'Statistika yuborishga qabul qilindi.',
+    statsFailed: 'Statistikani yuborib bo\'lmadi.',
+    backupTitle: "DB backup'ini yuborish",
+    backupSubtitle: "Bazaning to'liq dump'i (gzip) backup topiciga yuboriladi. Vaqtga qarab bir necha soniya kutishingiz kerak bo'lishi mumkin.",
+    backupConfirm: "Bazaning hozirgi holatidan backup yaratib Telegram'ga yuborishni tasdiqlaysizmi? Bu bir necha soniya davom etishi mumkin.",
+    backupSent: "Backup muvaffaqiyatli yuborildi.",
+    backupFailed: "Backup yuborib bo'lmadi."
   },
   role: {
     title: 'Rollar va huquqlar',

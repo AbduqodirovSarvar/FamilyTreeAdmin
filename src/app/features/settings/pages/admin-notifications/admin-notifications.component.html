@@ -1,0 +1,53 @@
+<div class="settings-section">
+  <header class="section-header">
+    <div class="section-icon">
+      <mat-icon>admin_panel_settings</mat-icon>
+    </div>
+    <div class="section-text">
+      <h2 class="section-title">{{ 'adminNotifications.title' | translate }}</h2>
+      <p class="section-subtitle">{{ 'adminNotifications.subtitle' | translate }}</p>
+    </div>
+  </header>
+
+  <div class="action-list">
+    <section class="action-card">
+      <div class="action-icon">
+        <mat-icon>insert_chart</mat-icon>
+      </div>
+      <div class="action-text">
+        <h3 class="action-title">{{ 'adminNotifications.statsTitle' | translate }}</h3>
+        <p class="action-subtitle">{{ 'adminNotifications.statsSubtitle' | translate }}</p>
+      </div>
+      <button mat-flat-button color="primary"
+              type="button"
+              (click)="sendStatistics()"
+              [disabled]="sendingStats()">
+        @if (sendingStats()) {
+          <mat-spinner diameter="18"></mat-spinner>
+        } @else {
+          <span>{{ 'adminNotifications.sendNow' | translate }}</span>
+        }
+      </button>
+    </section>
+
+    <section class="action-card">
+      <div class="action-icon">
+        <mat-icon>backup</mat-icon>
+      </div>
+      <div class="action-text">
+        <h3 class="action-title">{{ 'adminNotifications.backupTitle' | translate }}</h3>
+        <p class="action-subtitle">{{ 'adminNotifications.backupSubtitle' | translate }}</p>
+      </div>
+      <button mat-stroked-button color="primary"
+              type="button"
+              (click)="sendDatabaseBackup()"
+              [disabled]="sendingBackup()">
+        @if (sendingBackup()) {
+          <mat-spinner diameter="18"></mat-spinner>
+        } @else {
+          <span>{{ 'adminNotifications.sendNow' | translate }}</span>
+        }
+      </button>
+    </section>
+  </div>
+</div>

@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs';
 import { AccountService } from '../../services/account.service';
@@ -7,6 +8,7 @@ import { UserModel } from '../../../user/models/user.model';
 import { ImageUrlService } from '../../../../core/services/image-url.service';
 import { ConfirmEmailService } from '../../../auth/pages/confirm-email/services/confirm-email.service';
 import { I18nService } from '../../../../core/i18n/i18n.service';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-profile-settings',
@@ -24,6 +26,8 @@ export class ProfileSettingsComponent implements OnInit {
   readonly resendingConfirmation: WritableSignal<boolean> = signal(false);
   readonly resentAt: WritableSignal<number | null> = signal(null);
   readonly leavingFamily: WritableSignal<boolean> = signal(false);
+
+  private readonly dialog = inject(MatDialog);
 
   constructor(
     private readonly fb: FormBuilder,
@@ -138,9 +142,28 @@ export class ProfileSettingsComponent implements OnInit {
     const u = this.user();
     if (!u?.familyId || this.leavingFamily()) return;
 
-    const confirmed = window.confirm(this.i18n.translate('profile.leaveFamilyConfirm'));
-    if (!confirmed) return;
+    // MatDialog confirm — same pattern as the family/user delete dialogs
+    // (see family-list.component). Themable, async, doesn't block the
+    // JS thread. `warn` color underlines the destructive nature of
+    // leaving a family.
+    const ref = this.dialog.open<ConfirmDialogComponent, ConfirmDialogData, boolean>(
+      ConfirmDialogComponent,
+      {
+        data: {
+          title: this.i18n.translate('profile.leaveFamily'),
+          message: this.i18n.translate('profile.leaveFamilyConfirm'),
+          confirmText: this.i18n.translate('profile.leaveFamily'),
+          cancelText: this.i18n.translate('common.cancel'),
+          confirmColor: 'warn'
+        }
+      });
 
+    ref.afterClosed().subscribe(confirmed => {
+      if (confirmed) this.runLeaveFamily();
+    });
+  }
+
+  private runLeaveFamily(): void {
     this.leavingFamily.set(true);
     this.accountService.leaveFamily()
       .pipe(finalize(() => this.leavingFamily.set(false)))

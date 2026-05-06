@@ -10,6 +10,7 @@ import {catchError, Observable, Subject, switchMap, take, throwError} from 'rxjs
 import {BaseAuthService} from '../services/global-entity-services/base-auth.service';
 import {BaseRouterService} from '../services/base-router.service';
 import {PermissionsService} from '../services/permissions.service';
+import {AdminService} from '../services/admin.service';
 import {AccountService} from '../../features/settings/services/account.service';
 
 /**
@@ -29,7 +30,8 @@ export class AuthInterceptor implements HttpInterceptor {
     private authService: BaseAuthService,
     private routerService: BaseRouterService,
     private permissionsService: PermissionsService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private adminService: AdminService
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -89,6 +91,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // Drop the cached permission set + profile with the tokens — next sign-in re-loads them.
     this.permissionsService.clear();
     this.accountService.clear();
+    this.adminService.clear();
     this.refreshTokenSubject.error(err);
     this.routerService.navigateToSignInPage();
     return throwError(() => err);
