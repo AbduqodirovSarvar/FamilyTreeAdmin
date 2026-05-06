@@ -316,7 +316,13 @@ export const en = {
     emailNotConfirmedBody: 'Open your inbox and click the confirmation link. Password reset and other email actions are blocked until you confirm.',
     resendConfirmation: 'Resend confirmation email',
     confirmationResent: 'Confirmation email sent.',
-    resendFailed: 'Could not send the email.'
+    resendFailed: 'Could not send the email.',
+    familyTitle: 'Family',
+    familySubtitle: 'You can view the family you are attached to and manage its members. Leaving the family hides it and its members from you.',
+    leaveFamily: 'Leave family',
+    leaveFamilyConfirm: 'Leave this family? Once you leave, the family and its members will no longer be visible to you.',
+    leaveFamilySuccess: 'You have left the family.',
+    leaveFamilyFailed: 'Could not leave the family.'
   },
   password: {
     title: 'Password',

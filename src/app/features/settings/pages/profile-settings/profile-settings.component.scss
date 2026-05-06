@@ -123,6 +123,42 @@
 
 mat-spinner { display: inline-block; }
 
+/* "Leave family" — owner-blocked self-service action shown only when the
+   user has an attached family. Visually separated from the profile form
+   so it isn't mistaken for a regular field-saving control. */
+.family-section {
+  margin-top: 32px;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--canvas-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.family-text {
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.family-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.family-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
 @media (max-width: 600px) {
   .grid { grid-template-columns: 1fr; }
 }

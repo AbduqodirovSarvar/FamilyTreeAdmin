@@ -95,4 +95,12 @@ export class AccountService extends BaseApiService {
   changePassword(payload: ChangePasswordRequest): Observable<BaseResponseModel<boolean>> {
     return this.post<BaseResponseModel<boolean>>('api/Auth/change-password', payload);
   }
+
+  /** Detach the signed-in user from their current family. Backend rejects
+   *  the call when the user is the family owner — the response message is
+   *  surfaced verbatim to the snackbar so we don't have to duplicate the
+   *  rule on the client. */
+  leaveFamily(): Observable<BaseResponseModel<UserModel>> {
+    return this.post<BaseResponseModel<UserModel>>('api/Auth/leave-family', {});
+  }
 }

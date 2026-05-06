@@ -316,7 +316,13 @@ export const uz = {
     emailNotConfirmedBody: 'Pochtangizga yuborilgan linkni bosing. Tasdiqlamaguncha parolni tiklash va boshqa email amallari bloklangan.',
     resendConfirmation: 'Tasdiqlash habarini qayta yuborish',
     confirmationResent: 'Tasdiqlash habari yuborildi.',
-    resendFailed: 'Habarni yuborib bo\'lmadi.'
+    resendFailed: 'Habarni yuborib bo\'lmadi.',
+    familyTitle: 'Oila',
+    familySubtitle: "Siz biriktirilgan oilani ko'rishingiz va a'zolarini boshqarishingiz mumkin. Oiladan chiqsangiz, uning a'zolari sizga ko'rinmay qoladi.",
+    leaveFamily: 'Oiladan chiqish',
+    leaveFamilyConfirm: "Oiladan chiqishni tasdiqlaysizmi? Bu amaldan keyin oila va uning a'zolari sizga ko'rinmay qoladi.",
+    leaveFamilySuccess: 'Siz oiladan chiqdingiz.',
+    leaveFamilyFailed: 'Oiladan chiqishda xatolik yuz berdi.'
   },
   password: {
     title: 'Parol',

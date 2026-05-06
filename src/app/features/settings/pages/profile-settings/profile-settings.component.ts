@@ -23,6 +23,7 @@ export class ProfileSettingsComponent implements OnInit {
   readonly selectedFile: WritableSignal<File | null> = signal(null);
   readonly resendingConfirmation: WritableSignal<boolean> = signal(false);
   readonly resentAt: WritableSignal<number | null> = signal(null);
+  readonly leavingFamily: WritableSignal<boolean> = signal(false);
 
   constructor(
     private readonly fb: FormBuilder,
@@ -121,6 +122,48 @@ export class ProfileSettingsComponent implements OnInit {
         },
         error: err => {
           const message = err?.error?.message ?? err?.message ?? this.i18n.translate('profile.resendFailed');
+          this.snackBar.open(message, this.i18n.translate('common.ok'), { duration: 4000 });
+        }
+      });
+  }
+
+  /**
+   * Detaches the user from their attached family. Owners are refused
+   * server-side — the backend message ("oila egasi oiladan chiqa olmaydi…")
+   * is surfaced verbatim so we don't have to mirror the rule in the UI.
+   * On success we refresh AccountService.currentUser so other places
+   * (e.g. family-list ownership checks) see the cleared familyId.
+   */
+  leaveFamily(): void {
+    const u = this.user();
+    if (!u?.familyId || this.leavingFamily()) return;
+
+    const confirmed = window.confirm(this.i18n.translate('profile.leaveFamilyConfirm'));
+    if (!confirmed) return;
+
+    this.leavingFamily.set(true);
+    this.accountService.leaveFamily()
+      .pipe(finalize(() => this.leavingFamily.set(false)))
+      .subscribe({
+        next: response => {
+          if (response?.success) {
+            this.snackBar.open(
+              response?.message ?? this.i18n.translate('profile.leaveFamilySuccess'),
+              this.i18n.translate('common.ok'),
+              { duration: 3500 }
+            );
+            this.user.set(response.data ?? null);
+            this.accountService.loadMe().subscribe();
+          } else {
+            this.snackBar.open(
+              response?.message ?? this.i18n.translate('profile.leaveFamilyFailed'),
+              this.i18n.translate('common.ok'),
+              { duration: 4000 }
+            );
+          }
+        },
+        error: err => {
+          const message = err?.error?.message ?? err?.message ?? this.i18n.translate('profile.leaveFamilyFailed');
           this.snackBar.open(message, this.i18n.translate('common.ok'), { duration: 4000 });
         }
       });

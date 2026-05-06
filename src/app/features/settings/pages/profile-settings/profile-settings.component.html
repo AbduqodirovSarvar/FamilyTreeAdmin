@@ -97,5 +97,23 @@
         </button>
       </div>
     </form>
+
+    @if (user()?.familyId) {
+      <section class="family-section">
+        <div class="family-text">
+          <h3 class="family-title">{{ 'profile.familyTitle' | translate }}</h3>
+          <p class="family-subtitle">{{ 'profile.familySubtitle' | translate }}</p>
+        </div>
+        <button mat-stroked-button color="warn" type="button"
+                (click)="leaveFamily()"
+                [disabled]="leavingFamily()">
+          @if (leavingFamily()) {
+            <mat-spinner diameter="18"></mat-spinner>
+          } @else {
+            <span>{{ 'profile.leaveFamily' | translate }}</span>
+          }
+        </button>
+      </section>
+    }
   }
 </div>
