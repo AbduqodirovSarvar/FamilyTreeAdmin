@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Signal, computed, inject, signal, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
@@ -32,6 +34,16 @@ export class UserListComponent implements OnInit {
   readonly pageSize: WritableSignal<number> = signal(10);
   readonly searchText: WritableSignal<string> = signal('');
   readonly familyFilter: WritableSignal<string | null> = signal(null);
+
+  /** Search box wired into <ngx-mat-select-search> on the family filter. */
+  readonly familySearch = new FormControl('', { nonNullable: true });
+  private readonly familySearchTerm = toSignal(this.familySearch.valueChanges, { initialValue: '' });
+  readonly filteredFamilies: Signal<FamilyModel[]> = computed(() => {
+    const q = (this.familySearchTerm() ?? '').trim().toLowerCase();
+    const list = this.families();
+    if (!q) return list;
+    return list.filter(f => (f.name ?? '').toLowerCase().includes(q));
+  });
 
   /** Action gating — see family-list for the same pattern. */
   private readonly permissions = inject(PermissionsService);

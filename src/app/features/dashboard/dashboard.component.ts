@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, OnInit, signal, Signal, WritableSignal, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl } from '@angular/forms';
 import { forkJoin, finalize } from 'rxjs';
 import { FamilyService } from '../family/services/family.service';
 import { FamilyModel } from '../family/models/family.model';
@@ -57,6 +59,18 @@ export class DashboardComponent implements OnInit {
    *  doesn't expose siblings of other tenants. */
   readonly chartFamilies: WritableSignal<FamilyModel[]> = signal([]);
   readonly selectedFamilyId: WritableSignal<string | null> = signal(null);
+
+  /** ngx-mat-select-search wires its own input through this FormControl;
+   *  the toSignal mirror lets the filtered list re-compute via Angular's
+   *  signal graph without any manual subscribe/unsubscribe boilerplate. */
+  readonly familySearch = new FormControl('', { nonNullable: true });
+  private readonly familySearchTerm = toSignal(this.familySearch.valueChanges, { initialValue: '' });
+  readonly filteredChartFamilies: Signal<FamilyModel[]> = computed(() => {
+    const q = (this.familySearchTerm() ?? '').trim().toLowerCase();
+    const list = this.chartFamilies();
+    if (!q) return list;
+    return list.filter(f => (f.name ?? '').toLowerCase().includes(q));
+  });
   readonly selectedRangeDays: WritableSignal<number> = signal(30);
   readonly stats: WritableSignal<FamilyViewStatsModel | null> = signal(null);
   readonly chartLoading: WritableSignal<boolean> = signal(false);

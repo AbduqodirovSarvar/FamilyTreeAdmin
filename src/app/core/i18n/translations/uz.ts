@@ -6,6 +6,7 @@ export const uz = {
     edit: 'Tahrirlash',
     view: "Ko'rish",
     search: 'Qidirish...',
+    noResults: 'Hech narsa topilmadi',
     all: 'Barchasi',
     notFound: 'Topilmadi',
     none: "— Yo'q —",

@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, computed, inject, signal, WritableSignal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, Signal, computed, inject, signal, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs';
@@ -76,6 +77,17 @@ export class UserFormComponent implements OnInit {
   readonly submitting: WritableSignal<boolean> = signal(false);
   readonly selectedFile: WritableSignal<File | null> = signal(null);
   readonly families: WritableSignal<FamilyModel[]> = signal([]);
+
+  /** Search box for the family <mat-select>; reactive filtering through
+   *  ngx-mat-select-search. */
+  readonly familySearch = new FormControl('', { nonNullable: true });
+  private readonly familySearchTerm = toSignal(this.familySearch.valueChanges, { initialValue: '' });
+  readonly filteredFamilies: Signal<FamilyModel[]> = computed(() => {
+    const q = (this.familySearchTerm() ?? '').trim().toLowerCase();
+    const list = this.families();
+    if (!q) return list;
+    return list.filter(f => (f.name ?? '').toLowerCase().includes(q));
+  });
 
   /** True while the role's existing permission rows are being fetched. */
   readonly loadingPermissions: WritableSignal<boolean> = signal(false);

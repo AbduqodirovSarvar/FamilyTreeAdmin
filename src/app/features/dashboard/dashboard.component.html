@@ -69,7 +69,14 @@
       <div class="visits-controls">
         <mat-form-field appearance="outline" class="family-select">
           <mat-select [value]="selectedFamilyId()" (selectionChange)="onFamilyChange($event.value)">
-            <mat-option *ngFor="let f of chartFamilies()" [value]="f.id">{{ f.name }}</mat-option>
+            <mat-option>
+              <ngx-mat-select-search
+                [formControl]="familySearch"
+                [placeholderLabel]="'common.search' | translate"
+                [noEntriesFoundLabel]="'common.noResults' | translate">
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let f of filteredChartFamilies()" [value]="f.id">{{ f.name }}</mat-option>
           </mat-select>
         </mat-form-field>
 

@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, signal, WritableSignal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, Signal, computed, signal, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize, forkJoin, of } from 'rxjs';
@@ -36,6 +37,54 @@ export class MemberFormComponent implements OnInit {
   readonly relatives: WritableSignal<MemberModel[]> = signal([]);
   readonly loadingRefs: WritableSignal<boolean> = signal(false);
 
+  // ─── In-dropdown search ────────────────────────────────────────
+  // Each <ngx-mat-select-search> gets its own FormControl; keeping them
+  // separate stops one query from leaking across the four pickers in
+  // this dialog (a user typing into "Father" shouldn't filter "Mother").
+  readonly familySearch = new FormControl('', { nonNullable: true });
+  readonly fatherSearch = new FormControl('', { nonNullable: true });
+  readonly motherSearch = new FormControl('', { nonNullable: true });
+  readonly spouseSearch = new FormControl('', { nonNullable: true });
+
+  private readonly familySearchTerm = toSignal(this.familySearch.valueChanges, { initialValue: '' });
+  private readonly fatherSearchTerm = toSignal(this.fatherSearch.valueChanges, { initialValue: '' });
+  private readonly motherSearchTerm = toSignal(this.motherSearch.valueChanges, { initialValue: '' });
+  private readonly spouseSearchTerm = toSignal(this.spouseSearch.valueChanges, { initialValue: '' });
+
+  /** Mirrors the form's gender control so the spouse list re-filters when
+   *  the user flips MALE↔FEMALE. Wired to the form in the constructor;
+   *  toSignal can't be used as a field initializer because `this.form`
+   *  doesn't exist until the constructor runs. */
+  private readonly currentGender: WritableSignal<Gender> = signal(Gender.MALE);
+
+  readonly filteredFamilies: Signal<FamilyModel[]> = computed(() => {
+    const q = (this.familySearchTerm() ?? '').trim().toLowerCase();
+    const list = this.families();
+    if (!q) return list;
+    return list.filter(f => (f.name ?? '').toLowerCase().includes(q));
+  });
+
+  readonly filteredFathers: Signal<MemberModel[]> = computed(() =>
+    this.filterRelatives(this.fatherSearchTerm(), m => this.excludeSelf(m) && m.gender === Gender.MALE));
+
+  readonly filteredMothers: Signal<MemberModel[]> = computed(() =>
+    this.filterRelatives(this.motherSearchTerm(), m => this.excludeSelf(m) && m.gender === Gender.FEMALE));
+
+  readonly filteredSpouses: Signal<MemberModel[]> = computed(() => {
+    const myGender = this.currentGender();
+    return this.filterRelatives(this.spouseSearchTerm(), m => this.excludeSelf(m) && m.gender !== myGender);
+  });
+
+  private filterRelatives(term: string | null, basePredicate: (m: MemberModel) => boolean): MemberModel[] {
+    const q = (term ?? '').trim().toLowerCase();
+    return this.relatives().filter(m => {
+      if (!basePredicate(m)) return false;
+      if (!q) return true;
+      const fullName = `${m.firstName ?? ''} ${m.lastName ?? ''}`.toLowerCase();
+      return fullName.includes(q);
+    });
+  }
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly memberService: MemberService,
@@ -60,6 +109,10 @@ export class MemberFormComponent implements OnInit {
       motherId: [m?.motherId ?? null],
       spouseId: [m?.spouseId ?? null]
     });
+
+    // Seed the gender mirror from the initial form value so the spouse
+    // list filters correctly on first paint (before any user interaction).
+    this.currentGender.set(this.form.controls['gender'].value);
   }
 
   ngOnInit(): void {
@@ -67,6 +120,9 @@ export class MemberFormComponent implements OnInit {
     this.form.controls['familyId'].valueChanges.subscribe(familyId => {
       if (familyId) this.loadRelatives(familyId);
     });
+    // Keep the spouse-list signal in sync — the dropdown re-filters as
+    // soon as the user toggles gender, no manual refresh required.
+    this.form.controls['gender'].valueChanges.subscribe(g => this.currentGender.set(g));
   }
 
   private loadRefs(): void {

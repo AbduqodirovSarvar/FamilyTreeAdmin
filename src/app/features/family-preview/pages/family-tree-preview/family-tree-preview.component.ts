@@ -10,6 +10,8 @@ import {
   computed,
   Signal
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs';
@@ -53,6 +55,16 @@ export class FamilyTreePreviewComponent implements OnInit {
   readonly selectedFamily: Signal<FamilyModel | null> = computed(() => {
     const id = this.selectedFamilyId();
     return id ? this.families().find(f => f.id === id) ?? null : null;
+  });
+
+  /** Search box wired into <ngx-mat-select-search>. */
+  readonly familySearch = new FormControl('', { nonNullable: true });
+  private readonly familySearchTerm = toSignal(this.familySearch.valueChanges, { initialValue: '' });
+  readonly filteredFamilies: Signal<FamilyModel[]> = computed(() => {
+    const q = (this.familySearchTerm() ?? '').trim().toLowerCase();
+    const list = this.families();
+    if (!q) return list;
+    return list.filter(f => (f.name ?? '').toLowerCase().includes(q));
   });
 
   /**

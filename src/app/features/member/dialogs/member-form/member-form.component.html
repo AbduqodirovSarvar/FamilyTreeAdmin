@@ -43,7 +43,14 @@
       <mat-form-field appearance="outline">
         <mat-label>{{ 'member.family' | translate }}</mat-label>
         <mat-select formControlName="familyId" required>
-          <mat-option *ngFor="let f of families()" [value]="f.id">{{ f.name }}</mat-option>
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="familySearch"
+              [placeholderLabel]="'common.search' | translate"
+              [noEntriesFoundLabel]="'common.noResults' | translate">
+            </ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let f of filteredFamilies()" [value]="f.id">{{ f.name }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -52,24 +59,34 @@
       <mat-form-field appearance="outline">
         <mat-label>{{ 'member.father' | translate }}</mat-label>
         <mat-select formControlName="fatherId">
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="fatherSearch"
+              [placeholderLabel]="'common.search' | translate"
+              [noEntriesFoundLabel]="'common.noResults' | translate">
+            </ngx-mat-select-search>
+          </mat-option>
           <mat-option [value]="null">{{ 'common.none' | translate }}</mat-option>
-          <ng-container *ngFor="let m of relatives()">
-            <mat-option *ngIf="excludeSelf(m) && m.gender === 0" [value]="m.id">
-              {{ m.firstName }} {{ m.lastName }}
-            </mat-option>
-          </ng-container>
+          <mat-option *ngFor="let m of filteredFathers()" [value]="m.id">
+            {{ m.firstName }} {{ m.lastName }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>{{ 'member.mother' | translate }}</mat-label>
         <mat-select formControlName="motherId">
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="motherSearch"
+              [placeholderLabel]="'common.search' | translate"
+              [noEntriesFoundLabel]="'common.noResults' | translate">
+            </ngx-mat-select-search>
+          </mat-option>
           <mat-option [value]="null">{{ 'common.none' | translate }}</mat-option>
-          <ng-container *ngFor="let m of relatives()">
-            <mat-option *ngIf="excludeSelf(m) && m.gender === 1" [value]="m.id">
-              {{ m.firstName }} {{ m.lastName }}
-            </mat-option>
-          </ng-container>
+          <mat-option *ngFor="let m of filteredMothers()" [value]="m.id">
+            {{ m.firstName }} {{ m.lastName }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -77,12 +94,17 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>{{ 'member.spouse' | translate }}</mat-label>
       <mat-select formControlName="spouseId">
+        <mat-option>
+          <ngx-mat-select-search
+            [formControl]="spouseSearch"
+            [placeholderLabel]="'common.search' | translate"
+            [noEntriesFoundLabel]="'common.noResults' | translate">
+          </ngx-mat-select-search>
+        </mat-option>
         <mat-option [value]="null">{{ 'common.none' | translate }}</mat-option>
-        <ng-container *ngFor="let m of relatives()">
-          <mat-option *ngIf="excludeSelf(m) && oppositeGender(m)" [value]="m.id">
-            {{ m.firstName }} {{ m.lastName }}
-          </mat-option>
-        </ng-container>
+        <mat-option *ngFor="let m of filteredSpouses()" [value]="m.id">
+          {{ m.firstName }} {{ m.lastName }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
 

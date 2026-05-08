@@ -6,6 +6,7 @@ export const en = {
     edit: 'Edit',
     view: 'View',
     search: 'Search...',
+    noResults: 'No results found',
     all: 'All',
     notFound: 'Not found',
     none: '— None —',

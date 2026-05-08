@@ -6,6 +6,7 @@ export const ru = {
     edit: 'Редактировать',
     view: 'Просмотр',
     search: 'Поиск...',
+    noResults: 'Ничего не найдено',
     all: 'Все',
     notFound: 'Не найдено',
     none: '— Нет —',

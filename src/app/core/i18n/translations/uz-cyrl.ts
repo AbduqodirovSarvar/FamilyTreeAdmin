@@ -6,6 +6,7 @@ export const uzCyrl = {
     edit: 'Таҳрирлаш',
     view: 'Кўриш',
     search: 'Қидириш...',
+    noResults: 'Ҳеч нарса топилмади',
     all: 'Барчаси',
     notFound: 'Топилмади',
     none: '— Йўқ —',
