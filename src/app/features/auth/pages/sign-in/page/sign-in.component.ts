@@ -35,8 +35,8 @@ export class SignInComponent {
    * Sign in form
    */
   formGroup: FormGroup = new FormGroup({
-    login: new FormControl('your username or email', Validators.required),
-    password: new FormControl('your password', Validators.required),
+    login: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
   });
 
   hidePassword: boolean = true;
