@@ -80,4 +80,9 @@
   font-size: 12px;
   color: var(--sidebar-footer-text);
   border-top: 1px solid var(--sidebar-divider);
+
+  .footer-role {
+    font-weight: 600;
+    color: var(--sidebar-text);
+  }
 }

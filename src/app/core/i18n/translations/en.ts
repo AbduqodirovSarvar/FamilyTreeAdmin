@@ -391,8 +391,5 @@ export const en = {
     permissionsNote: 'Changes affect every user assigned to this role.',
     permissionsLoading: 'Loading permissions…',
     permissionsAfterCreate: 'After the role is created, reopen it to assign permissions.'
-  },
-  footer: {
-    admin: 'Admin'
   }
 };

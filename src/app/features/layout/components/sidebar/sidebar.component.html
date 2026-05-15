@@ -15,6 +15,9 @@
   </nav>
 
   <div class="sidebar-footer">
-    {{ 'footer.admin' | translate }}: Alisher V.
+    @if (roleName()) {
+      <span class="footer-role">{{ roleName() }}</span>:
+    }
+    {{ fullName() }}
   </div>
 </aside>

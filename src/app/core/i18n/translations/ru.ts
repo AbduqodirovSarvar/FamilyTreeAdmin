@@ -391,8 +391,5 @@ export const ru = {
     permissionsNote: 'Изменения затронут всех пользователей с этой ролью.',
     permissionsLoading: 'Загрузка прав…',
     permissionsAfterCreate: 'После создания роли откройте её снова, чтобы назначить права.'
-  },
-  footer: {
-    admin: 'Админ'
   }
 };

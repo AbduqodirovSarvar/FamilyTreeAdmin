@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { Permission, PermissionName } from '../../../../core/enums/permission.enum';
 import { PermissionsService } from '../../../../core/services/permissions.service';
+import { AccountService } from '../../../settings/services/account.service';
+import { RoleService } from '../../../role/services/role.service';
 
 interface NavItem {
   labelKey: string;
@@ -21,6 +23,8 @@ interface NavItem {
 })
 export class SidebarComponent {
   private readonly permissions = inject(PermissionsService);
+  private readonly account = inject(AccountService);
+  private readonly roleService = inject(RoleService);
 
   /**
    * Full nav set with each item's required permission. The mapping mirrors
@@ -44,4 +48,37 @@ export class SidebarComponent {
     this.permissions.permissions();
     return this.allItems.filter(i => !i.requires || this.permissions.has(i.requires));
   });
+
+  /** Signed-in user's profile — populated by the auth guard's loadMe(). */
+  readonly currentUser = this.account.currentUser;
+
+  /** "First Last" of the signed-in user, falling back to the username. */
+  readonly fullName: Signal<string> = computed(() => {
+    const u = this.currentUser();
+    if (!u) return '';
+    const name = [u.firstName, u.lastName]
+      .map(p => (p ?? '').trim())
+      .filter(Boolean)
+      .join(' ');
+    return name || u.userName || '';
+  });
+
+  /** Human-readable role name. The /me payload only carries `roleId`, so the
+   *  name is resolved separately and left blank when the lookup isn't
+   *  permitted (non-privileged users) — the footer then shows just the name. */
+  readonly roleName: WritableSignal<string> = signal('');
+
+  constructor() {
+    effect(() => {
+      const roleId = this.currentUser()?.roleId;
+      if (!roleId) {
+        this.roleName.set('');
+        return;
+      }
+      this.roleService.getOne(roleId).subscribe({
+        next: res => this.roleName.set(res?.data?.name ?? ''),
+        error: () => this.roleName.set('')
+      });
+    });
+  }
 }

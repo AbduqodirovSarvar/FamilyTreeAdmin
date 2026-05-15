@@ -391,8 +391,5 @@ export const uz = {
     permissionsNote: "Bu rolga ega barcha foydalanuvchilarga ta'sir qiladi.",
     permissionsLoading: "Huquqlar yuklanmoqda…",
     permissionsAfterCreate: "Rol yaratilgandan so'ng uni qayta ochib, huquqlarni belgilashingiz mumkin."
-  },
-  footer: {
-    admin: 'Admin'
   }
 };

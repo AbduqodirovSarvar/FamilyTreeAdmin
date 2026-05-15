@@ -391,8 +391,5 @@ export const uzCyrl = {
     permissionsNote: 'Бу ролга эга барча фойдаланувчиларга таъсир қилади.',
     permissionsLoading: 'Ҳуқуқлар юкланмоқда…',
     permissionsAfterCreate: 'Рол яратилгандан сўнг уни қайта очиб, ҳуқуқларни белгилашингиз мумкин.'
-  },
-  footer: {
-    admin: 'Админ'
   }
 };
