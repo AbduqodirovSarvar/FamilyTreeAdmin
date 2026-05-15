@@ -188,7 +188,12 @@ export const en = {
     notOwnerEdit: 'You can only edit families you created',
     notOwnerDelete: 'You can only delete families you created',
     onlyMine: 'Only my families',
-    openWebPage: 'Open web page'
+    openWebPage: 'Open web page',
+    leave: 'Leave family',
+    leaveConfirm: 'Leave this family? Once you leave, the family and its members will no longer be visible to you.',
+    leaveSuccess: 'You have left the family.',
+    leaveFailed: 'Could not leave the family.',
+    ownerCannotLeave: 'The family owner cannot leave the family'
   },
   member: {
     title: 'Family members',

@@ -12,6 +12,7 @@ import { Permission } from '../../../../core/enums/permission.enum';
 import { PermissionsService } from '../../../../core/services/permissions.service';
 import { AccountService } from '../../../settings/services/account.service';
 import { FamilyWebUrlService } from '../../../../core/services/family-web-url.service';
+import { I18nService } from '../../../../core/i18n/i18n.service';
 
 @Component({
   selector: 'app-family-list',
@@ -65,12 +66,25 @@ export class FamilyListComponent implements OnInit {
     return !!me && !!family.ownerId && family.ownerId === me;
   }
 
+  /** The row is the family the signed-in user is currently attached to. */
+  isMyFamily(family: FamilyModel): boolean {
+    const myFamilyId = this.account.currentUser()?.familyId;
+    return !!myFamilyId && family.id === myFamilyId;
+  }
+
+  /** Leaving is offered only for the user's own family; the owner can't
+   *  leave it (backend rejects that too — see AccountService.leaveFamily). */
+  canLeave(family: FamilyModel): boolean {
+    return this.isMyFamily(family) && !this.isOwner(family);
+  }
+
   constructor(
     private readonly familyService: FamilyService,
     private readonly dialog: MatDialog,
     private readonly snackBar: MatSnackBar,
     private readonly imageUrl: ImageUrlService,
-    private readonly familyWebUrl: FamilyWebUrlService
+    private readonly familyWebUrl: FamilyWebUrlService,
+    private readonly i18n: I18nService
   ) {}
 
   avatarUrl(family: FamilyModel): string | null {
@@ -178,6 +192,51 @@ export class FamilyListComponent implements OnInit {
       error: err => {
         const message = err?.error?.message ?? err?.message ?? 'Delete failed';
         this.snackBar.open(message, 'OK', { duration: 4000 });
+      }
+    });
+  }
+
+  confirmLeave(family: FamilyModel): void {
+    const ref = this.dialog.open<ConfirmDialogComponent, ConfirmDialogData, boolean>(ConfirmDialogComponent, {
+      data: {
+        title: this.i18n.translate('family.leave'),
+        message: this.i18n.translate('family.leaveConfirm'),
+        confirmText: this.i18n.translate('family.leave'),
+        cancelText: this.i18n.translate('common.cancel'),
+        confirmColor: 'warn'
+      }
+    });
+    ref.afterClosed().subscribe(confirmed => {
+      if (confirmed) this.leave();
+    });
+  }
+
+  /**
+   * Detaches the signed-in user from their family, then refreshes the
+   * cached profile (so the row's leave button disappears) and reloads the
+   * list. Owners are refused server-side — the message is surfaced verbatim.
+   */
+  private leave(): void {
+    this.account.leaveFamily().subscribe({
+      next: response => {
+        if (response?.success) {
+          this.snackBar.open(
+            response?.message ?? this.i18n.translate('family.leaveSuccess'),
+            this.i18n.translate('common.ok'),
+            { duration: 3000 }
+          );
+          this.account.loadMe().subscribe(() => this.load());
+        } else {
+          this.snackBar.open(
+            response?.message ?? this.i18n.translate('family.leaveFailed'),
+            this.i18n.translate('common.ok'),
+            { duration: 4000 }
+          );
+        }
+      },
+      error: err => {
+        const message = err?.error?.message ?? err?.message ?? this.i18n.translate('family.leaveFailed');
+        this.snackBar.open(message, this.i18n.translate('common.ok'), { duration: 4000 });
       }
     });
   }

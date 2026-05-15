@@ -90,6 +90,14 @@
                         : 'common.noPermission') | translate">
               <mat-icon>delete</mat-icon>
             </button>
+            @if (isMyFamily(row)) {
+              <button class="icon-btn icon-btn-danger"
+                      (click)="confirmLeave(row)"
+                      [disabled]="!canLeave(row)"
+                      [matTooltip]="(canLeave(row) ? 'family.leave' : 'family.ownerCannotLeave') | translate">
+                <mat-icon>logout</mat-icon>
+              </button>
+            }
           </div>
         </td>
       </ng-container>

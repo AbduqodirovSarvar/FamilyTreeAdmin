@@ -188,7 +188,12 @@ export const uz = {
     notOwnerEdit: "Faqat o'zingiz yaratgan oilani tahrirlay olasiz",
     notOwnerDelete: "Faqat o'zingiz yaratgan oilani o'chira olasiz",
     onlyMine: "Faqat mening oilalarim",
-    openWebPage: "Web sahifasiga o'tish"
+    openWebPage: "Web sahifasiga o'tish",
+    leave: 'Oiladan chiqish',
+    leaveConfirm: "Oiladan chiqishni tasdiqlaysizmi? Bu amaldan keyin oila va uning a'zolari sizga ko'rinmay qoladi.",
+    leaveSuccess: 'Siz oiladan chiqdingiz.',
+    leaveFailed: 'Oiladan chiqishda xatolik yuz berdi.',
+    ownerCannotLeave: "Oila egasi oiladan chiqa olmaydi"
   },
   member: {
     title: "Oila a'zolari",
