@@ -89,7 +89,7 @@
                     [matTooltip]="(canUpdate() ? 'common.edit' : 'common.noPermission') | translate">
               <mat-icon>edit</mat-icon>
             </button>
-            <button class="icon-btn"
+            <button class="icon-btn icon-btn-danger"
                     (click)="confirmDelete(row)"
                     [disabled]="!canDelete()"
                     [matTooltip]="(canDelete() ? 'common.delete' : 'common.noPermission') | translate">
