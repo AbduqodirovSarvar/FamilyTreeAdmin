@@ -33,6 +33,10 @@
       <mat-label>{{ 'signUp.userName' | translate }}</mat-label>
       <mat-icon matPrefix>alternate_email</mat-icon>
       <input matInput formControlName="userName">
+      <mat-spinner *ngIf="formGroup.get('userName')?.pending" matSuffix diameter="18"></mat-spinner>
+      <mat-error *ngIf="formGroup.get('userName')?.hasError('userNameTaken')">
+        {{ 'signUp.userNameTaken' | translate }}
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
@@ -91,7 +95,7 @@
       </mat-error>
     </mat-form-field>
 
-    <button class="auth-primary-btn" type="submit" [disabled]="formGroup.invalid">
+    <button class="auth-primary-btn" type="submit" [disabled]="formGroup.invalid || formGroup.pending">
       {{ 'signUp.submit' | translate }}
     </button>
   </form>

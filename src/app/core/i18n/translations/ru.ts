@@ -102,7 +102,8 @@ export const ru = {
     phoneInvalid: 'Неверный формат телефона',
     passwordRequired: 'Пароль обязателен',
     passwordTooShort: 'Минимум 6 символов',
-    confirmPasswordRequired: 'Подтвердите пароль'
+    confirmPasswordRequired: 'Подтвердите пароль',
+    userNameTaken: 'Это имя пользователя уже занято'
   },
   forgotPassword: {
     title: 'Забыли пароль?',
@@ -330,7 +331,8 @@ export const ru = {
     leaveFamily: 'Покинуть семью',
     leaveFamilyConfirm: 'Покинуть эту семью? После выхода семья и её члены перестанут быть для вас видимыми.',
     leaveFamilySuccess: 'Вы покинули семью.',
-    leaveFamilyFailed: 'Не удалось покинуть семью.'
+    leaveFamilyFailed: 'Не удалось покинуть семью.',
+    userNameTaken: 'Это имя пользователя уже занято'
   },
   password: {
     title: 'Пароль',

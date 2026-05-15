@@ -102,7 +102,8 @@ export const uzCyrl = {
     phoneInvalid: 'Телефон формати нотўғри',
     passwordRequired: 'Парол мажбурий',
     passwordTooShort: 'Камида 6 та белги',
-    confirmPasswordRequired: 'Паролни тасдиқланг'
+    confirmPasswordRequired: 'Паролни тасдиқланг',
+    userNameTaken: 'Бу фойдаланувчи номи аллақачон банд'
   },
   forgotPassword: {
     title: 'Паролни унутдингизми?',
@@ -330,7 +331,8 @@ export const uzCyrl = {
     leaveFamily: 'Оиладан чиқиш',
     leaveFamilyConfirm: "Оиладан чиқишни тасдиқлайсизми? Бу амалдан кейин оила ва унинг аъзолари сизга кўринмай қолади.",
     leaveFamilySuccess: 'Сиз оиладан чиқдингиз.',
-    leaveFamilyFailed: 'Оиладан чиқишда хатолик юз берди.'
+    leaveFamilyFailed: 'Оиладан чиқишда хатолик юз берди.',
+    userNameTaken: 'Бу фойдаланувчи номи аллақачон банд'
   },
   password: {
     title: 'Парол',

@@ -32,6 +32,15 @@ export class UserService extends BaseEntityService<BaseResponseModel<UserModel>>
   }
 
   /**
+   * Resolves to `data: true` when a user with the given `userName` already
+   * exists. The backend matches case-insensitively, so "Xolmurodov" and
+   * "xolmurodov" are treated as the same name.
+   */
+  checkUserNameExists(userName: string): Observable<BaseResponseModel<boolean>> {
+    return this.get<BaseResponseModel<boolean>>(`${this.endpoint}/any`, { UserName: userName });
+  }
+
+  /**
    * `undefined` = "field not provided" (no change, skip).
    * `null` = "explicit clear" (sent as empty string so the backend can null-out
    * the column). Without this distinction, clearing a nullable field silently

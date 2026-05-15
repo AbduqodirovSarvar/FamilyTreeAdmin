@@ -1,14 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs';
 import { AccountService } from '../../services/account.service';
 import { UserModel } from '../../../user/models/user.model';
+import { UserService } from '../../../user/services/user.service';
 import { ImageUrlService } from '../../../../core/services/image-url.service';
 import { ConfirmEmailService } from '../../../auth/pages/confirm-email/services/confirm-email.service';
 import { I18nService } from '../../../../core/i18n/i18n.service';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { userNameAvailableValidator } from '../../../../shared/validators/user-name-available.validator';
 
 @Component({
   selector: 'app-profile-settings',
@@ -35,15 +38,31 @@ export class ProfileSettingsComponent implements OnInit {
     private readonly snackBar: MatSnackBar,
     private readonly imageUrl: ImageUrlService,
     private readonly confirmEmailService: ConfirmEmailService,
-    private readonly i18n: I18nService
+    private readonly i18n: I18nService,
+    private readonly userService: UserService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       firstName: [''],
       lastName: [''],
-      userName: [''],
+      userName: [
+        '',
+        [],
+        [userNameAvailableValidator(
+          name => this.userService.checkUserNameExists(name),
+          () => this.user()?.userName ?? ''
+        )]
+      ],
       email: ['', [Validators.email]],
       phone: ['']
     });
+
+    // OnPush: async-validator status changes aren't tied to a DOM event, so
+    // the Save button / mat-error wouldn't refresh without an explicit
+    // markForCheck when validation transitions PENDING → VALID/INVALID.
+    this.form.statusChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.cdr.markForCheck());
   }
 
   avatarSrc(): string | null {
@@ -193,7 +212,7 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.form.invalid || this.saving()) return;
+    if (this.form.invalid || this.form.pending || this.saving()) return;
     this.saving.set(true);
     const v = this.form.value;
     this.accountService.updateProfile({

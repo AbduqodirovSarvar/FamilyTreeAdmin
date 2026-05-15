@@ -102,7 +102,8 @@ export const uz = {
     phoneInvalid: "Telefon formati noto'g'ri",
     passwordRequired: 'Parol majburiy',
     passwordTooShort: 'Kamida 6 ta belgi',
-    confirmPasswordRequired: 'Parolni tasdiqlang'
+    confirmPasswordRequired: 'Parolni tasdiqlang',
+    userNameTaken: 'Bu foydalanuvchi nomi allaqachon band'
   },
   forgotPassword: {
     title: 'Parolni unutdingizmi?',
@@ -330,7 +331,8 @@ export const uz = {
     leaveFamily: 'Oiladan chiqish',
     leaveFamilyConfirm: "Oiladan chiqishni tasdiqlaysizmi? Bu amaldan keyin oila va uning a'zolari sizga ko'rinmay qoladi.",
     leaveFamilySuccess: 'Siz oiladan chiqdingiz.',
-    leaveFamilyFailed: 'Oiladan chiqishda xatolik yuz berdi.'
+    leaveFamilyFailed: 'Oiladan chiqishda xatolik yuz berdi.',
+    userNameTaken: 'Bu foydalanuvchi nomi allaqachon band'
   },
   password: {
     title: 'Parol',

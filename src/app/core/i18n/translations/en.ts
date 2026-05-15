@@ -102,7 +102,8 @@ export const en = {
     phoneInvalid: 'Invalid phone format',
     passwordRequired: 'Password is required',
     passwordTooShort: 'At least 6 characters',
-    confirmPasswordRequired: 'Please confirm your password'
+    confirmPasswordRequired: 'Please confirm your password',
+    userNameTaken: 'This username is already taken'
   },
   forgotPassword: {
     title: 'Forgot password?',
@@ -330,7 +331,8 @@ export const en = {
     leaveFamily: 'Leave family',
     leaveFamilyConfirm: 'Leave this family? Once you leave, the family and its members will no longer be visible to you.',
     leaveFamilySuccess: 'You have left the family.',
-    leaveFamilyFailed: 'Could not leave the family.'
+    leaveFamilyFailed: 'Could not leave the family.',
+    userNameTaken: 'This username is already taken'
   },
   password: {
     title: 'Password',
