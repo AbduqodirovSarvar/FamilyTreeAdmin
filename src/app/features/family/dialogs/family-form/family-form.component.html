@@ -13,7 +13,9 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Family name (unique)</mat-label>
       <input matInput formControlName="familyName" maxlength="150" required>
+      <mat-spinner *ngIf="form.controls['familyName'].pending" matSuffix diameter="18"></mat-spinner>
       <mat-error *ngIf="form.controls['familyName'].hasError('required')">Family name is required</mat-error>
+      <mat-error *ngIf="form.controls['familyName'].hasError('familyNameTaken')">This family name is already taken</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
@@ -33,7 +35,7 @@
 
   <mat-dialog-actions align="end">
     <button mat-button type="button" (click)="cancel()" [disabled]="submitting()">Cancel</button>
-    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || submitting()">
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || form.pending || submitting()">
       <mat-spinner *ngIf="submitting()" diameter="18"></mat-spinner>
       <span *ngIf="!submitting()">{{ mode === 'create' ? 'Create' : 'Save' }}</span>
     </button>

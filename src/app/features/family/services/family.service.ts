@@ -62,6 +62,15 @@ export class FamilyService extends BaseEntityService<BaseResponseModel<FamilyMod
   }
 
   /**
+   * Resolves to `data: true` when a family with the given `familyName`
+   * already exists. The backend matches case-insensitively, so "Xolmurodov"
+   * and "xolmurodov" are treated as the same name.
+   */
+  checkFamilyNameExists(familyName: string): Observable<BaseResponseModel<boolean>> {
+    return this.get<BaseResponseModel<boolean>>(`${this.endpoint}/any`, { FamilyName: familyName });
+  }
+
+  /**
    * `undefined` = "field not provided" (no change, skip).
    * `null` = "explicit clear" (sent as empty string so the backend can null-out
    * the column). Without this distinction, clearing a nullable field silently

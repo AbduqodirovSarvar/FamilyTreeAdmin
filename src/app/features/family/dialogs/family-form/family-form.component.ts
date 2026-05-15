@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, signal, WritableSignal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, signal, WritableSignal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { finalize } from 'rxjs';
+import { catchError, finalize, map, Observable, of, switchMap, timer } from 'rxjs';
 import { FamilyService } from '../../services/family.service';
 import { FamilyModel } from '../../models/family.model';
 import { I18nService } from '../../../../core/i18n/i18n.service';
@@ -32,15 +33,52 @@ export class FamilyFormComponent {
     private readonly snackBar: MatSnackBar,
     private readonly dialog: MatDialog,
     private readonly i18n: I18nService,
+    private readonly cdr: ChangeDetectorRef,
     public dialogRef: MatDialogRef<FamilyFormComponent, boolean>,
     @Inject(MAT_DIALOG_DATA) public data: FamilyFormDialogData
   ) {
     this.mode = data.mode;
     this.form = this.fb.group({
       name: [data.family?.name ?? '', [Validators.required, Validators.maxLength(150)]],
-      familyName: [data.family?.familyName ?? '', [Validators.required, Validators.maxLength(150)]],
+      familyName: [
+        data.family?.familyName ?? '',
+        [Validators.required, Validators.maxLength(150)],
+        [this.familyNameAvailabilityValidator()]
+      ],
       description: [data.family?.description ?? '']
     });
+
+    // OnPush: async-validator status changes aren't tied to a DOM event, so
+    // the Save button / mat-error wouldn't refresh without an explicit
+    // markForCheck when validation transitions PENDING → VALID/INVALID.
+    this.form.statusChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.cdr.markForCheck());
+  }
+
+  /**
+   * Debounced uniqueness check for `familyName`. Waits 400ms after the last
+   * keystroke (Angular re-runs the async validator on every change and
+   * cancels the previous run, so the timer effectively debounces input),
+   * then asks the backend whether the name is taken.
+   *
+   * In edit mode, keeping the family's own name is always valid. Network
+   * errors resolve to "valid" so a transient outage can't lock the form.
+   */
+  private familyNameAvailabilityValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const value = String(control.value ?? '').trim();
+      if (!value) return of(null);
+
+      const original = String(this.data.family?.familyName ?? '').trim().toLowerCase();
+      if (this.mode === 'edit' && value.toLowerCase() === original) return of(null);
+
+      return timer(400).pipe(
+        switchMap(() => this.familyService.checkFamilyNameExists(value)),
+        map(res => (res?.data ? { familyNameTaken: true } : null)),
+        catchError(() => of(null))
+      );
+    };
   }
 
   onFileSelected(event: Event): void {
@@ -73,7 +111,7 @@ export class FamilyFormComponent {
   }
 
   async submit(): Promise<void> {
-    if (this.form.invalid || this.submitting()) return;
+    if (this.form.invalid || this.form.pending || this.submitting()) return;
 
     const ok = await this.confirmSave();
     if (!ok) return;
