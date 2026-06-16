@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {forkJoin, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -10,6 +10,8 @@ import {BaseRouterService} from '../../../../../core/services/base-router.servic
 import {PermissionsService} from '../../../../../core/services/permissions.service';
 import {AdminService} from '../../../../../core/services/admin.service';
 import {AccountService} from '../../../../settings/services/account.service';
+import {GoogleIdentityService} from '../../../../../core/services/google-identity.service';
+import {environment} from '../../../../../../environments/environment';
 
 @Component({
   selector: 'sign-in',
@@ -18,7 +20,13 @@ import {AccountService} from '../../../../settings/services/account.service';
   styleUrls: ['./sign-in.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SignInComponent {
+export class SignInComponent implements AfterViewInit {
+
+  /** Host element for Google's rendered button. */
+  @ViewChild('googleButton') googleButton?: ElementRef<HTMLDivElement>;
+
+  /** Hides the Google block entirely when no client id is configured. */
+  readonly googleEnabled: boolean = !!environment.googleClientId;
 
   /**
    * @param signInService
@@ -29,7 +37,26 @@ export class SignInComponent {
               private readonly routerService: BaseRouterService,
               private readonly permissionsService: PermissionsService,
               private readonly accountService: AccountService,
-              private readonly adminService: AdminService) { }
+              private readonly adminService: AdminService,
+              private readonly googleIdentity: GoogleIdentityService) { }
+
+  ngAfterViewInit(): void {
+    if (!this.googleEnabled || !this.googleButton) return;
+    void this.googleIdentity.renderButton(
+      this.googleButton.nativeElement,
+      environment.googleClientId,
+      (idToken: string) => this.onGoogleCredential(idToken)
+    );
+  }
+
+  /** Exchanges the Google ID token for our own tokens, then reuses the
+   *  standard post-login flow (tokens + permissions/profile + navigate). */
+  onGoogleCredential(idToken: string): void {
+    this.signInService.googleSignIn({ idToken })
+      .subscribe((response: BaseResponseModel<TokenResponseModel>): void => {
+        this.onSubmitSuccess(response);
+      });
+  }
 
   /**
    * Sign in form

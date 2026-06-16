@@ -55,7 +55,8 @@ export const uz = {
     noAccount: "Hisobingiz yo'qmi?",
     signUp: "Ro'yxatdan o'tish",
     loginRequired: 'Login majburiy',
-    passwordRequired: 'Parol majburiy'
+    passwordRequired: 'Parol majburiy',
+    orContinueWith: 'yoki'
   },
   brand: {
     name: 'Shajara Tizimi'

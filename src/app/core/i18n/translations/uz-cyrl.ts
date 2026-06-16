@@ -55,7 +55,8 @@ export const uzCyrl = {
     noAccount: 'Ҳисобингиз йўқми?',
     signUp: 'Рўйхатдан ўтиш',
     loginRequired: 'Логин мажбурий',
-    passwordRequired: 'Парол мажбурий'
+    passwordRequired: 'Парол мажбурий',
+    orContinueWith: 'ёки'
   },
   brand: {
     name: 'Шажара Тизими'

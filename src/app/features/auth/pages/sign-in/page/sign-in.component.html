@@ -44,6 +44,15 @@
     </button>
   </form>
 
+  @if (googleEnabled) {
+    <div class="auth-divider">
+      <span>{{ 'auth.orContinueWith' | translate }}</span>
+    </div>
+
+    <!-- Google Identity Services renders its official button into this host. -->
+    <div #googleButton class="auth-google-button"></div>
+  }
+
   <p class="auth-footer">
     {{ 'auth.noAccount' | translate }}
     <a class="auth-link" [routerLink]="['/auth/sign-up']">{{ 'auth.signUp' | translate }}</a>

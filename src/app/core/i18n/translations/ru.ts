@@ -55,7 +55,8 @@ export const ru = {
     noAccount: 'Нет аккаунта?',
     signUp: 'Регистрация',
     loginRequired: 'Логин обязателен',
-    passwordRequired: 'Пароль обязателен'
+    passwordRequired: 'Пароль обязателен',
+    orContinueWith: 'или'
   },
   brand: {
     name: 'Система Шажара'

@@ -55,7 +55,8 @@ export const en = {
     noAccount: "Don't have an account?",
     signUp: 'Sign up',
     loginRequired: 'Login is required',
-    passwordRequired: 'Password is required'
+    passwordRequired: 'Password is required',
+    orContinueWith: 'or'
   },
   brand: {
     name: 'Shajara System'

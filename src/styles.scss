@@ -412,6 +412,32 @@ html, body {
   .auth-actions { flex-direction: column; }
 }
 
+/* "or" divider between the password form and the Google button. */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Host for the GIS-rendered button — centre it and let it size naturally. */
+.auth-google-button {
+  display: flex;
+  justify-content: center;
+  min-height: 40px;
+}
+
 .auth-footer {
   margin: 28px 0 0;
   padding-top: 20px;
